@@ -1,0 +1,1 @@
+# macnews_notify
