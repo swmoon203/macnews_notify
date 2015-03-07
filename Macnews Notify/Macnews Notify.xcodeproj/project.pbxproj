@@ -16,6 +16,8 @@
 		A531F6CF1AAAA09500F1BAAD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A531F6CE1AAAA09500F1BAAD /* Images.xcassets */; };
 		A531F6D21AAAA09500F1BAAD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A531F6D01AAAA09500F1BAAD /* LaunchScreen.xib */; };
 		A531F6DE1AAAA09500F1BAAD /* Macnews_NotifyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F6DD1AAAA09500F1BAAD /* Macnews_NotifyTests.m */; };
+		A531F73F1AAAAD1700F1BAAD /* TUSafariActivity.strings in Resources */ = {isa = PBXBuildFile; fileRef = A531F73D1AAAAD1700F1BAAD /* TUSafariActivity.strings */; };
+		A531F7541AAAAD6900F1BAAD /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +47,27 @@
 		A531F6D71AAAA09500F1BAAD /* Macnews NotifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Macnews NotifyTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A531F6DC1AAAA09500F1BAAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A531F6DD1AAAA09500F1BAAD /* Macnews_NotifyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Macnews_NotifyTests.m; sourceTree = "<group>"; };
+		A531F73E1AAAAD1700F1BAAD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7401AAAAD1E00F1BAAD /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7411AAAAD2100F1BAAD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7421AAAAD2300F1BAAD /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7431AAAAD2400F1BAAD /* eu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = eu; path = eu.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7441AAAAD2600F1BAAD /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7451AAAAD2B00F1BAAD /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/TUSafariActivity.strings"; sourceTree = "<group>"; };
+		A531F7461AAAAD2D00F1BAAD /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7471AAAAD2F00F1BAAD /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7481AAAAD3300F1BAAD /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7491AAAAD3500F1BAAD /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F74A1AAAAD3700F1BAAD /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F74B1AAAAD3900F1BAAD /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F74C1AAAAD3A00F1BAAD /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F74D1AAAAD3C00F1BAAD /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F74E1AAAAD3D00F1BAAD /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F74F1AAAAD3F00F1BAAD /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7501AAAAD4000F1BAAD /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7511AAAAD4200F1BAAD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
+		A531F7521AAAAD6900F1BAAD /* TUSafariActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUSafariActivity.h; sourceTree = "<group>"; };
+		A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUSafariActivity.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +109,7 @@
 		A531F6BA1AAAA09500F1BAAD /* Macnews Notify */ = {
 			isa = PBXGroup;
 			children = (
+				A531F6E71AAAAAA600F1BAAD /* Library */,
 				A531F6BF1AAAA09500F1BAAD /* AppDelegate.h */,
 				A531F6C01AAAA09500F1BAAD /* AppDelegate.m */,
 				A531F6C51AAAA09500F1BAAD /* MasterViewController.h */,
@@ -104,6 +128,7 @@
 		A531F6BB1AAAA09500F1BAAD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A531F73D1AAAAD1700F1BAAD /* TUSafariActivity.strings */,
 				A531F6BC1AAAA09500F1BAAD /* Info.plist */,
 				A531F6BD1AAAA09500F1BAAD /* main.m */,
 			);
@@ -125,6 +150,15 @@
 				A531F6DC1AAAA09500F1BAAD /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A531F6E71AAAAAA600F1BAAD /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				A531F7521AAAAD6900F1BAAD /* TUSafariActivity.h */,
+				A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */,
+			);
+			name = Library;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,6 +224,26 @@
 			knownRegions = (
 				en,
 				Base,
+				cs,
+				de,
+				es,
+				eu,
+				fi,
+				fr,
+				it,
+				ja,
+				ko,
+				nl,
+				no,
+				pl,
+				pt,
+				ru,
+				sk,
+				sv,
+				vi,
+				zh_CN,
+				"zh-Hans",
+				nb,
 			);
 			mainGroup = A531F6AF1AAAA09400F1BAAD;
 			productRefGroup = A531F6B91AAAA09500F1BAAD /* Products */;
@@ -207,6 +261,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A531F73F1AAAAD1700F1BAAD /* TUSafariActivity.strings in Resources */,
 				A531F6CD1AAAA09500F1BAAD /* Main.storyboard in Resources */,
 				A531F6D21AAAA09500F1BAAD /* LaunchScreen.xib in Resources */,
 				A531F6CF1AAAA09500F1BAAD /* Images.xcassets in Resources */,
@@ -228,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A531F6CA1AAAA09500F1BAAD /* DetailViewController.m in Sources */,
+				A531F7541AAAAD6900F1BAAD /* TUSafariActivity.m in Sources */,
 				A531F6C71AAAA09500F1BAAD /* MasterViewController.m in Sources */,
 				A531F6C11AAAA09500F1BAAD /* AppDelegate.m in Sources */,
 				A531F6C41AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld in Sources */,
@@ -268,6 +324,32 @@
 				A531F6D11AAAA09500F1BAAD /* Base */,
 			);
 			name = LaunchScreen.xib;
+			sourceTree = "<group>";
+		};
+		A531F73D1AAAAD1700F1BAAD /* TUSafariActivity.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A531F73E1AAAAD1700F1BAAD /* en */,
+				A531F7401AAAAD1E00F1BAAD /* cs */,
+				A531F7411AAAAD2100F1BAAD /* de */,
+				A531F7421AAAAD2300F1BAAD /* es */,
+				A531F7431AAAAD2400F1BAAD /* eu */,
+				A531F7441AAAAD2600F1BAAD /* fi */,
+				A531F7451AAAAD2B00F1BAAD /* zh-Hans */,
+				A531F7461AAAAD2D00F1BAAD /* vi */,
+				A531F7471AAAAD2F00F1BAAD /* sv */,
+				A531F7481AAAAD3300F1BAAD /* sk */,
+				A531F7491AAAAD3500F1BAAD /* ru */,
+				A531F74A1AAAAD3700F1BAAD /* pt */,
+				A531F74B1AAAAD3900F1BAAD /* pl */,
+				A531F74C1AAAAD3A00F1BAAD /* nb */,
+				A531F74D1AAAAD3C00F1BAAD /* nl */,
+				A531F74E1AAAAD3D00F1BAAD /* ko */,
+				A531F74F1AAAAD3F00F1BAAD /* ja */,
+				A531F7501AAAAD4000F1BAAD /* it */,
+				A531F7511AAAAD4200F1BAAD /* fr */,
+			);
+			name = TUSafariActivity.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

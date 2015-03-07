@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UIViewController <UIWebViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) id detailItem;
-@property (weak, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
 
 @end
 
