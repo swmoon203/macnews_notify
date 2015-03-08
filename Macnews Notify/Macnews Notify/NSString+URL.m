@@ -98,7 +98,7 @@ NSStringEncoding const NSEUCKRStringEncoding = 0x80000940;
             if ([str length] == 1) {
                 str = [NSString stringWithFormat:@"%@ %i", str, [str characterAtIndex:0]];
             }
-            NSLog(@"Found: (%i, %i) %@", range.location, range.length, str);
+            NSLog(@"Found: (%lu, %lu) %@", (unsigned long)range.location, (unsigned long)range.length, str);
 #endif
             [mutable deleteCharactersInRange:range]; 
             range = [mutable rangeOfCharacterFromSet:controlChars]; 
