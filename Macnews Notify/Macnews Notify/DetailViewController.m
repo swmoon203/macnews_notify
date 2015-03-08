@@ -16,6 +16,7 @@
 
 @implementation DetailViewController {
     CGPoint _tapPoint;
+    UIRefreshControl *_refreshControl;
 }
 
 #pragma mark - Managing the detail item
@@ -40,23 +41,24 @@
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:self action:@selector(onHome)];
     }
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
-    
+    [_refreshControl beginRefreshing];
     
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    [self configureView];
     
     UITapGestureRecognizer *webViewTapped = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
     webViewTapped.numberOfTapsRequired = 1;
     webViewTapped.delegate = self;
     [self.webView addGestureRecognizer:webViewTapped];
     
-    UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
-    [refreshControl addTarget:self action:@selector(onRefresh:) forControlEvents:UIControlEventValueChanged];
-    [self.webView.scrollView addSubview:refreshControl];
+    _refreshControl = [[UIRefreshControl alloc] init];
+    [_refreshControl addTarget:self action:@selector(onRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.webView.scrollView addSubview:_refreshControl];
+    
+    [self configureView];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -71,6 +73,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     self.navigationItem.rightBarButtonItem.enabled = ![webView.request.URL.absoluteString isEqualToString:@""];
     self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    [_refreshControl endRefreshing];
 }
 
 - (void)onHome {
@@ -78,8 +81,6 @@
 }
 
 - (void)onRefresh:(UIRefreshControl *)refresh {
-    [refresh endRefreshing];
-    
     [self.webView reload];
 }
 
