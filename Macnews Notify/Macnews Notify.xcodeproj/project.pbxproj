@@ -34,8 +34,6 @@
 
 /* Begin PBXFileReference section */
 		A5013D321AABDFDD000B585F /* Macnews Notify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Macnews Notify.entitlements"; sourceTree = "<group>"; };
-		A5013D371AAC152A000B585F /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ko; path = ko.lproj/Main.storyboard; sourceTree = "<group>"; };
-		A5013D391AAC1554000B585F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		A5013D3A1AAC20CD000B585F /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		A5013D3B1AAC20CD000B585F /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		A5013D411AAC8786000B585F /* NSString+URL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URL.h"; sourceTree = "<group>"; };
@@ -76,6 +74,7 @@
 		A531F7511AAAAD4200F1BAAD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
 		A531F7521AAAAD6900F1BAAD /* TUSafariActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUSafariActivity.h; sourceTree = "<group>"; };
 		A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUSafariActivity.m; sourceTree = "<group>"; };
+		A5C419121AACD73800BDA124 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -334,8 +333,7 @@
 		A531F6CB1AAAA09500F1BAAD /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A5013D371AAC152A000B585F /* ko */,
-				A5013D391AAC1554000B585F /* en */,
+				A5C419121AACD73800BDA124 /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
