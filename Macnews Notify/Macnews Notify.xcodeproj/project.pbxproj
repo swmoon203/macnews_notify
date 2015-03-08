@@ -31,6 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A5013D321AABDFDD000B585F /* Macnews Notify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Macnews Notify.entitlements"; sourceTree = "<group>"; };
+		A5013D371AAC152A000B585F /* ko */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = ko; path = ko.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A5013D391AAC1554000B585F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		A531F6B81AAAA09500F1BAAD /* Macnews Notify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Macnews Notify.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A531F6BC1AAAA09500F1BAAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A531F6BD1AAAA09500F1BAAD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -41,7 +44,6 @@
 		A531F6C61AAAA09500F1BAAD /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		A531F6C81AAAA09500F1BAAD /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		A531F6C91AAAA09500F1BAAD /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		A531F6CC1AAAA09500F1BAAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A531F6CE1AAAA09500F1BAAD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A531F6D11AAAA09500F1BAAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		A531F6D71AAAA09500F1BAAD /* Macnews NotifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Macnews NotifyTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +111,7 @@
 		A531F6BA1AAAA09500F1BAAD /* Macnews Notify */ = {
 			isa = PBXGroup;
 			children = (
+				A5013D321AABDFDD000B585F /* Macnews Notify.entitlements */,
 				A531F6E71AAAAAA600F1BAAD /* Library */,
 				A531F6BF1AAAA09500F1BAAD /* AppDelegate.h */,
 				A531F6C01AAAA09500F1BAAD /* AppDelegate.m */,
@@ -210,6 +213,12 @@
 				TargetAttributes = {
 					A531F6B71AAAA09400F1BAAD = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = M5P6YBX6ZZ;
+						SystemCapabilities = {
+							com.apple.iCloud = {
+								enabled = 0;
+							};
+						};
 					};
 					A531F6D61AAAA09500F1BAAD = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -313,7 +322,8 @@
 		A531F6CB1AAAA09500F1BAAD /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A531F6CC1AAAA09500F1BAAD /* Base */,
+				A5013D371AAC152A000B585F /* ko */,
+				A5013D391AAC1554000B585F /* en */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -437,9 +447,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Macnews Notify/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "7fb2717f-6a25-490e-a76a-5cdfeb3eabde";
 			};
 			name = Debug;
 		};
@@ -447,9 +460,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Macnews Notify/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "7fb2717f-6a25-490e-a76a-5cdfeb3eabde";
 			};
 			name = Release;
 		};
@@ -506,6 +522,7 @@
 				A531F6E31AAAA09500F1BAAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A531F6E41AAAA09500F1BAAD /* Build configuration list for PBXNativeTarget "Macnews NotifyTests" */ = {
 			isa = XCConfigurationList;
@@ -514,6 +531,7 @@
 				A531F6E61AAAA09500F1BAAD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
