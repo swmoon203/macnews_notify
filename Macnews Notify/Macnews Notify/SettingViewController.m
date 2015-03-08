@@ -20,10 +20,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if (_catagories == nil) {
+    NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
+    
+    if (_catagories == nil && token != nil) {
         _loading = YES;
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
             NSString *url = [NSString stringWithFormat:@"https://push.smoon.kr/setting/ios.com.tistory.macnews/%@", token];
             
             NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -39,7 +40,7 @@
         });
     }
     _hosts = [[NSUserDefaults standardUserDefaults] objectForKey:@"hosts"];
-    if (_hosts != nil) {
+    if (_hosts != nil && token != nil) {
         _hosts = [NSMutableArray arrayWithArray:_hosts];
         [self loadHostList];
     }
@@ -116,7 +117,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0 && _catagories == nil) {
-        return [tableView dequeueReusableCellWithIdentifier:_loading ? @"loading" : @"error" forIndexPath:indexPath];
+        NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
+        UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:_loading ? @"loading" : (token != nil ? @"error" : @"needToken") forIndexPath:indexPath];
+        
+        if (_loading == NO && token == nil) {
+            UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeInfoDark];
+            infoCell.accessoryView = infoBtn;
+            [infoBtn addTarget:self action:@selector(onNeedTokenInfo) forControlEvents:UIControlEventTouchUpInside];
+        }
+        
+        return infoCell;
     }
     
     NSArray *types = @[ @"category", @"webId", @"reset" ];
@@ -153,6 +163,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if (indexPath.section == 2) {
+        [self resetData];
+    }
 }
 
 - (void)onSwitch:(UISwitch *)sender {
@@ -209,5 +223,38 @@
         });
     }
 }
+
+- (void)onNeedTokenInfo {
+    [[[UIAlertView alloc] initWithTitle:@"안내"
+                               message:@"카테고리 기능을 사용하려면 알림 서비스 권한이 필요합니다.\n알림을 원치 않을 경우 최초 한번의 활성화 후 차단하면 됩니다."
+                              delegate:nil
+                     cancelButtonTitle:@"확인"
+                      otherButtonTitles:nil] show];
+}
+
+- (void)resetData {
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"보관된 수신 데이터가 삭제됩니다.\n카테고리 및 구독 정보는 초기화 하지 않습니다."
+                                                       delegate:self
+                                              cancelButtonTitle:@"취소"
+                                         destructiveButtonTitle:@"데이터 초기화"
+                                              otherButtonTitles:@"데이터만 삭제 (이후 수신되는 알림만 받아집니다.)",
+                            nil];
+    [sheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (actionSheet.cancelButtonIndex == buttonIndex) return;
+    
+    if (actionSheet.destructiveButtonIndex == buttonIndex) {
+        //reset all
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"idx"];
+    } else {
+        //reset data only
+    }
+    [(AppDelegate *)[[UIApplication sharedApplication] delegate] deleteAllObjects:@"Notification"];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
+}
+
 
 @end

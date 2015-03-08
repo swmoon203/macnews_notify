@@ -22,6 +22,7 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 
+- (void)deleteAllObjects:(NSString *)entityDescription;
 
 @end
 
