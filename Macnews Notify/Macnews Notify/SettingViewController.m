@@ -137,7 +137,7 @@
         [cell removeGestureRecognizer:obj];
     }];
     
-    if (indexPath.section == 0 || (indexPath.section == 1 && indexPath.row > 0)) {
+    if (indexPath.section < 2) {
         cell.accessoryView = [[UISwitch alloc] init];
         [(UISwitch *)cell.accessoryView addTarget:self action:@selector(onSwitch:) forControlEvents:UIControlEventValueChanged];
     }
@@ -150,12 +150,13 @@
             cell.textLabel.text = _hosts[indexPath.row][@"title"];
             cell.detailTextLabel.text = _hosts[indexPath.row][@"webId"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [(UISwitch *)cell.accessoryView setOn:[_hosts[indexPath.row][@"enabled"] boolValue]];
+            [(UISwitch *)cell.accessoryView setOn:(indexPath.row > 0 ? [_hosts[indexPath.row][@"enabled"] boolValue] : [[NSUserDefaults standardUserDefaults] boolForKey:@"defaultHost"])];
         } else {
             UILongPressGestureRecognizer *g = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(loadHostList)];
             g.minimumPressDuration = 3.0;
             [cell addGestureRecognizer:g];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            [(UISwitch *)cell.accessoryView setOn:[[NSUserDefaults standardUserDefaults] boolForKey:@"defaultHost"]];
         }
     }
     return cell;
@@ -201,7 +202,7 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
             
-            NSString *webId = _hosts[indexPath.row][@"webId"];
+            NSString *webId = _hosts == nil ? @"web.com.tistory.macnews" : _hosts[indexPath.row][@"webId"];
             webId = [NSString stringWithFormat:@"ios%@", [webId substringFromIndex:3]];
             
             NSMutableString *url = [NSMutableString stringWithFormat:@"https://push.smoon.kr/v1/devices/%@/registrations/%@", token, webId];
@@ -216,8 +217,12 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (response.statusCode != 200) sender.on = !sender.on;
                 
-                _hosts[indexPath.row][@"enabled"] = @(sender.on);
-                [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
+                if (_hosts != nil && indexPath.row != 0) {
+                    _hosts[indexPath.row][@"enabled"] = @(sender.on);
+                    [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
+                } else {
+                    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"defaultHost"];
+                }
                 sender.enabled = YES;
             });
         });

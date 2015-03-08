@@ -160,19 +160,24 @@ NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
     token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSString *url = [NSString stringWithFormat:@"https://push.smoon.kr/v1/devices/%@/registrations/ios.com.tistory.macnews", token];
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-        request.HTTPMethod = @"POST";
-        NSURLResponse *response = nil;
-        NSError *error = nil;
-        [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self afterRegistration:token];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"defaultHost"] == nil) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+            NSString *url = [NSString stringWithFormat:@"https://push.smoon.kr/v1/devices/%@/registrations/ios.com.tistory.macnews", token];
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+            request.HTTPMethod = @"POST";
+            NSURLResponse *response = nil;
+            NSError *error = nil;
+            [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultHost"];
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self afterRegistration:token];
+            });
         });
-    });
-    
+    } else {
+        [self afterRegistration:token];
+    }
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
