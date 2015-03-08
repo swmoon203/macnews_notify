@@ -178,7 +178,6 @@
 		A531F6BA1AAAA09500F1BAAD /* Macnews Notify */ = {
 			isa = PBXGroup;
 			children = (
-				A5013D321AABDFDD000B585F /* Macnews Notify.entitlements */,
 				A531F6E71AAAAAA600F1BAAD /* Library */,
 				A531F6BF1AAAA09500F1BAAD /* AppDelegate.h */,
 				A531F6C01AAAA09500F1BAAD /* AppDelegate.m */,
@@ -190,8 +189,6 @@
 				A5013D3B1AAC20CD000B585F /* SettingViewController.m */,
 				A531F6CB1AAAA09500F1BAAD /* Main.storyboard */,
 				A531F6CE1AAAA09500F1BAAD /* Images.xcassets */,
-				A531F6D01AAAA09500F1BAAD /* LaunchScreen.xib */,
-				A531F6C21AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld */,
 				A531F6BB1AAAA09500F1BAAD /* Supporting Files */,
 			);
 			path = "Macnews Notify";
@@ -200,6 +197,9 @@
 		A531F6BB1AAAA09500F1BAAD /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A531F6D01AAAA09500F1BAAD /* LaunchScreen.xib */,
+				A531F6C21AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld */,
+				A5013D321AABDFDD000B585F /* Macnews Notify.entitlements */,
 				A531F73D1AAAAD1700F1BAAD /* TUSafariActivity.strings */,
 				A531F6BC1AAAA09500F1BAAD /* Info.plist */,
 				A531F6BD1AAAA09500F1BAAD /* main.m */,
