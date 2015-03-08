@@ -20,6 +20,14 @@
 		A531F6DE1AAAA09500F1BAAD /* Macnews_NotifyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F6DD1AAAA09500F1BAAD /* Macnews_NotifyTests.m */; };
 		A531F73F1AAAAD1700F1BAAD /* TUSafariActivity.strings in Resources */ = {isa = PBXBuildFile; fileRef = A531F73D1AAAAD1700F1BAAD /* TUSafariActivity.strings */; };
 		A531F7541AAAAD6900F1BAAD /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */; };
+		A5F0CA261AACCF9900BFEB58 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F0CA251AACCF9900BFEB58 /* InterfaceController.m */; };
+		A5F0CA291AACCF9900BFEB58 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F0CA281AACCF9900BFEB58 /* NotificationController.m */; };
+		A5F0CA2C1AACCF9900BFEB58 /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F0CA2B1AACCF9900BFEB58 /* GlanceController.m */; };
+		A5F0CA2E1AACCF9900BFEB58 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5F0CA2D1AACCF9900BFEB58 /* Images.xcassets */; };
+		A5F0CA321AACCF9A00BFEB58 /* Macnews Notify WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = A5F0CA311AACCF9900BFEB58 /* Macnews Notify WatchKit App.app */; };
+		A5F0CA3A1AACCF9A00BFEB58 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A5F0CA381AACCF9A00BFEB58 /* Interface.storyboard */; };
+		A5F0CA3C1AACCF9A00BFEB58 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5F0CA3B1AACCF9A00BFEB58 /* Images.xcassets */; };
+		A5F0CA3F1AACCF9A00BFEB58 /* Macnews Notify WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A5F0CA1F1AACCF9900BFEB58 /* Macnews Notify WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,7 +38,35 @@
 			remoteGlobalIDString = A531F6B71AAAA09400F1BAAD;
 			remoteInfo = "Macnews Notify";
 		};
+		A5F0CA331AACCF9A00BFEB58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A531F6B01AAAA09400F1BAAD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5F0CA301AACCF9900BFEB58;
+			remoteInfo = "Macnews Notify WatchKit App";
+		};
+		A5F0CA3D1AACCF9A00BFEB58 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A531F6B01AAAA09400F1BAAD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5F0CA1E1AACCF9900BFEB58;
+			remoteInfo = "Macnews Notify WatchKit Extension";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A5F0CA461AACCF9A00BFEB58 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A5F0CA3F1AACCF9A00BFEB58 /* Macnews Notify WatchKit Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A5013D321AABDFDD000B585F /* Macnews Notify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Macnews Notify.entitlements"; sourceTree = "<group>"; };
@@ -76,6 +112,20 @@
 		A531F7511AAAAD4200F1BAAD /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
 		A531F7521AAAAD6900F1BAAD /* TUSafariActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUSafariActivity.h; sourceTree = "<group>"; };
 		A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUSafariActivity.m; sourceTree = "<group>"; };
+		A5F0CA1F1AACCF9900BFEB58 /* Macnews Notify WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Macnews Notify WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5F0CA221AACCF9900BFEB58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5F0CA231AACCF9900BFEB58 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
+		A5F0CA241AACCF9900BFEB58 /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		A5F0CA251AACCF9900BFEB58 /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		A5F0CA271AACCF9900BFEB58 /* NotificationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
+		A5F0CA281AACCF9900BFEB58 /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
+		A5F0CA2A1AACCF9900BFEB58 /* GlanceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlanceController.h; sourceTree = "<group>"; };
+		A5F0CA2B1AACCF9900BFEB58 /* GlanceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GlanceController.m; sourceTree = "<group>"; };
+		A5F0CA2D1AACCF9900BFEB58 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A5F0CA311AACCF9900BFEB58 /* Macnews Notify WatchKit App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Macnews Notify WatchKit App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5F0CA371AACCF9A00BFEB58 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5F0CA391AACCF9A00BFEB58 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		A5F0CA3B1AACCF9A00BFEB58 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +143,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A5F0CA1C1AACCF9900BFEB58 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -101,6 +158,8 @@
 			children = (
 				A531F6BA1AAAA09500F1BAAD /* Macnews Notify */,
 				A531F6DA1AAAA09500F1BAAD /* Macnews NotifyTests */,
+				A5F0CA201AACCF9900BFEB58 /* Macnews Notify WatchKit Extension */,
+				A5F0CA351AACCF9A00BFEB58 /* Macnews Notify WatchKit App */,
 				A531F6B91AAAA09500F1BAAD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -110,6 +169,8 @@
 			children = (
 				A531F6B81AAAA09500F1BAAD /* Macnews Notify.app */,
 				A531F6D71AAAA09500F1BAAD /* Macnews NotifyTests.xctest */,
+				A5F0CA1F1AACCF9900BFEB58 /* Macnews Notify WatchKit Extension.appex */,
+				A5F0CA311AACCF9900BFEB58 /* Macnews Notify WatchKit App.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -174,6 +235,48 @@
 			name = Library;
 			sourceTree = "<group>";
 		};
+		A5F0CA201AACCF9900BFEB58 /* Macnews Notify WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				A5F0CA241AACCF9900BFEB58 /* InterfaceController.h */,
+				A5F0CA251AACCF9900BFEB58 /* InterfaceController.m */,
+				A5F0CA271AACCF9900BFEB58 /* NotificationController.h */,
+				A5F0CA281AACCF9900BFEB58 /* NotificationController.m */,
+				A5F0CA2A1AACCF9900BFEB58 /* GlanceController.h */,
+				A5F0CA2B1AACCF9900BFEB58 /* GlanceController.m */,
+				A5F0CA2D1AACCF9900BFEB58 /* Images.xcassets */,
+				A5F0CA211AACCF9900BFEB58 /* Supporting Files */,
+			);
+			path = "Macnews Notify WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		A5F0CA211AACCF9900BFEB58 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A5F0CA221AACCF9900BFEB58 /* Info.plist */,
+				A5F0CA231AACCF9900BFEB58 /* PushNotificationPayload.apns */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A5F0CA351AACCF9A00BFEB58 /* Macnews Notify WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				A5F0CA381AACCF9A00BFEB58 /* Interface.storyboard */,
+				A5F0CA3B1AACCF9A00BFEB58 /* Images.xcassets */,
+				A5F0CA361AACCF9A00BFEB58 /* Supporting Files */,
+			);
+			path = "Macnews Notify WatchKit App";
+			sourceTree = "<group>";
+		};
+		A5F0CA361AACCF9A00BFEB58 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A5F0CA371AACCF9A00BFEB58 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -184,10 +287,12 @@
 				A531F6B41AAAA09400F1BAAD /* Sources */,
 				A531F6B51AAAA09400F1BAAD /* Frameworks */,
 				A531F6B61AAAA09400F1BAAD /* Resources */,
+				A5F0CA461AACCF9A00BFEB58 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A5F0CA3E1AACCF9A00BFEB58 /* PBXTargetDependency */,
 			);
 			name = "Macnews Notify";
 			productName = "Macnews Notify";
@@ -212,6 +317,39 @@
 			productReference = A531F6D71AAAA09500F1BAAD /* Macnews NotifyTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		A5F0CA1E1AACCF9900BFEB58 /* Macnews Notify WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5F0CA431AACCF9A00BFEB58 /* Build configuration list for PBXNativeTarget "Macnews Notify WatchKit Extension" */;
+			buildPhases = (
+				A5F0CA1B1AACCF9900BFEB58 /* Sources */,
+				A5F0CA1C1AACCF9900BFEB58 /* Frameworks */,
+				A5F0CA1D1AACCF9900BFEB58 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A5F0CA341AACCF9A00BFEB58 /* PBXTargetDependency */,
+			);
+			name = "Macnews Notify WatchKit Extension";
+			productName = "Macnews Notify WatchKit Extension";
+			productReference = A5F0CA1F1AACCF9900BFEB58 /* Macnews Notify WatchKit Extension.appex */;
+			productType = "com.apple.product-type.watchkit-extension";
+		};
+		A5F0CA301AACCF9900BFEB58 /* Macnews Notify WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5F0CA401AACCF9A00BFEB58 /* Build configuration list for PBXNativeTarget "Macnews Notify WatchKit App" */;
+			buildPhases = (
+				A5F0CA2F1AACCF9900BFEB58 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Macnews Notify WatchKit App";
+			productName = "Macnews Notify WatchKit App";
+			productReference = A5F0CA311AACCF9900BFEB58 /* Macnews Notify WatchKit App.app */;
+			productType = "com.apple.product-type.application.watchapp";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -233,6 +371,13 @@
 					A531F6D61AAAA09500F1BAAD = {
 						CreatedOnToolsVersion = 6.1.1;
 						TestTargetID = A531F6B71AAAA09400F1BAAD;
+					};
+					A5F0CA1E1AACCF9900BFEB58 = {
+						CreatedOnToolsVersion = 6.3;
+						DevelopmentTeam = M5P6YBX6ZZ;
+					};
+					A5F0CA301AACCF9900BFEB58 = {
+						CreatedOnToolsVersion = 6.3;
 					};
 				};
 			};
@@ -271,6 +416,8 @@
 			targets = (
 				A531F6B71AAAA09400F1BAAD /* Macnews Notify */,
 				A531F6D61AAAA09500F1BAAD /* Macnews NotifyTests */,
+				A5F0CA1E1AACCF9900BFEB58 /* Macnews Notify WatchKit Extension */,
+				A5F0CA301AACCF9900BFEB58 /* Macnews Notify WatchKit App */,
 			);
 		};
 /* End PBXProject section */
@@ -291,6 +438,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5F0CA1D1AACCF9900BFEB58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5F0CA2E1AACCF9900BFEB58 /* Images.xcassets in Resources */,
+				A5F0CA321AACCF9A00BFEB58 /* Macnews Notify WatchKit App.app in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A5F0CA2F1AACCF9900BFEB58 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5F0CA3A1AACCF9A00BFEB58 /* Interface.storyboard in Resources */,
+				A5F0CA3C1AACCF9A00BFEB58 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +485,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A5F0CA1B1AACCF9900BFEB58 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5F0CA291AACCF9900BFEB58 /* NotificationController.m in Sources */,
+				A5F0CA261AACCF9900BFEB58 /* InterfaceController.m in Sources */,
+				A5F0CA2C1AACCF9900BFEB58 /* GlanceController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -327,6 +502,16 @@
 			isa = PBXTargetDependency;
 			target = A531F6B71AAAA09400F1BAAD /* Macnews Notify */;
 			targetProxy = A531F6D81AAAA09500F1BAAD /* PBXContainerItemProxy */;
+		};
+		A5F0CA341AACCF9A00BFEB58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5F0CA301AACCF9900BFEB58 /* Macnews Notify WatchKit App */;
+			targetProxy = A5F0CA331AACCF9A00BFEB58 /* PBXContainerItemProxy */;
+		};
+		A5F0CA3E1AACCF9A00BFEB58 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5F0CA1E1AACCF9900BFEB58 /* Macnews Notify WatchKit Extension */;
+			targetProxy = A5F0CA3D1AACCF9A00BFEB58 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -372,6 +557,14 @@
 				A531F7511AAAAD4200F1BAAD /* fr */,
 			);
 			name = TUSafariActivity.strings;
+			sourceTree = "<group>";
+		};
+		A5F0CA381AACCF9A00BFEB58 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A5F0CA391AACCF9A00BFEB58 /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -515,6 +708,78 @@
 			};
 			name = Release;
 		};
+		A5F0CA411AACCF9A00BFEB58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IBSC_MODULE = Macnews_Notify_WatchKit_Extension;
+				INFOPLIST_FILE = "Macnews Notify WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Debug;
+		};
+		A5F0CA421AACCF9A00BFEB58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				IBSC_MODULE = Macnews_Notify_WatchKit_Extension;
+				INFOPLIST_FILE = "Macnews Notify WatchKit App/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 4;
+				"TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]" = "1,4";
+			};
+			name = Release;
+		};
+		A5F0CA441AACCF9A00BFEB58 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Macnews Notify WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		A5F0CA451AACCF9A00BFEB58 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Macnews Notify WatchKit Extension/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -544,6 +809,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		A5F0CA401AACCF9A00BFEB58 /* Build configuration list for PBXNativeTarget "Macnews Notify WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5F0CA411AACCF9A00BFEB58 /* Debug */,
+				A5F0CA421AACCF9A00BFEB58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		A5F0CA431AACCF9A00BFEB58 /* Build configuration list for PBXNativeTarget "Macnews Notify WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5F0CA441AACCF9A00BFEB58 /* Debug */,
+				A5F0CA451AACCF9A00BFEB58 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 
