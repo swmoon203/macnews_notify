@@ -151,6 +151,8 @@ NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
         UIUserNotificationSettings *notifSettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
         
         [[UIApplication sharedApplication] registerUserNotificationSettings:notifSettings];
+        
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"] != nil) [self afterRegistration:nil];
     }
 }
 
@@ -165,6 +167,7 @@ NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
             NSString *url = [NSString stringWithFormat:@"https://push.smoon.kr/v1/devices/%@/registrations/ios.com.tistory.macnews", token];
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
             request.HTTPMethod = @"POST";
+            request.HTTPBody = [[NSString stringWithFormat:@"version=%@", [[UIDevice currentDevice] systemVersion]] dataUsingEncoding:NSUTF8StringEncoding];
             NSURLResponse *response = nil;
             NSError *error = nil;
             [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
@@ -189,7 +192,7 @@ NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSString *key = @"deviceToken";
     
-    if (token != nil && ([ud objectForKey:key] == nil || [[ud objectForKey:key] isEqualToString:token] == NO)) {
+    if (token != nil && [[ud objectForKey:key] isEqualToString:token] == NO) {
         [ud setObject:token forKey:key];
         [ud synchronize];
     }

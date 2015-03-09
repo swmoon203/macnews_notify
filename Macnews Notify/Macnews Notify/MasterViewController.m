@@ -56,7 +56,7 @@
         
         if ([(NSHTTPURLResponse *)response statusCode] != 200) {
             _loading = NO;
-            // TODO: ui error
+            // TODO: ui error: network
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_refreshControl endRefreshing];
             });

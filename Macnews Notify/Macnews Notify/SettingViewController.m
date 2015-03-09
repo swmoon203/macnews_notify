@@ -10,6 +10,13 @@
 #import "AppDelegate.h"
 #import "NSString+URL.h"
 
+#define SEC_Category 0
+#define SEC_Subscription 1
+#define SEC_Reset 2
+#define SEC_Info 3
+
+#define SECTION_COUNT 3
+
 @implementation SettingViewController {
     NSDictionary *_catagories;
     BOOL _loading;
@@ -35,7 +42,7 @@
             _loading = NO;
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Category] withRowAnimation:UITableViewRowAnimationFade];
             });
         });
     }
@@ -43,6 +50,14 @@
     if (_hosts != nil && token != nil) {
         _hosts = [NSMutableArray arrayWithArray:_hosts];
         [self loadHostList];
+    }
+    
+    if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications] == NO) {
+        UILabel *l = [[UILabel alloc] initWithFrame:CGRectMake(0.0, 0.0, self.view.frame.size.width, 30.0)];
+        l.text = @"알림 서비스가 비활성 상태입니다.";
+        l.textAlignment = NSTextAlignmentCenter;
+        l.textColor = [UIColor grayColor];
+        self.tableView.tableHeaderView = l;
     }
 }
 
@@ -80,7 +95,7 @@
             [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
             
             if (changed) {
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Subscription] withRowAnimation:UITableViewRowAnimationFade];
             } else {
                 [self.tableView reloadData];
             }
@@ -91,32 +106,27 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 3;
+    return SECTION_COUNT;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSArray *titles = @[ @"카테고리", @"구독", @"" ];
+    NSArray *titles = @[ @"카테고리", @"구독", @"", @"" ];
     return titles[section];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (section) {
-        case 0: {
-            return _catagories != nil ? [_catagories[@"categories"] count] : 1;
-        }
-        case 1: {
-            return MAX([_hosts count], 1);
-        }
-        case 2: {
-            return 1;
-        }
+        case SEC_Category: return _catagories != nil ? [_catagories[@"categories"] count] : 1;
+        case SEC_Subscription: return MAX([_hosts count], 1);
+        case SEC_Reset: return 1;
+        case SEC_Info: return 0;
     }
     return 0;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && _catagories == nil) {
+    if (indexPath.section == SEC_Category && _catagories == nil) {
         NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
         UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:_loading ? @"loading" : (token != nil ? @"error" : @"needToken") forIndexPath:indexPath];
         
@@ -137,15 +147,15 @@
         [cell removeGestureRecognizer:obj];
     }];
     
-    if (indexPath.section < 2) {
+    if (indexPath.section < SEC_Reset) {
         cell.accessoryView = [[UISwitch alloc] init];
         [(UISwitch *)cell.accessoryView addTarget:self action:@selector(onSwitch:) forControlEvents:UIControlEventValueChanged];
     }
     
-    if (indexPath.section == 0) { //Categories
+    if (indexPath.section == SEC_Category) { //Categories
         cell.textLabel.text = _catagories[@"categories"][indexPath.row];
         [(UISwitch *)cell.accessoryView setOn:![_catagories[@"deny"] containsObject:_catagories[@"categories"][indexPath.row]]];
-    } else if (indexPath.section == 1) { //hosts
+    } else if (indexPath.section == SEC_Subscription) { //hosts
         if (_hosts != nil) {
             cell.textLabel.text = _hosts[indexPath.row][@"title"];
             cell.detailTextLabel.text = _hosts[indexPath.row][@"webId"];
@@ -165,7 +175,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (indexPath.section == 2) {
+    if (indexPath.section == SEC_Reset) {
         [self resetData];
     }
 }
@@ -177,7 +187,7 @@
     sender.enabled = NO;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
-    if (indexPath.section == 0) {
+    if (indexPath.section == SEC_Category) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
             NSMutableString *url = [NSMutableString stringWithFormat:@"https://push.smoon.kr/setting/ios.com.tistory.macnews/%@", token];
@@ -198,7 +208,7 @@
                 sender.enabled = YES;
             });
         });
-    } else if (indexPath.section == 1) {
+    } else if (indexPath.section == SEC_Subscription) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
             
