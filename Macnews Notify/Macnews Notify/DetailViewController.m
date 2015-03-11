@@ -17,6 +17,7 @@
 @implementation DetailViewController {
     CGPoint _tapPoint;
     UIRefreshControl *_refreshControl;
+    NSURL *_urlToPush;
 }
 
 #pragma mark - Managing the detail item
@@ -36,6 +37,8 @@
     if (self.detailItem) {
         //self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
         url = [NSURL URLWithString:[NSString stringWithFormat:@"https://push.smoon.kr/v1/redirect/%@/%@", [self.detailItem valueForKey:@"webId"], [self.detailItem valueForKey:@"arg"]]];
+    } else if (self.url != nil) {
+        url = self.url;
     } else {
         url = [NSURL URLWithString:@"http://macnews.tistory.com/m/"];
         self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:self action:@selector(onHome)];
@@ -122,9 +125,21 @@
             [popup presentPopoverFromRect:CGRectMake(_tapPoint.x, _tapPoint.y, 0, 0)inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
         }
         return NO;
+    } else if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        NSLog(@"%@", url);
+        _urlToPush = url;
+        [self performSegueWithIdentifier:@"link" sender:self];
+        return NO;
     }
     return YES;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"link"]) {
+        DetailViewController *controller = (DetailViewController *)[segue destinationViewController];
+        controller.url = _urlToPush;
+        _urlToPush = nil;
+    }
+}
 
 @end
