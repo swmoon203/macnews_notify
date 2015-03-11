@@ -37,7 +37,9 @@
             NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
             NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
             
-            _catagories = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            if (data != nil) {
+                _catagories = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+            }
             
             _loading = NO;
             
@@ -48,7 +50,12 @@
     }
     _hosts = [[NSUserDefaults standardUserDefaults] objectForKey:@"hosts"];
     if (_hosts != nil && token != nil) {
-        _hosts = [NSMutableArray arrayWithArray:_hosts];
+        NSMutableArray *array = [NSMutableArray array];
+        [_hosts enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+            [array addObject:[NSMutableDictionary dictionaryWithDictionary:obj]];
+        }];
+        _hosts = array;
+        
         [self loadHostList];
     }
     
@@ -65,6 +72,10 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://push.smoon.kr/v1/hosts"]];
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        
+        if (data == nil) {
+            return;
+        }
         
         _hostList = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
         
@@ -123,7 +134,6 @@
     }
     return 0;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == SEC_Category && _catagories == nil) {
@@ -188,6 +198,11 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
     if (indexPath.section == SEC_Category) {
+        UIActivityIndicatorView *loading = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [loading startAnimating];
+        
+        cell.accessoryView = loading;
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
             NSMutableString *url = [NSMutableString stringWithFormat:@"https://push.smoon.kr/setting/ios.com.tistory.macnews/%@", token];
@@ -206,9 +221,16 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (response.statusCode != 200) sender.on = !sender.on;
                 sender.enabled = YES;
+                
+                cell.accessoryView = sender;
             });
         });
     } else if (indexPath.section == SEC_Subscription) {
+        UIActivityIndicatorView *loading = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [loading startAnimating];
+        
+        cell.accessoryView = loading;
+        
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
             
@@ -220,6 +242,7 @@
             
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
             request.HTTPMethod = @"POST";
+            request.HTTPBody = [[NSString stringWithFormat:@"version=%@", [[UIDevice currentDevice] systemVersion]] dataUsingEncoding:NSUTF8StringEncoding];
             
             NSHTTPURLResponse *response = nil;
             [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
@@ -234,6 +257,7 @@
                     [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"defaultHost"];
                 }
                 sender.enabled = YES;
+                cell.accessoryView = sender;
             });
         });
     }
@@ -270,6 +294,5 @@
     
     [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
 }
-
 
 @end
