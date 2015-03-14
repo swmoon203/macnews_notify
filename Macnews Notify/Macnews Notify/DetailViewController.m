@@ -41,7 +41,6 @@
         url = self.url;
     } else {
         url = [NSURL URLWithString:@"http://macnews.tistory.com/m/"];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:self action:@selector(onHome)];
     }
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
     [_refreshControl beginRefreshing];
