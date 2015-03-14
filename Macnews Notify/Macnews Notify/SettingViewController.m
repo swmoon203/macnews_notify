@@ -172,11 +172,17 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [(UISwitch *)cell.accessoryView setOn:(indexPath.row > 0 ? [_hosts[indexPath.row][@"enabled"] boolValue] : [[NSUserDefaults standardUserDefaults] boolForKey:@"defaultHost"])];
         } else {
-            UILongPressGestureRecognizer *g = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(loadHostList)];
-            g.minimumPressDuration = 3.0;
-            [cell addGestureRecognizer:g];
-            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-            [(UISwitch *)cell.accessoryView setOn:[[NSUserDefaults standardUserDefaults] boolForKey:@"defaultHost"]];
+           
+            if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications] == NO) {
+                [(UISwitch *)cell.accessoryView setEnabled:NO];
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else {
+                UILongPressGestureRecognizer *g = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(loadHostList)];
+                g.minimumPressDuration = 3.0;
+                [cell addGestureRecognizer:g];
+                cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                [(UISwitch *)cell.accessoryView setOn:[[NSUserDefaults standardUserDefaults] boolForKey:@"defaultHost"]];
+            }
         }
     }
     return cell;
@@ -272,27 +278,22 @@
 }
 
 - (void)resetData {
-    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"보관된 수신 데이터가 삭제됩니다.\n카테고리 및 구독 정보는 초기화 하지 않습니다."
-                                                       delegate:self
-                                              cancelButtonTitle:@"취소"
-                                         destructiveButtonTitle:@"데이터 초기화"
-                                              otherButtonTitles:@"데이터만 삭제 (이후 수신되는 알림만 받아집니다.)",
-                            nil];
-    [sheet showInView:self.view];
-}
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if (actionSheet.cancelButtonIndex == buttonIndex) return;
-    
-    if (actionSheet.destructiveButtonIndex == buttonIndex) {
+    UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"보관된 수신 데이터가 삭제됩니다.\n카테고리 및 구독 정보는 초기화 하지 않습니다."
+                                                                              message:nil
+                                                                       preferredStyle:UIAlertControllerStyleActionSheet];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"데이터 초기화" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         //reset all
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"idx"];
-    } else {
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] resetContext];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"데이터만 삭제 (이후 수신되는 알림만 받아집니다.)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         //reset data only
-    }
-    [(AppDelegate *)[[UIApplication sharedApplication] delegate] deleteAllObjects:@"Notification"];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] resetContext];
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"취소" style:UIAlertActionStyleCancel handler:nil]];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
+
 
 @end
