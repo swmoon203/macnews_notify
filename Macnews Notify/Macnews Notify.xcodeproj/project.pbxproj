@@ -20,6 +20,7 @@
 		A531F6DE1AAAA09500F1BAAD /* Macnews_NotifyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F6DD1AAAA09500F1BAAD /* Macnews_NotifyTests.m */; };
 		A531F73F1AAAAD1700F1BAAD /* TUSafariActivity.strings in Resources */ = {isa = PBXBuildFile; fileRef = A531F73D1AAAAD1700F1BAAD /* TUSafariActivity.strings */; };
 		A531F7541AAAAD6900F1BAAD /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */; };
+		A5F941D81AB15CCA005DA87D /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F941D71AB15CCA005DA87D /* FeedTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,8 @@
 		A531F7521AAAAD6900F1BAAD /* TUSafariActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TUSafariActivity.h; sourceTree = "<group>"; };
 		A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TUSafariActivity.m; sourceTree = "<group>"; };
 		A5C419121AACD73800BDA124 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		A5F941D61AB15CCA005DA87D /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
+		A5F941D71AB15CCA005DA87D /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				A531F6E71AAAAAA600F1BAAD /* Library */,
+				A5F941D61AB15CCA005DA87D /* FeedTableViewCell.h */,
+				A5F941D71AB15CCA005DA87D /* FeedTableViewCell.m */,
 				A531F6BF1AAAA09500F1BAAD /* AppDelegate.h */,
 				A531F6C01AAAA09500F1BAAD /* AppDelegate.m */,
 				A531F6C51AAAA09500F1BAAD /* MasterViewController.h */,
@@ -301,6 +306,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A531F6CA1AAAA09500F1BAAD /* DetailViewController.m in Sources */,
+				A5F941D81AB15CCA005DA87D /* FeedTableViewCell.m in Sources */,
 				A531F7541AAAAD6900F1BAAD /* TUSafariActivity.m in Sources */,
 				A531F6C71AAAA09500F1BAAD /* MasterViewController.m in Sources */,
 				A5013D3C1AAC20CD000B585F /* SettingViewController.m in Sources */,

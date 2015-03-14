@@ -9,10 +9,12 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 #import "AppDelegate.h"
+#import "FeedTableViewCell.h"
 
 @implementation MasterViewController {
     BOOL _loading;
     UIRefreshControl *_refreshControl;
+    NSDictionary *_hostTitles;
 }
 
 - (void)awakeFromNib {
@@ -42,6 +44,100 @@
     [self.tableView addSubview:_refreshControl];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if (app.receivedNotification != nil) {
+    //    [self performSegueWithIdentifier:@"showDetail" sender:self];
+    }
+}
+
+#pragma mark - Segues
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([@[ @"showDetail", @"showDetail2" ] containsObject:segue.identifier]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+        [controller setDetailItem:object];
+        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        controller.navigationItem.leftItemsSupplementBackButton = YES;
+    }
+}
+
+#pragma mark - Table View
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return [[self.fetchedResultsController sections] count];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
+    return [sectionInfo numberOfObjects];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:([object valueForKey:@"image"] != nil ? @"Cell" : @"CellNoImage") forIndexPath:indexPath];
+    
+    NSString *title = [object valueForKey:@"title"];;
+    if ([[object valueForKey:@"webId"] isEqualToString:@"web.com.tistory.macnews"] == NO) {
+        if (_hostTitles == nil) {
+            NSMutableDictionary *h = [NSMutableDictionary dictionary];
+            NSArray *hosts = (NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:@"hosts"];
+            [hosts enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+                h[obj[@"webId"]] = obj[@"title"];
+            }];
+            _hostTitles = h;
+        }
+ 
+        if (_hostTitles[[object valueForKey:@"webId"]] != nil) {
+            NSString *name = _hostTitles[[object valueForKey:@"webId"]];
+            title = [NSString stringWithFormat:@"[%@] %@", name, title];
+        }
+    }
+    cell.titleText.text = title;
+    //cell.previewImage.hidden = YES;
+    if ([object valueForKey:@"image"] != nil) {
+        //cell.previewImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[object valueForKey:@"image"]]]];
+    }
+    return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+
+}
+
+-(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive
+                                                                      title:@"삭제"
+                                                                    handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                                                                        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+                                                                        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+                                                                        
+                                                                        NSError *error = nil;
+                                                                        if (![context save:&error]) {
+                                                                            // Replace this implementation with code to handle the error appropriately.
+                                                                            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                                                                            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                                                            abort();
+                                                                        }
+                                    }];
+    //button.backgroundColor = [UIColor redColor]; //arbitrary color
+    UITableViewRowAction *archive = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
+                                                                       title:@"저장"
+                                                                     handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                                         NSLog(@"Action to perform with Button2!");
+                                     }];
+    //button2.backgroundColor = [UIColor greenColor]; //arbitrary color
+    
+    return @[ delete, archive ]; //array with all the buttons you want. 1,2,3, etc...
+}
+
+#pragma mark - Data
 - (void)loadDataFromServer {
     if (_loading) return;
     _loading = YES;
@@ -53,7 +149,7 @@
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSString *url = token != nil ? [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%@/%li", token, (long)idx] :
-                                       [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%li", (long)idx];
+        [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%li", (long)idx];
         
         NSURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
         NSURLResponse *response = nil;
@@ -77,6 +173,7 @@
             NSDictionary *apn = [NSJSONSerialization JSONObjectWithData:[item[@"contents"] dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
             apn = apn[@"apn"];
             item[@"title"] = apn[@"title"];
+            if (apn[@"image"]) item[@"image"] = apn[@"image"];
             if ([apn[@"url-args"] count] > 0) item[@"arg"] = apn[@"url-args"][0];
             [list addObject:item];
             idx = MAX(idx, [item[@"idx"] integerValue]);
@@ -108,67 +205,13 @@
     });
 }
 
-#pragma mark - Segues
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
-        [controller setDetailItem:object];
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        controller.navigationItem.leftItemsSupplementBackButton = YES;
-    }
-}
-
-#pragma mark - Table View
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [[self.fetchedResultsController sections] count];
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
-    return [sectionInfo numberOfObjects];
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    [self configureCell:cell atIndexPath:indexPath];
-    return cell;
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-            
-        NSError *error = nil;
-        if (![context save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }
-}
-
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [object valueForKey:@"title"];
-}
-
 #pragma mark - Fetched results controller
+- (NSManagedObjectContext *)managedObjectContext {
+    return [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+}
 
 - (NSFetchedResultsController *)fetchedResultsController {
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
+    if (_fetchedResultsController != nil) return _fetchedResultsController;
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     // Edit the entity name as appropriate.
@@ -233,7 +276,7 @@
             break;
             
         case NSFetchedResultsChangeUpdate:
-            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationNone];
             break;
             
         case NSFetchedResultsChangeMove:
