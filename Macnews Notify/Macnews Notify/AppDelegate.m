@@ -11,6 +11,12 @@
 #import "MasterViewController.h"
 
 NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
+NSString *const AppNeedDataResetNotification = @"AppNeedDataResetNotification";
+
+@interface AppDelegate ()
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@end
 
 @implementation AppDelegate
 
@@ -21,17 +27,12 @@ NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
 
-    UINavigationController *masterNavigationController = splitViewController.viewControllers[0];
-    MasterViewController *controller = (MasterViewController *)masterNavigationController.topViewController;
-    controller.managedObjectContext = self.managedObjectContext;
   
     [self registerDevice];
     return YES;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-    // Saves changes in the application's managed object context before the application terminates.
     [self saveContext];
 }
 
@@ -58,24 +59,16 @@ NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
 }
 
 - (NSManagedObjectModel *)managedObjectModel {
-    // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
-    }
+    if (_managedObjectModel != nil) return _managedObjectModel;
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Macnews_Notify" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    return _managedObjectModel;
+    return _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 }
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it.
-    if (_persistentStoreCoordinator != nil) {
-        return _persistentStoreCoordinator;
-    }
+    if (_persistentStoreCoordinator != nil) return _persistentStoreCoordinator;
     
     // Create the coordinator and store
-    
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"Macnews_Notify.sqlite"];
     NSError *error = nil;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
@@ -95,19 +88,12 @@ NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
     return _persistentStoreCoordinator;
 }
 
-
 - (NSManagedObjectContext *)managedObjectContext {
-    // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
+    if (_managedObjectContext != nil) return _managedObjectContext;
+    if (self.persistentStoreCoordinator == nil) return nil;
     
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (!coordinator) {
-        return nil;
-    }
     _managedObjectContext = [[NSManagedObjectContext alloc] init];
-    [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    [_managedObjectContext setPersistentStoreCoordinator:self.persistentStoreCoordinator];
     return _managedObjectContext;
 }
 
@@ -124,20 +110,24 @@ NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
         }
     }
 }
-- (void)deleteAllObjects:(NSString *)entityDescription {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:entityDescription inManagedObjectContext:_managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
+- (void)resetContext {
+    NSPersistentStore *store = [self.persistentStoreCoordinator.persistentStores lastObject];
     NSError *error;
-    NSArray *items = [_managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSURL *storeURL = store.URL;
+    NSPersistentStoreCoordinator *storeCoordinator = self.persistentStoreCoordinator;
+    [storeCoordinator removePersistentStore:store error:&error];
+    [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:&error];
+    //    Then, just add the persistent store back to ensure it is recreated properly.
+    if (![self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
     
-    for (NSManagedObject *managedObject in items) {
-        [_managedObjectContext deleteObject:managedObject];
-    }
-    if (![_managedObjectContext save:&error]) {
-        NSLog(@"Error deleting %@ - error:%@", entityDescription, error);
-    }
+    _managedObjectContext = nil;
+    _managedObjectModel = nil;
+    _persistentStoreCoordinator = nil;
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedDataResetNotification object:nil];
 }
 
 #pragma mark - Notification

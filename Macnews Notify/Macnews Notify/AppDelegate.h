@@ -13,17 +13,19 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-
+#pragma mark Remote Push
 @property (readonly, strong, nonatomic) NSString *token;
+@property (strong, nonatomic) NSDictionary *receivedNotification;
 
-- (void)saveContext;
+#pragma mark Core Data
 - (NSURL *)applicationDocumentsDirectory;
 
-- (void)deleteAllObjects:(NSString *)entityDescription;
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+- (void)saveContext;
+- (void)resetContext;
 
 @end
 
 NSString *const AppNeedLoadDataNotification;
+NSString *const AppNeedDataResetNotification;
