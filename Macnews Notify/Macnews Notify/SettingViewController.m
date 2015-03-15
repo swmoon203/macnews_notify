@@ -17,46 +17,25 @@
 
 #define SECTION_COUNT 3
 
+@interface SettingViewController ()
+@property (strong, readonly, nonatomic) AppDelegate *app;
+@end
+
 @implementation SettingViewController {
     NSDictionary *_catagories;
     BOOL _loading;
-    NSMutableArray *_hosts;
-    NSArray *_hostList;
+}
+
+- (AppDelegate *)app {
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
     
-    if (_catagories == nil && token != nil) {
-        _loading = YES;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSString *url = [NSString stringWithFormat:@"https://push.smoon.kr/setting/ios.com.tistory.macnews/%@", token];
-            
-            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-            
-            if (data != nil) {
-                _catagories = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
-            }
-            
-            _loading = NO;
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Category] withRowAnimation:UITableViewRowAnimationFade];
-            });
-        });
-    }
-    _hosts = [[NSUserDefaults standardUserDefaults] objectForKey:@"hosts"];
-    if (_hosts != nil && token != nil) {
-        NSMutableArray *array = [NSMutableArray array];
-        [_hosts enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-            [array addObject:[NSMutableDictionary dictionaryWithDictionary:obj]];
-        }];
-        _hosts = array;
-        
-        [self loadHostList];
+    if (_catagories == nil && self.app.token != nil) {
+        [self loadCatagoryList];
     }
     
     if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications] == NO) {
@@ -68,47 +47,39 @@
     }
 }
 
-- (void)loadHostList {
+- (void)loadCatagoryList {
+    _loading = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://push.smoon.kr/v1/hosts"]];
+        NSString *url = [NSString stringWithFormat:@"https://push.smoon.kr/setting/ios.com.tistory.macnews/%@", self.app.token];
+        
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
         
-        if (data == nil) {
-            return;
+        if (data != nil) {
+            _catagories = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
         }
         
-        _hostList = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
         
-        NSMutableSet *enabledWebIds = [NSMutableSet setWithObject:@"web.com.tistory.macnews"];
-        [_hosts enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-            if ([obj[@"enabled"] boolValue]) [enabledWebIds addObject:obj[@"webId"]];
-        }];
+        [self.app updateHostSettings];
         
-        NSMutableArray *newHosts = [NSMutableArray array];
-        [_hostList enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-            if ([obj[@"webId"] isEqualToString:@"web.com.tistory.macnews"]) {
-                [newHosts addObject:obj];
-                *stop = YES;
-            }
-        }];
-        
-        [_hostList enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-            if ([obj[@"webId"] isEqualToString:@"web.com.tistory.macnews"] == NO) {
-                NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:obj];
-                [newHosts addObject:item];
-                item[@"enabled"] = @([enabledWebIds containsObject:obj[@"webId"]]);
-            }
-        }];
-        
+        _loading = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
-            BOOL changed = [_hosts count] != [newHosts count];
-            _hosts = newHosts;
-            [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
-            
-            if (changed) {
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Subscription] withRowAnimation:UITableViewRowAnimationFade];
-            } else {
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Category] withRowAnimation:UITableViewRowAnimationFade];
+        });
+    });
+}
+- (void)enableMultiHosts {
+    if (self.app.multiHostEnabled) return;
+    
+    self.app.multiHostEnabled = YES;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSInteger count = [self.app numberOfHosts];
+        [self.app updateHostSettings];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (count == [self.app numberOfHosts]) {
                 [self.tableView reloadData];
+            } else {
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Subscription] withRowAnimation:UITableViewRowAnimationFade];
             }
         });
     });
@@ -119,28 +90,24 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return SECTION_COUNT;
 }
-
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     NSArray *titles = @[ @"카테고리", @"구독", @"", @"" ];
     return titles[section];
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (section) {
         case SEC_Category: return _catagories != nil ? [_catagories[@"categories"] count] : 1;
-        case SEC_Subscription: return MAX([_hosts count], 1);
+        case SEC_Subscription: return [self.app numberOfHosts];
         case SEC_Reset: return 1;
         case SEC_Info: return 0;
     }
     return 0;
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == SEC_Category && _catagories == nil) {
-        NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
-        UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:_loading ? @"loading" : (token != nil ? @"error" : @"needToken") forIndexPath:indexPath];
+        UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:_loading ? @"loading" : (self.app.token != nil ? @"error" : @"needToken") forIndexPath:indexPath];
         
-        if (_loading == NO && token == nil) {
+        if (_loading == NO && self.app.token == nil) {
             UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeInfoDark];
             infoCell.accessoryView = infoBtn;
             [infoBtn addTarget:self action:@selector(onNeedTokenInfo) forControlEvents:UIControlEventTouchUpInside];
@@ -157,37 +124,42 @@
         [cell removeGestureRecognizer:obj];
     }];
     
-    if (indexPath.section < SEC_Reset) {
-        cell.accessoryView = [[UISwitch alloc] init];
-        [(UISwitch *)cell.accessoryView addTarget:self action:@selector(onSwitch:) forControlEvents:UIControlEventValueChanged];
-    }
-    
-    if (indexPath.section == SEC_Category) { //Categories
-        cell.textLabel.text = _catagories[@"categories"][indexPath.row];
-        [(UISwitch *)cell.accessoryView setOn:![_catagories[@"deny"] containsObject:_catagories[@"categories"][indexPath.row]]];
-    } else if (indexPath.section == SEC_Subscription) { //hosts
-        if (_hosts != nil) {
-            cell.textLabel.text = _hosts[indexPath.row][@"title"];
-            cell.detailTextLabel.text = _hosts[indexPath.row][@"webId"];
+    switch (indexPath.section) {
+        case SEC_Category: {
+            cell.accessoryView = [[UISwitch alloc] init];
+            [(UISwitch *)cell.accessoryView addTarget:self action:@selector(onSwitch:) forControlEvents:UIControlEventValueChanged];
+            cell.textLabel.text = _catagories[@"categories"][indexPath.row];
+            [(UISwitch *)cell.accessoryView setOn:![_catagories[@"deny"] containsObject:_catagories[@"categories"][indexPath.row]]];
+            break;
+        }
+        case SEC_Subscription: {
+            cell.accessoryView = [[UISwitch alloc] init];
+            [(UISwitch *)cell.accessoryView addTarget:self action:@selector(onSwitch:) forControlEvents:UIControlEventValueChanged];
+            NSDictionary *item = [self.app hostAtIndex:indexPath.row];
+            
+            cell.textLabel.text = item[@"title"];
+            cell.detailTextLabel.text = item[@"webId"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            [(UISwitch *)cell.accessoryView setOn:(indexPath.row > 0 ? [_hosts[indexPath.row][@"enabled"] boolValue] : [[NSUserDefaults standardUserDefaults] boolForKey:@"defaultHost"])];
-        } else {
-           
-            if ([[UIApplication sharedApplication] isRegisteredForRemoteNotifications] == NO) {
-                [(UISwitch *)cell.accessoryView setEnabled:NO];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            } else {
-                UILongPressGestureRecognizer *g = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(loadHostList)];
+            [(UISwitch *)cell.accessoryView setOn:[item[@"enabled"] boolValue]];
+            
+            if (self.app.multiHostEnabled == NO) {
+                UILongPressGestureRecognizer *g = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(enableMultiHosts)];
                 g.minimumPressDuration = 3.0;
                 [cell addGestureRecognizer:g];
                 cell.selectionStyle = UITableViewCellSelectionStyleDefault;
-                [(UISwitch *)cell.accessoryView setOn:[[NSUserDefaults standardUserDefaults] boolForKey:@"defaultHost"]];
             }
+            break;
+        }
+        case SEC_Reset: {
+            
+            break;
+        }
+        case SEC_Info: {
+            break;
         }
     }
     return cell;
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
@@ -236,32 +208,15 @@
         [loading startAnimating];
         
         cell.accessoryView = loading;
-        
+        BOOL on = sender.on;
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
             
-            NSString *webId = _hosts == nil ? @"web.com.tistory.macnews" : _hosts[indexPath.row][@"webId"];
-            webId = [NSString stringWithFormat:@"ios%@", [webId substringFromIndex:3]];
-            
-            NSMutableString *url = [NSMutableString stringWithFormat:@"https://push.smoon.kr/v1/devices/%@/registrations/%@", token, webId];
-            if (sender.on == NO) [url appendString:@"/delete"];
-            
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-            request.HTTPMethod = @"POST";
-            request.HTTPBody = [[NSString stringWithFormat:@"version=%@", [[UIDevice currentDevice] systemVersion]] dataUsingEncoding:NSUTF8StringEncoding];
-            
-            NSHTTPURLResponse *response = nil;
-            [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+            BOOL success = [self.app setHost:[self.app hostAtIndex:indexPath.row][@"webId"] enabled:on];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (response.statusCode != 200) sender.on = !sender.on;
+                if (!success) sender.on = !sender.on;
                 
-                if (_hosts != nil && indexPath.row != 0) {
-                    _hosts[indexPath.row][@"enabled"] = @(sender.on);
-                    [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
-                } else {
-                    [[NSUserDefaults standardUserDefaults] setBool:sender.on forKey:@"defaultHost"];
-                }
                 sender.enabled = YES;
                 cell.accessoryView = sender;
             });
@@ -278,18 +233,17 @@
 }
 
 - (void)resetData {
-
     UIAlertController * alertController = [UIAlertController alertControllerWithTitle:@"보관된 수신 데이터가 삭제됩니다.\n카테고리 및 구독 정보는 초기화 하지 않습니다."
                                                                               message:nil
                                                                        preferredStyle:UIAlertControllerStyleActionSheet];
     [alertController addAction:[UIAlertAction actionWithTitle:@"데이터 초기화" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         //reset all
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"idx"];
-        [(AppDelegate *)[[UIApplication sharedApplication] delegate] resetContext];
+        [self.app resetIdx];
+        [self.app resetContext];
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"데이터만 삭제 (이후 수신되는 알림만 받아집니다.)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         //reset data only
-        [(AppDelegate *)[[UIApplication sharedApplication] delegate] resetContext];
+        [self.app resetContext];
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"취소" style:UIAlertActionStyleCancel handler:nil]];
     [self presentViewController:alertController animated:YES completion:nil];

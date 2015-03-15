@@ -12,10 +12,14 @@
 
 NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
 NSString *const AppNeedDataResetNotification = @"AppNeedDataResetNotification";
+NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSettingsNotification";
 
 @interface AppDelegate ()
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+@property (strong, nonatomic) NSMutableArray *hosts;
+@property (strong, readonly, nonatomic) NSDictionary *hostsMap;
 @end
 
 @implementation AppDelegate
@@ -29,11 +33,17 @@ NSString *const AppNeedDataResetNotification = @"AppNeedDataResetNotification";
 
   
     [self registerDevice];
+    
+    self.receivedNotification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    
+    //[[UIApplication sharedApplication] cancelAllLocalNotifications];
     return YES;
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     [self saveContext];
+    [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - Split view
@@ -48,7 +58,6 @@ NSString *const AppNeedDataResetNotification = @"AppNeedDataResetNotification";
 }
 
 #pragma mark - Core Data stack
-
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
@@ -57,13 +66,11 @@ NSString *const AppNeedDataResetNotification = @"AppNeedDataResetNotification";
     // The directory the application uses to store the Core Data store file. This code uses a directory named "kr.smoon.ios.Macnews_Notify" in the application's documents directory.
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
-
 - (NSManagedObjectModel *)managedObjectModel {
     if (_managedObjectModel != nil) return _managedObjectModel;
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Macnews_Notify" withExtension:@"momd"];
     return _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
 }
-
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
     if (_persistentStoreCoordinator != nil) return _persistentStoreCoordinator;
     
@@ -87,7 +94,6 @@ NSString *const AppNeedDataResetNotification = @"AppNeedDataResetNotification";
     
     return _persistentStoreCoordinator;
 }
-
 - (NSManagedObjectContext *)managedObjectContext {
     if (_managedObjectContext != nil) return _managedObjectContext;
     if (self.persistentStoreCoordinator == nil) return nil;
@@ -130,6 +136,16 @@ NSString *const AppNeedDataResetNotification = @"AppNeedDataResetNotification";
     [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedDataResetNotification object:nil];
 }
 
+- (NSInteger)idx {
+    return [[NSUserDefaults standardUserDefaults] integerForKey:@"idx"];
+}
+- (void)setIdx:(NSInteger)idx {
+    [[NSUserDefaults standardUserDefaults] setInteger:idx forKey:@"idx"];
+}
+- (void)resetIdx {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"idx"];
+}
+
 #pragma mark - Notification
 - (void)registerDevice {
     [[UIApplication sharedApplication] registerForRemoteNotifications];
@@ -145,7 +161,6 @@ NSString *const AppNeedDataResetNotification = @"AppNeedDataResetNotification";
         if ([[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"] != nil) [self afterRegistration:nil];
     }
 }
-
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSString *token = [NSString stringWithFormat:@"%@", deviceToken]; 
     token = [token stringByReplacingOccurrencesOfString:@"<" withString:@""];
@@ -172,11 +187,9 @@ NSString *const AppNeedDataResetNotification = @"AppNeedDataResetNotification";
         [self afterRegistration:token];
     }
 }
-
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     [self afterRegistration:nil];
 }
-
 
 - (void)afterRegistration:(NSString *)token {
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
@@ -191,12 +204,108 @@ NSString *const AppNeedDataResetNotification = @"AppNeedDataResetNotification";
     
     _token = token;
 
+    NSLog(@"Token ready: %@", _token);
     [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
 }
-
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSLog(@"%@", userInfo);
+    
+    //application.applicationState == UIApplicationStateBackground
     [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
 }
+
+#pragma mark - Hosts
+- (NSMutableArray *)hosts {
+    if (_hosts == nil) {
+        _hosts = [NSMutableArray array];
+        
+        NSArray *hosts = [[NSUserDefaults standardUserDefaults] objectForKey:@"hosts"];
+        [hosts enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+            [_hosts addObject:[NSMutableDictionary dictionaryWithDictionary:obj]];
+        }];
+        
+        if ([_hosts count] == 0) {
+            [_hosts addObject:[NSMutableDictionary dictionaryWithDictionary:@{
+                                                                   @"webId": @"web.com.tistory.macnews",
+                                                                   @"title": @"Back to the Mac",
+                                                                   @"url": @"http://macnews.tistory.com/%@",
+                                                                   @"enabled": @(_token != nil)
+                                                                   }]];
+            [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
+        }
+    }
+    return _hosts;
+}
+- (NSDictionary *)hostsMap {
+    NSMutableDictionary *map = [NSMutableDictionary dictionary];
+    [self.hosts enumerateObjectsUsingBlock:^(NSMutableDictionary *obj, NSUInteger idx, BOOL *stop) { map[obj[@"webId"]] = obj; }];
+    return [NSDictionary dictionaryWithDictionary:map];
+}
+- (NSInteger)numberOfHosts {
+    return [self.hosts count];
+}
+- (NSMutableDictionary *)hostAtIndex:(NSInteger)row {
+    return self.hosts[row];
+}
+- (NSMutableDictionary *)hostWithWebId:(NSString *)webId {
+    return self.hostsMap[webId];
+}
+
+- (void)setMultiHostEnabled:(BOOL)multiHostEnabled {
+    [[NSUserDefaults standardUserDefaults] setBool:multiHostEnabled forKey:@"multiHostEnabled"];
+}
+- (BOOL)multiHostEnabled {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"multiHostEnabled"];
+}
+
+- (void)updateHostSettings {
+    assert([NSThread isMainThread] == NO);
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"https://push.smoon.kr/v1/hosts"]];
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+    
+    if (data == nil) return;
+    
+    NSArray *list = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
+    
+    NSMutableDictionary *map = [NSMutableDictionary dictionary];
+    [list enumerateObjectsUsingBlock:^(NSMutableDictionary *obj, NSUInteger idx, BOOL *stop) { map[obj[@"webId"]] = obj; }];
+    
+    if (self.multiHostEnabled == NO) {
+        NSDictionary *item = map[@"web.com.tistory.macnews"];
+        [self.hostsMap[@"web.com.tistory.macnews"] addEntriesFromDictionary:item];
+    } else {
+        [list enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
+            if (self.hostsMap[obj[@"webId"]] == nil) {
+                [self.hosts addObject:[NSMutableDictionary dictionaryWithDictionary:obj]];
+            } else {
+                [self.hostsMap[obj[@"webId"]] addEntriesFromDictionary:obj];
+            }
+        }];
+    }
+}
+- (BOOL)setHost:(NSString *)webId enabled:(BOOL)enabled {
+    if (self.token == nil) return NO;
+    assert([NSThread isMainThread] == NO);
+    
+    NSString *pwebId = [NSString stringWithFormat:@"ios%@", [webId substringFromIndex:3]];
+    
+    NSMutableString *url = [NSMutableString stringWithFormat:@"https://push.smoon.kr/v1/devices/%@/registrations/%@", self.token, pwebId];
+    if (enabled == NO) [url appendString:@"/delete"];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    request.HTTPMethod = @"POST";
+    request.HTTPBody = [[NSString stringWithFormat:@"version=%@", [[UIDevice currentDevice] systemVersion]] dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSHTTPURLResponse *response = nil;
+    [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+    
+    if (response.statusCode == 200) {
+        self.hostsMap[webId][@"enabled"] = @(enabled);
+        return YES;
+    }
+    return NO;
+}
+
 @end

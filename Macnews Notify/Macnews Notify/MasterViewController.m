@@ -17,6 +17,10 @@
     NSDictionary *_hostTitles;
 }
 
+- (AppDelegate *)app {
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
@@ -142,14 +146,11 @@
     if (_loading) return;
     _loading = YES;
     [_refreshControl beginRefreshing];
-    
-    NSInteger idx = [[NSUserDefaults standardUserDefaults] integerForKey:@"idx"];
-    
-    NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
+    NSLog(@"Start Loading");
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSString *url = token != nil ? [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%@/%li", token, (long)idx] :
-        [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%li", (long)idx];
+        NSString *url = self.app.token != nil ? [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%@/%li", self.app.token, (long)self.app.idx] :
+        [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%li", (long)self.app.idx];
         
         NSURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
         NSURLResponse *response = nil;
@@ -159,6 +160,7 @@
         if ([(NSHTTPURLResponse *)response statusCode] != 200) {
             _loading = NO;
             // TODO: ui error: network
+            NSLog(@"Error Loading");
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_refreshControl endRefreshing];
             });
@@ -176,9 +178,9 @@
             if (apn[@"image"]) item[@"image"] = apn[@"image"];
             if ([apn[@"url-args"] count] > 0) item[@"arg"] = apn[@"url-args"][0];
             [list addObject:item];
-            idx = MAX(idx, [item[@"idx"] integerValue]);
-            [[NSUserDefaults standardUserDefaults] setInteger:idx forKey:@"idx"];
+            self.app.idx = MAX(self.app.idx, [item[@"idx"] integerValue]);
         }];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         
         dispatch_async(dispatch_get_main_queue(), ^{
             NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
@@ -197,10 +199,9 @@
                 NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
                 abort();
             }
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
             _loading = NO;
             [_refreshControl endRefreshing];
+            NSLog(@"End Loading");
         });
     });
 }

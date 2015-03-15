@@ -25,7 +25,25 @@
 - (void)saveContext;
 - (void)resetContext;
 
+@property (nonatomic) NSInteger idx;
+- (void)resetIdx;
+
+#pragma mark Hosts
+- (NSInteger)numberOfHosts;
+- (NSMutableDictionary *)hostAtIndex:(NSInteger)row; //{ title, webId, enabled, sites }
+- (NSMutableDictionary *)hostWithWebId:(NSString *)webId;
+
+@property (nonatomic) BOOL multiHostEnabled;
+
+//multithread needed
+- (void)updateHostSettings;
+- (BOOL)setHost:(NSString *)webId enabled:(BOOL)enabled;
+
+#pragma mark Categories
+
+
 @end
 
 NSString *const AppNeedLoadDataNotification;
 NSString *const AppNeedDataResetNotification;
+NSString *const AppNeedReloadHostSettingsNotification;
