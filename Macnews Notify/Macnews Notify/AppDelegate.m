@@ -145,6 +145,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     _persistentStoreCoordinator = nil;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedDataResetNotification object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
 }
 
 - (NSInteger)idx {
