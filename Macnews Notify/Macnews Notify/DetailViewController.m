@@ -114,21 +114,40 @@
     _tapPoint = [event locationInView:self.webView];
 }
 
+/*
+ http://stackoverflow.com/questions/1781427/what-is-mt-8-in-itunes-links-for-the-appstore
+ 1   Music
+ 2   Podcasts
+ 3   Audiobooks
+ 4   TV Shows
+ 5   Music Videos
+ 6   Movies
+ 7   iPod Games
+ 8   Mobile Software Applications
+ 9   Ringtones
+ 10  iTunes U
+ 11  E-Books
+ 12  Desktop Apps
+ */
+
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
     NSURL *url = [request URL];
-    if ([url.scheme isEqualToString:@"itmss"]) {
-        NSString *macURL = [NSString stringWithFormat:@"macappstore%@", [url.absoluteString substringFromIndex:5]];
-        NSLog(@"%@", macURL);
-        TUSafariActivity *activity = [[TUSafariActivity alloc] init];
-        UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[ [NSURL URLWithString:macURL] ] applicationActivities:@[ activity ]];
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-            [self presentViewController:activityController animated:YES completion:nil];
-        } else {
-            UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:activityController];
-            [popup presentPopoverFromRect:CGRectMake(_tapPoint.x, _tapPoint.y, 0, 0)inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    NSLog(@"%@, %@", [url host], [url query]);
+    if ([[url host] isEqualToString:@"itunes.apple.com"]) {
+        if ([[url query] isEqualToString:@"mt=12"]) {
+            NSString *macURL = [NSString stringWithFormat:@"macappstore%@", [url.absoluteString substringFromIndex:5]];
+            NSLog(@"%@", macURL);
+            TUSafariActivity *activity = [[TUSafariActivity alloc] init];
+            UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[ [NSURL URLWithString:macURL] ] applicationActivities:@[ activity ]];
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [self presentViewController:activityController animated:YES completion:nil];
+            } else {
+                UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:activityController];
+                [popup presentPopoverFromRect:CGRectMake(_tapPoint.x, _tapPoint.y, 0, 0)inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            }
+            return NO;
         }
-        return NO;
     } else if (navigationType == UIWebViewNavigationTypeLinkClicked) {
         NSLog(@"%@", url);
         _urlToPush = url;
