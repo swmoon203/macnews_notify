@@ -21,9 +21,13 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 
 @property (strong, nonatomic) NSMutableArray *hosts;
 @property (strong, readonly, nonatomic) NSDictionary *hostsMap;
+
+@property (strong, nonatomic) NSDictionary *receivedNotification;
 @end
 
-@implementation AppDelegate
+@implementation AppDelegate {
+    BOOL _enteredBackground;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
@@ -35,8 +39,6 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     [self registerDevice];
     
     self.receivedNotification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
-    
-    //[[UIApplication sharedApplication] cancelAllLocalNotifications];
     return YES;
 }
 
@@ -44,6 +46,14 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     [self saveContext];
     [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
     [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application {
+    [self handleReceivedNotification];
+    _enteredBackground = NO;
+}
+- (void)applicationDidEnterBackground:(UIApplication *)application {
+    _enteredBackground = YES;
 }
 
 #pragma mark - Split view
@@ -220,13 +230,117 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-    NSLog(@"%@", userInfo);
+/*
+    Remote Notification Event
+        Case 1: App Terminated, User tab notification to launch app
+            Event: didFinishLaunchingWithOptions: contains info (NSDictionary)
+                {
+                    UIApplicationLaunchOptionsRemoteNotificationKey: {
+                        aps: {
+                            alert: {
+                                action: "View",
+                                title: "...",
+                                body: "..."
+                            },
+                            "url-arg": [
+                                "####", <webId>
+                            ]
+                        }
+                    }
+                }
+ 
+        Case 2: App in background, User tab notification to bring app foreground
+            need to find way
+            Event: didReceiveRemoteNotification: contains info (NSDictionary)
+                {
+                    aps: {
+                        alert: {
+                            action: "View",
+                            title: "...",
+                            body: "..."
+                        },
+                        "url-arg": [
+                            "####", <webId>
+                        ]
+                    }
+                }
+ 
+        Case 3: App in foreground, Notification received
+            Event: didReceiveRemoteNotification: contains info (NSDictionary)
+                {
+                    aps: {
+                        alert: {
+                            action: "View",
+                            title: "...",
+                            body: "..."
+                        },
+                    "url-arg": [
+                        "####", <webId>
+                    ]
+                }
+ 
+ */
+
+//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+//    NSLog(@"didReceiveRemoteNotification: state: %li", application.applicationState);
+//    if (application.applicationState != UIApplicationStateBackground) {
+//        //app foreground
+//        [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
+//    } else {
+//        self.receivedNotification = userInfo;
+//    }
+//}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+    NSLog(@"didReceiveRemoteNotification: %@", userInfo);
     
-    //application.applicationState == UIApplicationStateBackground
-    [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
+    if (application.applicationState == UIApplicationStateActive) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
+    } else {
+        self.receivedNotification = userInfo;
+    }
+    NSLog(@"didReceiveRemoteNotification: state: %li", application.applicationState);
+    NSLog(@"UIApplicationStateActive: %li", UIApplicationStateActive);
+    NSLog(@"UIApplicationStateInactive: %li", UIApplicationStateInactive);
+    NSLog(@"UIApplicationStateBackground: %li", UIApplicationStateBackground);
+    
+    completionHandler(UIBackgroundFetchResultNewData);
 }
 
+- (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+    NSLog(@"performFetchWithCompletionHandler");
+    
+    completionHandler(UIBackgroundFetchResultNoData);
+}
+
+//- (void)setReceivedNotification:(NSDictionary *)receivedNotification {
+//    _receivedNotification = receivedNotification;
+//    if (_receivedNotification) {
+//        NSLog(@"Received Notification");
+//    }
+//}
+
+- (void)handleReceivedNotification {
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    if (self.receivedNotification == nil) { // || _enteredBackground == NO) {
+        self.receivedNotification = nil;
+        return;
+    }
+    UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
+    UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
+    
+    NSArray *args = self.receivedNotification[@"aps"][@"url-args"];
+    NSDictionary *item = @{ @"webId": args[1], @"arg": args[0] };
+    
+    UIViewController *viewController = [navigationController.viewControllers lastObject];
+    NSLog(@"%@", viewController);
+    while ([viewController isKindOfClass:[UINavigationController class]]) {
+        viewController = [[(UINavigationController *)viewController viewControllers] lastObject];
+    }
+    
+    [viewController performSegueWithIdentifier:@"notification" sender:item];
+    self.receivedNotification = nil;
+}
 #pragma mark - Hosts
 - (NSMutableArray *)hosts {
     if (_hosts == nil) {

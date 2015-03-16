@@ -15,7 +15,6 @@
 
 #pragma mark Remote Push
 @property (readonly, strong, nonatomic) NSString *token;
-@property (strong, nonatomic) NSDictionary *receivedNotification;
 
 - (NSString *)tempDirectory;
 

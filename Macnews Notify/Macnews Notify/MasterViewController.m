@@ -49,22 +49,32 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if (app.receivedNotification != nil) {
-    //    [self performSegueWithIdentifier:@"showDetail" sender:self];
-    }
+//    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//    if (app.receivedNotification != nil) {
+//    //    [self performSegueWithIdentifier:@"showDetail" sender:self];
+//    }
 }
 
 #pragma mark - Segues
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([@[ @"showDetail", @"showDetail2", @"notification" ] containsObject:segue.identifier] == NO) return;
+    
+    DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+    
     if ([@[ @"showDetail", @"showDetail2" ] containsObject:segue.identifier]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
         [controller setDetailItem:object];
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        controller.navigationItem.leftItemsSupplementBackButton = YES;
+        
+    } else if ([@[ @"notification" ] containsObject:segue.identifier]) {
+        [controller setDetailItem:nil];
+        NSDictionary *item = sender;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[self.app hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
+        
+        [controller setUrl:url];
     }
+    controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    controller.navigationItem.leftItemsSupplementBackButton = YES;
 }
 
 #pragma mark - Table View

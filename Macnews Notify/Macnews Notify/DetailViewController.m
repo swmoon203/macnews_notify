@@ -159,6 +159,16 @@
         DetailViewController *controller = (DetailViewController *)[segue destinationViewController];
         controller.url = _urlToPush;
         _urlToPush = nil;
+    } else if ([segue.identifier isEqualToString:@"notification"]) {
+        DetailViewController *controller = (DetailViewController *)[segue destinationViewController];
+        
+        [controller setDetailItem:nil];
+        NSDictionary *item = sender;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[self.app hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
+            
+        [controller setUrl:url];
+        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        controller.navigationItem.leftItemsSupplementBackButton = YES;
     }
 }
 

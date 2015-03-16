@@ -38,7 +38,16 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="JEX-9P-axG" kind="show" identifier="link" id="r6t-ra-Uo6"/>
+                                    <segue destination="JEX-9P-axG" kind="show" identifier="link" id="cw1-GT-QLD"/>
+                                </connections>
+                            </button>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qxv-06-EGD">
+                                <rect key="frame" x="277" y="285" width="46" height="30"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="JEX-9P-axG" kind="show" identifier="notification" id="MiX-QI-gx5"/>
                                 </connections>
                             </button>
                             <webView contentMode="scaleToFill" scalesPageToFit="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oYd-2s-bb8">
@@ -178,6 +187,9 @@ Line3</string>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="jCX-WF-hIm"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="notification" id="elE-vq-69t"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rux-fX-hf1" sceneMemberID="firstResponder"/>
             </objects>
@@ -315,7 +327,7 @@ Line3</string>
         <image name="settingIcon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="koN-OJ-ge6"/>
+        <segue reference="elE-vq-69t"/>
         <segue reference="GKi-kA-LjT"/>
     </inferredMetricsTieBreakers>
 </document>
