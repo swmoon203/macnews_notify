@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "TUSafariActivity.h"
+#import "AppDelegate.h"
 
 @interface DetailViewController () 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
@@ -21,6 +22,9 @@
 }
 
 #pragma mark - Managing the detail item
+- (AppDelegate *)app {
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
@@ -36,7 +40,8 @@
     NSURL *url = nil;
     if (self.detailItem) {
         //self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://push.smoon.kr/v1/redirect/%@/%@", [self.detailItem valueForKey:@"webId"], [self.detailItem valueForKey:@"arg"]]];
+        
+        url = [NSURL URLWithString:[NSString stringWithFormat:[self.app hostWithWebId:[self.detailItem valueForKey:@"webId"]][@"url"], [self.detailItem valueForKey:@"arg"]]];
     } else if (self.url != nil) {
         url = self.url;
     } else {
