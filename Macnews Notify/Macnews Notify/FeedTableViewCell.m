@@ -20,4 +20,11 @@
     // Configure the view for the selected state
 }
 
+- (UILabel *)textLabel {
+    return self.titleText;
+}
+
+- (UIImageView *)imageView {
+    return self.previewImage;
+}
 @end

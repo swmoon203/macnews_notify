@@ -9,7 +9,7 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 #import "AppDelegate.h"
-#import "FeedTableViewCell.h"
+#import "LazyLoadImageView.h"
 
 @implementation MasterViewController {
     BOOL _loading;
@@ -80,7 +80,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    FeedTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:([object valueForKey:@"image"] != nil ? @"Cell" : @"CellNoImage") forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:([object valueForKey:@"image"] != nil ? @"Cell" : @"CellNoImage") forIndexPath:indexPath];
     
     NSString *title = [object valueForKey:@"title"];;
     if ([[object valueForKey:@"webId"] isEqualToString:@"web.com.tistory.macnews"] == NO) {
@@ -98,7 +98,7 @@
             title = [NSString stringWithFormat:@"[%@] %@", name, title];
         }
     }
-    cell.titleText.text = title;
+    cell.textLabel.text = title;
     //cell.previewImage.hidden = YES;
     if ([object valueForKey:@"image"] != nil) {
         //cell.previewImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[object valueForKey:@"image"]]]];
@@ -277,7 +277,7 @@
             break;
             
         case NSFetchedResultsChangeUpdate:
-            [tableView reloadRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationNone];
+            [tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
             break;
             
         case NSFetchedResultsChangeMove:
