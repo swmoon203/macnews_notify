@@ -148,7 +148,7 @@
     if (_loading) return;
     _loading = YES;
     [_refreshControl beginRefreshing];
-    NSLog(@"Start Loading");
+    NSLog(@"Start Loading %li", (long)self.app.idx);
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSString *url = self.app.token != nil ? [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%@/%li", self.app.token, (long)self.app.idx] :
@@ -184,15 +184,17 @@
         }];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
+        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+        NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
+        
+        NSLog(@"Downloaded: %lu", (unsigned long)[list count]);
+        [list enumerateObjectsUsingBlock:^(NSDictionary *item, NSUInteger idx, BOOL *stop) {
+            NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+            [newManagedObject setValuesForKeysWithDictionary:item];
+        }];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-            NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
             
-            
-            [list enumerateObjectsUsingBlock:^(NSDictionary *item, NSUInteger idx, BOOL *stop) {
-                NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-                [newManagedObject setValuesForKeysWithDictionary:item];
-            }];
             
             NSError *dbError = nil;
             if (![context save:&dbError]) {
@@ -203,7 +205,7 @@
             }
             _loading = NO;
             [_refreshControl endRefreshing];
-            NSLog(@"End Loading");
+            NSLog(@"End Loading %li", (long)self.app.idx);
         });
     });
 }
