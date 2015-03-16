@@ -284,6 +284,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
             }
         }];
     }
+    [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
 }
 - (BOOL)setHost:(NSString *)webId enabled:(BOOL)enabled {
     if (self.token == nil) return NO;
