@@ -171,7 +171,7 @@ Line3</string>
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Back to the Mac" id="Zdf-7t-Un8">
-                        <barButtonItem key="leftBarButtonItem" title="설정" id="DUl-ph-d7j">
+                        <barButtonItem key="leftBarButtonItem" image="settingIcon" id="DUl-ph-d7j">
                             <connections>
                                 <segue destination="Jnb-Df-qxC" kind="show" id="4zV-yG-2s7"/>
                             </connections>
@@ -311,6 +311,9 @@ Line3</string>
             <point key="canvasLocation" x="-45" y="129"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="settingIcon" width="22" height="22"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="koN-OJ-ge6"/>
         <segue reference="GKi-kA-LjT"/>
