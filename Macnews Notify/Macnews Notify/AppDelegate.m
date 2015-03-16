@@ -241,7 +241,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
             [_hosts addObject:[NSMutableDictionary dictionaryWithDictionary:@{
                                                                    @"webId": @"web.com.tistory.macnews",
                                                                    @"title": @"Back to the Mac",
-                                                                   @"url": @"http://macnews.tistory.com/%@",
+                                                                   @"url": @"http://macnews.tistory.com/m/%@",
                                                                    @"enabled": @(_token != nil)
                                                                    }]];
             [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
