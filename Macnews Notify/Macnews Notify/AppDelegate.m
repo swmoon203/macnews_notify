@@ -281,29 +281,12 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
  
  */
 
-//- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-//    NSLog(@"didReceiveRemoteNotification: state: %li", application.applicationState);
-//    if (application.applicationState != UIApplicationStateBackground) {
-//        //app foreground
-//        [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
-//    } else {
-//        self.receivedNotification = userInfo;
-//    }
-//}
-
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
-    NSLog(@"didReceiveRemoteNotification: %@", userInfo);
-    
     if (application.applicationState == UIApplicationStateActive) {
         [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
     } else {
         self.receivedNotification = userInfo;
     }
-    NSLog(@"didReceiveRemoteNotification: state: %li", application.applicationState);
-    NSLog(@"UIApplicationStateActive: %li", UIApplicationStateActive);
-    NSLog(@"UIApplicationStateInactive: %li", UIApplicationStateInactive);
-    NSLog(@"UIApplicationStateBackground: %li", UIApplicationStateBackground);
-    
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
@@ -313,16 +296,11 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     completionHandler(UIBackgroundFetchResultNoData);
 }
 
-//- (void)setReceivedNotification:(NSDictionary *)receivedNotification {
-//    _receivedNotification = receivedNotification;
-//    if (_receivedNotification) {
-//        NSLog(@"Received Notification");
-//    }
-//}
-
 - (void)handleReceivedNotification {
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    if (self.receivedNotification == nil) { // || _enteredBackground == NO) {
+    if (self.receivedNotification == nil || _enteredBackground == NO) {
         self.receivedNotification = nil;
         return;
     }
@@ -333,7 +311,6 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     NSDictionary *item = @{ @"webId": args[1], @"arg": args[0] };
     
     UIViewController *viewController = [navigationController.viewControllers lastObject];
-    NSLog(@"%@", viewController);
     while ([viewController isKindOfClass:[UINavigationController class]]) {
         viewController = [[(UINavigationController *)viewController viewControllers] lastObject];
     }
