@@ -132,11 +132,9 @@
 
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
     NSURL *url = [request URL];
-    NSLog(@"%@, %@", [url host], [url query]);
     if ([[url host] isEqualToString:@"itunes.apple.com"]) {
-        if ([[url query] isEqualToString:@"mt=12"]) {
+        if ([[[url query] componentsSeparatedByString:@"&"] containsObject:@"mt=12"]) {
             NSString *macURL = [NSString stringWithFormat:@"macappstore%@", [url.absoluteString substringFromIndex:5]];
-            NSLog(@"%@", macURL);
             TUSafariActivity *activity = [[TUSafariActivity alloc] init];
             UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[ [NSURL URLWithString:macURL] ] applicationActivities:@[ activity ]];
             
@@ -144,12 +142,11 @@
                 [self presentViewController:activityController animated:YES completion:nil];
             } else {
                 UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:activityController];
-                [popup presentPopoverFromRect:CGRectMake(_tapPoint.x, _tapPoint.y, 0, 0)inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+                [popup presentPopoverFromRect:CGRectMake(_tapPoint.x, _tapPoint.y, 0, 0) inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
             }
             return NO;
         }
     } else if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-        NSLog(@"%@", url);
         _urlToPush = url;
         [self performSegueWithIdentifier:@"link" sender:self];
         return NO;
