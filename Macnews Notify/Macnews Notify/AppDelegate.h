@@ -17,8 +17,11 @@
 @property (readonly, strong, nonatomic) NSString *token;
 @property (strong, nonatomic) NSDictionary *receivedNotification;
 
+- (NSString *)tempDirectory;
+
 #pragma mark Core Data
 - (NSURL *)applicationDocumentsDirectory;
+
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
