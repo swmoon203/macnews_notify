@@ -41,8 +41,8 @@ static NSMutableSet *__workingSet = nil;
     });
     
     dispatch_async(__workingQueue, ^{
-        if ([__workingSet containsObject:url]) return;
-        [__workingSet addObject:url];
+//        if ([__workingSet containsObject:url]) return;
+//        [__workingSet addObject:url];
         
         dispatch_semaphore_wait(__semaphore, DISPATCH_TIME_FOREVER);
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
@@ -57,9 +57,9 @@ static NSMutableSet *__workingSet = nil;
                     });
                 }
             }
-            dispatch_sync(__workingQueue, ^{
-                [__workingSet removeObject:url];
-            });
+//            dispatch_sync(__workingQueue, ^{
+//                [__workingSet removeObject:url];
+//            });
             
             dispatch_semaphore_signal(__semaphore);
         });
