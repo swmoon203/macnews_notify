@@ -64,7 +64,7 @@
         
         _loading = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Category] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(SEC_Category, 2)] withRowAnimation:UITableViewRowAnimationFade];
         });
     });
 }
