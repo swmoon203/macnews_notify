@@ -21,6 +21,8 @@
 		A531F73F1AAAAD1700F1BAAD /* TUSafariActivity.strings in Resources */ = {isa = PBXBuildFile; fileRef = A531F73D1AAAAD1700F1BAAD /* TUSafariActivity.strings */; };
 		A531F7541AAAAD6900F1BAAD /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */; };
 		A5F941D81AB15CCA005DA87D /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F941D71AB15CCA005DA87D /* FeedTableViewCell.m */; };
+		A5F941DB1AB5C48D005DA87D /* LazyLoadImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F941DA1AB5C48D005DA87D /* LazyLoadImageView.m */; };
+		A5F941DE1AB64D50005DA87D /* NSString+Hashes.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F941DD1AB64D50005DA87D /* NSString+Hashes.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +80,10 @@
 		A5C419121AACD73800BDA124 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A5F941D61AB15CCA005DA87D /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		A5F941D71AB15CCA005DA87D /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
+		A5F941D91AB5C48D005DA87D /* LazyLoadImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LazyLoadImageView.h; sourceTree = "<group>"; };
+		A5F941DA1AB5C48D005DA87D /* LazyLoadImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LazyLoadImageView.m; sourceTree = "<group>"; };
+		A5F941DC1AB64D50005DA87D /* NSString+Hashes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Hashes.h"; sourceTree = "<group>"; };
+		A5F941DD1AB64D50005DA87D /* NSString+Hashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hashes.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +180,10 @@
 				A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */,
 				A5013D411AAC8786000B585F /* NSString+URL.h */,
 				A5013D421AAC8786000B585F /* NSString+URL.m */,
+				A5F941DC1AB64D50005DA87D /* NSString+Hashes.h */,
+				A5F941DD1AB64D50005DA87D /* NSString+Hashes.m */,
+				A5F941D91AB5C48D005DA87D /* LazyLoadImageView.h */,
+				A5F941DA1AB5C48D005DA87D /* LazyLoadImageView.m */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -308,11 +318,13 @@
 				A531F6CA1AAAA09500F1BAAD /* DetailViewController.m in Sources */,
 				A5F941D81AB15CCA005DA87D /* FeedTableViewCell.m in Sources */,
 				A531F7541AAAAD6900F1BAAD /* TUSafariActivity.m in Sources */,
+				A5F941DE1AB64D50005DA87D /* NSString+Hashes.m in Sources */,
 				A531F6C71AAAA09500F1BAAD /* MasterViewController.m in Sources */,
 				A5013D3C1AAC20CD000B585F /* SettingViewController.m in Sources */,
 				A531F6C11AAAA09500F1BAAD /* AppDelegate.m in Sources */,
 				A531F6C41AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld in Sources */,
 				A531F6BE1AAAA09500F1BAAD /* main.m in Sources */,
+				A5F941DB1AB5C48D005DA87D /* LazyLoadImageView.m in Sources */,
 				A5013D431AAC8786000B585F /* NSString+URL.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

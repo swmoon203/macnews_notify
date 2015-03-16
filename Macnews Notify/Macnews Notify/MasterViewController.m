@@ -102,6 +102,8 @@
     //cell.previewImage.hidden = YES;
     if ([object valueForKey:@"image"] != nil) {
         //cell.previewImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[object valueForKey:@"image"]]]];
+        
+        [(LazyLoadImageView *)cell.imageView setUrl:[object valueForKey:@"image"]];
     }
     return cell;
 }
