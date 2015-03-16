@@ -11,6 +11,6 @@
 @interface DetailViewController : UIViewController <UIWebViewDelegate, UIGestureRecognizerDelegate>
 
 @property (strong, nonatomic) id detailItem;
-
+@property (strong, nonatomic) NSURL *url;
 @end
 

@@ -8,6 +8,7 @@
 
 #import "DetailViewController.h"
 #import "TUSafariActivity.h"
+#import "AppDelegate.h"
 
 @interface DetailViewController () 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
@@ -17,9 +18,13 @@
 @implementation DetailViewController {
     CGPoint _tapPoint;
     UIRefreshControl *_refreshControl;
+    NSURL *_urlToPush;
 }
 
 #pragma mark - Managing the detail item
+- (AppDelegate *)app {
+    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+}
 
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
@@ -35,10 +40,12 @@
     NSURL *url = nil;
     if (self.detailItem) {
         //self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://push.smoon.kr/v1/redirect/%@/%@", [self.detailItem valueForKey:@"webId"], [self.detailItem valueForKey:@"arg"]]];
+        
+        url = [NSURL URLWithString:[NSString stringWithFormat:[self.app hostWithWebId:[self.detailItem valueForKey:@"webId"]][@"url"], [self.detailItem valueForKey:@"arg"]]];
+    } else if (self.url != nil) {
+        url = self.url;
     } else {
         url = [NSURL URLWithString:@"http://macnews.tistory.com/m/"];
-        self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Home" style:UIBarButtonItemStylePlain target:self action:@selector(onHome)];
     }
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
     [_refreshControl beginRefreshing];
@@ -107,24 +114,62 @@
     _tapPoint = [event locationInView:self.webView];
 }
 
+/*
+ http://stackoverflow.com/questions/1781427/what-is-mt-8-in-itunes-links-for-the-appstore
+ 1   Music
+ 2   Podcasts
+ 3   Audiobooks
+ 4   TV Shows
+ 5   Music Videos
+ 6   Movies
+ 7   iPod Games
+ 8   Mobile Software Applications
+ 9   Ringtones
+ 10  iTunes U
+ 11  E-Books
+ 12  Desktop Apps
+ */
+
 - (BOOL)webView:(UIWebView*)webView shouldStartLoadWithRequest:(NSURLRequest*)request navigationType:(UIWebViewNavigationType)navigationType {
     NSURL *url = [request URL];
-    if ([url.scheme isEqualToString:@"itmss"]) {
-        NSString *macURL = [NSString stringWithFormat:@"macappstore%@", [url.absoluteString substringFromIndex:5]];
-        NSLog(@"%@", macURL);
-        TUSafariActivity *activity = [[TUSafariActivity alloc] init];
-        UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[ [NSURL URLWithString:macURL] ] applicationActivities:@[ activity ]];
-        
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-            [self presentViewController:activityController animated:YES completion:nil];
-        } else {
-            UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:activityController];
-            [popup presentPopoverFromRect:CGRectMake(_tapPoint.x, _tapPoint.y, 0, 0)inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+    if ([[url host] isEqualToString:@"itunes.apple.com"]) {
+        if ([[[url query] componentsSeparatedByString:@"&"] containsObject:@"mt=12"]) {
+            NSString *macURL = [NSString stringWithFormat:@"macappstore%@", [url.absoluteString substringFromIndex:5]];
+            TUSafariActivity *activity = [[TUSafariActivity alloc] init];
+            UIActivityViewController *activityController = [[UIActivityViewController alloc] initWithActivityItems:@[ [NSURL URLWithString:macURL] ] applicationActivities:@[ activity ]];
+            
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                [self presentViewController:activityController animated:YES completion:nil];
+            } else {
+                UIPopoverController *popup = [[UIPopoverController alloc] initWithContentViewController:activityController];
+                [popup presentPopoverFromRect:CGRectMake(_tapPoint.x, _tapPoint.y, 0, 0) inView:self.webView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+            }
+            return NO;
         }
+    } else if (navigationType == UIWebViewNavigationTypeLinkClicked) {
+        _urlToPush = url;
+        [self performSegueWithIdentifier:@"link" sender:self];
         return NO;
     }
     return YES;
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([[segue identifier] isEqualToString:@"link"]) {
+        DetailViewController *controller = (DetailViewController *)[segue destinationViewController];
+        controller.url = _urlToPush;
+        _urlToPush = nil;
+    } else if ([segue.identifier isEqualToString:@"notification"]) {
+        DetailViewController *controller = (DetailViewController *)[segue destinationViewController];
+        
+        [controller setDetailItem:nil];
+        NSDictionary *item = sender;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[self.app hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
+            
+        [controller setUrl:url];
+        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        controller.navigationItem.leftItemsSupplementBackButton = YES;
+    }
+}
 
 @end
