@@ -315,6 +315,8 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
         viewController = [[(UINavigationController *)viewController viewControllers] lastObject];
     }
     
+    
+    
     [viewController performSegueWithIdentifier:@"notification" sender:item];
     self.receivedNotification = nil;
 }
@@ -353,6 +355,10 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 }
 - (NSMutableDictionary *)hostWithWebId:(NSString *)webId {
     return self.hostsMap[webId];
+}
+- (void)saveHosts {
+    [[NSUserDefaults standardUserDefaults] setObject:self.hosts forKey:@"hosts"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)setMultiHostEnabled:(BOOL)multiHostEnabled {
@@ -407,6 +413,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     
     if (response.statusCode == 200) {
         self.hostsMap[webId][@"enabled"] = @(enabled);
+        [self saveHosts];
         return YES;
     }
     return NO;
