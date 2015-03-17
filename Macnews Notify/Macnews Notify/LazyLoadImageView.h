@@ -11,3 +11,5 @@
 @interface LazyLoadImageView : UIImageView
 @property (strong, nonatomic) NSString *url;
 @end
+
+NSString *const LazyLoadImageViewNotification;
