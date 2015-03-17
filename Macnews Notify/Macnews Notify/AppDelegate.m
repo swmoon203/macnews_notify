@@ -37,7 +37,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     splitViewController.delegate = self;
     
     [self registerDevice];
-    
+    _enteredBackground = YES;
     self.receivedNotification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
     return YES;
 }
