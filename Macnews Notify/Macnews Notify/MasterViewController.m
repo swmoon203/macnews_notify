@@ -16,6 +16,7 @@
     UIRefreshControl *_refreshControl;
     NSDictionary *_hostTitles;
     BOOL _archived;
+    NSMutableDictionary *_imageMap;
 }
 
 - (AppDelegate *)app {
@@ -34,6 +35,8 @@
     [super viewDidLoad];
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
+    _imageMap = [NSMutableDictionary dictionary];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromServer) name:AppNeedLoadDataNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromServer) name:UIApplicationWillEnterForegroundNotification object:nil];
@@ -42,6 +45,30 @@
                                                   usingBlock:^(NSNotification *note) {
                                                       self.fetchedResultsController = nil;
                                                       [self.tableView reloadData];
+                                                  }];
+    [[NSNotificationCenter defaultCenter] addObserverForName:LazyLoadImageViewNotification
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      NSIndexPath *indexPath = _imageMap[note.userInfo[@"url"]];
+                                                      if (indexPath == nil) return;
+                                                      NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+                                                      
+                                                      if ([object valueForKey:@"imageData"] != nil) return;
+                                                      
+                                                      [_imageMap removeObjectForKey:note.userInfo[@"url"]];
+                                                      if (note.userInfo[@"imageData"] == nil) return;
+                                                      
+                                                      [object setValue:note.userInfo[@"imageData"] forKey:@"imageData"];
+                                                      
+                                                      NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+                                                      NSError *dbError = nil;
+                                                      if (![context save:&dbError]) {
+                                                          // Replace this implementation with code to handle the error appropriately.
+                                                          // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                                                          NSLog(@"Unresolved error %@, %@", dbError, [dbError userInfo]);
+                                                          abort();
+                                                      }
                                                   }];
     
     _refreshControl = [[UIRefreshControl alloc] init];
@@ -114,7 +141,19 @@
     if ([object valueForKey:@"image"] != nil) {
         //cell.previewImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[object valueForKey:@"image"]]]];
         
-        [(LazyLoadImageView *)cell.imageView setUrl:[object valueForKey:@"image"]];
+        if ([object valueForKey:@"imageData"] == nil && _imageMap[[object valueForKey:@"image"]] == nil) {
+            _imageMap[[object valueForKey:@"image"]] = indexPath;
+            [(LazyLoadImageView *)cell.imageView setUrl:[object valueForKey:@"image"]];
+        } else {
+            [(LazyLoadImageView *)cell.imageView setUrl:nil];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                NSData *data = [object valueForKey:@"imageData"];
+                UIImage *image = [UIImage imageWithData:data];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.imageView.image = image;
+                });
+            });
+        }
     }
     return cell;
 }
@@ -223,7 +262,7 @@
             if (![context save:&dbError]) {
                 // Replace this implementation with code to handle the error appropriately.
                 // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                NSLog(@"Unresolved error %@, %@", dbError, [dbError userInfo]);
                 abort();
             }
             _loading = NO;
