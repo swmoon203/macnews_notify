@@ -175,7 +175,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
     
     if (settings.types == UIUserNotificationTypeNone) {
-        UIUserNotificationType types = UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+        UIUserNotificationType types = UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge;
         UIUserNotificationSettings *notifSettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
         
         [[UIApplication sharedApplication] registerUserNotificationSettings:notifSettings];
