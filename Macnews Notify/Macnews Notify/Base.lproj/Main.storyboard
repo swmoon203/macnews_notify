@@ -302,6 +302,9 @@ Line3</string>
                             <outlet property="delegate" destination="Jnb-Df-qxC" id="Kum-A3-sWK"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="notification" id="91F-bu-JiU"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t4K-EC-s2y" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -327,7 +330,7 @@ Line3</string>
         <image name="settingIcon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="elE-vq-69t"/>
+        <segue reference="91F-bu-JiU"/>
         <segue reference="GKi-kA-LjT"/>
     </inferredMetricsTieBreakers>
 </document>

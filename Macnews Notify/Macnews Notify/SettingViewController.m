@@ -9,6 +9,7 @@
 #import "SettingViewController.h"
 #import "AppDelegate.h"
 #import "NSString+URL.h"
+#import "DetailViewController.h"
 
 #define SEC_Category 0
 #define SEC_Subscription 1
@@ -254,6 +255,20 @@
         [popup presentPopoverFromRect:self.view.frame inView:self.view permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
     }
 }
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+    
+    if ([@[ @"notification" ] containsObject:segue.identifier]) {
+        [controller setDetailItem:nil];
+        NSDictionary *item = sender;
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[self.app hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
+        
+        [controller setUrl:url];
+    }
+    controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    controller.navigationItem.leftItemsSupplementBackButton = YES;
+}
+
 
 
 @end
