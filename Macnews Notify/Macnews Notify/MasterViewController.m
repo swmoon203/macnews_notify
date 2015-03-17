@@ -15,6 +15,7 @@
     BOOL _loading;
     UIRefreshControl *_refreshControl;
     NSDictionary *_hostTitles;
+    BOOL _archived;
 }
 
 - (AppDelegate *)app {
@@ -146,15 +147,26 @@
     UITableViewRowAction *archive = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
                                                                        title:@"저장"
                                                                      handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-                                         NSLog(@"Action to perform with Button2!");
+                                                                         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+                                                                         id item = [self.fetchedResultsController objectAtIndexPath:indexPath];
+                                                                         [item setValue:@YES forKey:@"archived"];
+                                                                         NSError *error = nil;
+                                                                         if (![context save:&error]) {
+                                                                             // Replace this implementation with code to handle the error appropriately.
+                                                                             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                                                                             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                                                             abort();
+                                                                         }
+                                                                         
                                      }];
     //button2.backgroundColor = [UIColor greenColor]; //arbitrary color
     
-    return @[ delete, archive ]; //array with all the buttons you want. 1,2,3, etc...
+    return _archived ? @[ delete] : @[ delete, archive ]; //array with all the buttons you want. 1,2,3, etc...
 }
 
 #pragma mark - Data
 - (void)loadDataFromServer {
+    assert([NSThread isMainThread]);
     if (_loading) return;
     _loading = YES;
     [_refreshControl beginRefreshing];
@@ -201,6 +213,7 @@
         [list enumerateObjectsUsingBlock:^(NSDictionary *item, NSUInteger idx, BOOL *stop) {
             NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
             [newManagedObject setValuesForKeysWithDictionary:item];
+            [newManagedObject setValue:@NO forKey:@"archived"];
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -227,31 +240,18 @@
 
 - (NSFetchedResultsController *)fetchedResultsController {
     if (_fetchedResultsController != nil) return _fetchedResultsController;
+    [NSFetchedResultsController deleteCacheWithName:@"Master"];
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Notification" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    // Set the batch size to a suitable number.
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
     [fetchRequest setFetchBatchSize:20];
+    [fetchRequest setSortDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"idx" ascending:NO] ]];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"archived == %@", @(_archived)]];
     
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"idx" ascending:NO];
-    NSArray *sortDescriptors = @[sortDescriptor];
-    
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    self.fetchedResultsController.delegate = self;
     
 	NSError *error = nil;
 	if (![self.fetchedResultsController performFetch:&error]) {
-	     // Replace this implementation with code to handle the error appropriately.
-	     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
 	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
@@ -305,14 +305,18 @@
     [self.tableView endUpdates];
 }
 
-/*
-// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
- 
- - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    // In the simplest, most efficient, case, reload the table view.
+- (IBAction)onSegmentedChange:(UISegmentedControl *)sender {
+    _archived = sender.selectedSegmentIndex == 1;
+    
+    [NSFetchedResultsController deleteCacheWithName:@"Master"];
+    
+    [self.fetchedResultsController.fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"archived == %@", @(_archived)]];
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
     [self.tableView reloadData];
 }
- */
 
 @end

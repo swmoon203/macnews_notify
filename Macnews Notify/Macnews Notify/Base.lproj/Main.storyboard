@@ -5,10 +5,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Master-->
+        <!--Navigation Controller-->
         <scene sceneID="pY4-Hu-kfo">
             <objects>
-                <navigationController title="Master" id="RMx-3f-FxP" sceneMemberID="viewController">
+                <navigationController id="RMx-3f-FxP" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" clipsSubviews="YES" contentMode="scaleToFill" id="Pmd-2v-anx">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -96,14 +96,37 @@
             </objects>
             <point key="canvasLocation" x="-856" y="-330"/>
         </scene>
-        <!--Master-->
+        <!--Back to the Mac-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
-                <tableViewController title="Master" clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" sceneMemberID="viewController">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="80" sectionHeaderHeight="22" sectionFooterHeight="22" id="r7i-6Z-zg0">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="dre-89-MEp">
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZZe-Ae-nIo">
+                                    <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                    <segments>
+                                        <segment title="List"/>
+                                        <segment title="Archive"/>
+                                    </segments>
+                                    <connections>
+                                        <action selector="onSegmentedChange:" destination="7bK-jq-Zjz" eventType="valueChanged" id="kDp-OD-cBy"/>
+                                    </connections>
+                                </segmentedControl>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <constraints>
+                                <constraint firstItem="ZZe-Ae-nIo" firstAttribute="leading" secondItem="dre-89-MEp" secondAttribute="leadingMargin" id="27v-9h-jF2"/>
+                                <constraint firstItem="ZZe-Ae-nIo" firstAttribute="trailing" secondItem="dre-89-MEp" secondAttribute="trailingMargin" id="NPZ-ui-roE"/>
+                                <constraint firstItem="ZZe-Ae-nIo" firstAttribute="bottom" secondItem="dre-89-MEp" secondAttribute="bottomMargin" id="fbt-ds-jMA"/>
+                                <constraint firstItem="ZZe-Ae-nIo" firstAttribute="top" secondItem="dre-89-MEp" secondAttribute="top" constant="7" id="lN5-Vj-OdZ"/>
+                            </constraints>
+                        </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="WCw-Qf-5nD" customClass="FeedTableViewCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
@@ -185,7 +208,6 @@ Line3</string>
                                 <segue destination="Jnb-Df-qxC" kind="show" id="4zV-yG-2s7"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="jCX-WF-hIm"/>
                     </navigationItem>
                     <connections>
                         <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="notification" id="elE-vq-69t"/>
@@ -330,7 +352,7 @@ Line3</string>
         <image name="settingIcon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="91F-bu-JiU"/>
+        <segue reference="koN-OJ-ge6"/>
         <segue reference="GKi-kA-LjT"/>
     </inferredMetricsTieBreakers>
 </document>
