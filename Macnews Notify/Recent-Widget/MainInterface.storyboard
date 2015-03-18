@@ -30,10 +30,12 @@ Line1</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="8Et-5B-adL" userLabel="Body Line1 Line2">
-                                <rect key="frame" x="106" y="44" width="198" height="76"/>
+                                <rect key="frame" x="106" y="40" width="198" height="80"/>
                                 <string key="text">Body
 Line1
-Line2</string>
+Line2
+Line3
+Line4</string>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleFootnote"/>
                                 <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -47,7 +49,7 @@ Line2</string>
                             <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="8Et-5B-adL" secondAttribute="bottom" id="AKc-mb-Hph"/>
                             <constraint firstAttribute="trailingMargin" secondItem="8Et-5B-adL" secondAttribute="trailing" id="OnM-1I-Wf2"/>
                             <constraint firstAttribute="trailingMargin" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="-6" id="W7C-fR-0a7"/>
-                            <constraint firstItem="8Et-5B-adL" firstAttribute="top" secondItem="GcN-lo-r42" secondAttribute="bottom" constant="12" id="fd9-ni-f5L"/>
+                            <constraint firstItem="8Et-5B-adL" firstAttribute="top" secondItem="GcN-lo-r42" secondAttribute="bottom" constant="8" id="fd9-ni-f5L"/>
                             <constraint firstItem="8Et-5B-adL" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" constant="90" id="m1D-HH-DCP"/>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="zJ1-nc-YEr"/>
                         </constraints>
