@@ -323,11 +323,17 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     while ([viewController isKindOfClass:[UINavigationController class]]) {
         viewController = [[(UINavigationController *)viewController viewControllers] lastObject];
     }
-    
-    
-    
+
     [viewController performSegueWithIdentifier:@"notification" sender:item];
     self.receivedNotification = nil;
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    NSLog(@"openURL:%@", url);
+    
+    self.receivedNotification = @{ @"aps": @{ @"url-args": @[ url.query, url.host ] } };
+    
+    return YES;
 }
 #pragma mark - Hosts
 - (NSMutableArray *)hosts {
