@@ -198,7 +198,9 @@
 }
 - (IBAction)onTap:(id)sender {
     NSLog(@"onTap");
-    //[self.extensionContext openURL:<#(NSURL *)#> completionHandler:<#^(BOOL success)completionHandler#>]
+    
+    NSURL *url = [NSURL URLWithString:@"http://google.com"];
+    [self.extensionContext openURL:url completionHandler:nil];
 }
 
 @end

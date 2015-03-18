@@ -44,6 +44,7 @@ Line4</string>
                                 <rect key="frame" x="16" y="46" width="72" height="72"/>
                             </imageView>
                         </subviews>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="8" id="03M-oK-E5L"/>
                             <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="8Et-5B-adL" secondAttribute="bottom" id="AKc-mb-Hph"/>
@@ -53,6 +54,9 @@ Line4</string>
                             <constraint firstItem="8Et-5B-adL" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" constant="90" id="m1D-HH-DCP"/>
                             <constraint firstItem="GcN-lo-r42" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="zJ1-nc-YEr"/>
                         </constraints>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="mvr-ob-YCH" appends="YES" id="9It-on-F4m"/>
+                        </connections>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -67,6 +71,11 @@ Line4</string>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vXp-U4-Rya" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="mvr-ob-YCH">
+                    <connections>
+                        <action selector="onTap:" destination="M4Y-Lb-cyx" id="w63-Mb-eJK"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="516" y="286"/>
         </scene>
