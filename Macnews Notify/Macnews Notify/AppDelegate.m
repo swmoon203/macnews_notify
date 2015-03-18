@@ -44,8 +44,8 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     [self saveContext];
-    [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.userDefaults setObject:_hosts forKey:@"hosts"];
+    [self.userDefaults synchronize];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -161,14 +161,20 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
 }
 
+@synthesize userDefaults=_userDefaults;
+- (NSUserDefaults *)userDefaults {
+    if (_userDefaults) return _userDefaults;
+    return (_userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.kr.smoon.ios.macnews"]);
+}
+
 - (NSInteger)idx {
-    return [[NSUserDefaults standardUserDefaults] integerForKey:@"idx"];
+    return [self.userDefaults integerForKey:@"idx"];
 }
 - (void)setIdx:(NSInteger)idx {
-    [[NSUserDefaults standardUserDefaults] setInteger:idx forKey:@"idx"];
+    [self.userDefaults setInteger:idx forKey:@"idx"];
 }
 - (void)resetIdx {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"idx"];
+    [self.userDefaults removeObjectForKey:@"idx"];
 }
 
 #pragma mark - Notification
@@ -183,7 +189,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
         
         [[UIApplication sharedApplication] registerUserNotificationSettings:notifSettings];
         
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"] != nil) [self afterRegistration:nil];
+        if ([self.userDefaults objectForKey:@"deviceToken"] != nil) [self afterRegistration:nil];
     }
 }
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
@@ -192,7 +198,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"defaultHost"] == nil) {
+    if ([self.userDefaults objectForKey:@"defaultHost"] == nil) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             NSString *url = [NSString stringWithFormat:@"https://push.smoon.kr/v1/devices/%@/registrations/ios.com.tistory.macnews", token];
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -202,7 +208,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
             NSError *error = nil;
             [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
             
-            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"defaultHost"];
+            [self.userDefaults setBool:YES forKey:@"defaultHost"];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self afterRegistration:token];
@@ -217,7 +223,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 }
 
 - (void)afterRegistration:(NSString *)token {
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *ud = self.userDefaults;
     NSString *key = @"deviceToken";
     
     if (token != nil && [[ud objectForKey:key] isEqualToString:token] == NO) {
@@ -328,7 +334,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     if (_hosts == nil) {
         _hosts = [NSMutableArray array];
         
-        NSArray *hosts = [[NSUserDefaults standardUserDefaults] objectForKey:@"hosts"];
+        NSArray *hosts = [self.userDefaults objectForKey:@"hosts"];
         [hosts enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
             [_hosts addObject:[NSMutableDictionary dictionaryWithDictionary:obj]];
         }];
@@ -340,7 +346,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
                                                                    @"url": @"http://macnews.tistory.com/m/%@",
                                                                    @"enabled": @(_token != nil)
                                                                    }]];
-            [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
+            [self.userDefaults setObject:_hosts forKey:@"hosts"];
         }
     }
     return _hosts;
@@ -360,15 +366,15 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     return self.hostsMap[webId];
 }
 - (void)saveHosts {
-    [[NSUserDefaults standardUserDefaults] setObject:self.hosts forKey:@"hosts"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self.userDefaults setObject:self.hosts forKey:@"hosts"];
+    [self.userDefaults synchronize];
 }
 
 - (void)setMultiHostEnabled:(BOOL)multiHostEnabled {
-    [[NSUserDefaults standardUserDefaults] setBool:multiHostEnabled forKey:@"multiHostEnabled"];
+    [self.userDefaults setBool:multiHostEnabled forKey:@"multiHostEnabled"];
 }
 - (BOOL)multiHostEnabled {
-    return [[NSUserDefaults standardUserDefaults] boolForKey:@"multiHostEnabled"];
+    return [self.userDefaults boolForKey:@"multiHostEnabled"];
 }
 
 - (void)updateHostSettings {
@@ -396,7 +402,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
             }
         }];
     }
-    [[NSUserDefaults standardUserDefaults] setObject:_hosts forKey:@"hosts"];
+    [self.userDefaults setObject:_hosts forKey:@"hosts"];
 }
 - (BOOL)setHost:(NSString *)webId enabled:(BOOL)enabled {
     if (self.token == nil) return NO;

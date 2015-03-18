@@ -27,6 +27,8 @@
 - (void)saveContext;
 - (void)resetContext;
 
+@property (strong, nonatomic, readonly) NSUserDefaults *userDefaults;
+
 @property (nonatomic) NSInteger idx;
 - (void)resetIdx;
 
