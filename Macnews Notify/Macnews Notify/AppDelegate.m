@@ -39,6 +39,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     [self registerDevice];
     _enteredBackground = YES;
     self.receivedNotification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
+    [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
     return YES;
 }
 
@@ -300,9 +301,72 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 }
 
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
-    NSLog(@"performFetchWithCompletionHandler");
+    NSLog(@"performFetchWithCompletionHandler %i", [NSThread isMainThread]);
     
-    completionHandler(UIBackgroundFetchResultNoData);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSString *url = self.token != nil ? [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%@/%li", self.token, (long)self.idx] :
+        [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%li", (long)self.idx];
+        
+        NSURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+        NSURLResponse *response = nil;
+        NSError *error = nil, *errorJson = nil;
+        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+        
+        if ([(NSHTTPURLResponse *)response statusCode] != 200) {
+            completionHandler(UIBackgroundFetchResultNoData);
+            return;
+        }
+        
+        NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
+        NSMutableArray *list = [NSMutableArray array];
+        [json enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:obj];
+            item[@"reg"] = [NSDate dateWithTimeIntervalSince1970:[item[@"reg"] intValue]];
+            NSDictionary *apn = [NSJSONSerialization JSONObjectWithData:[item[@"contents"] dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+            apn = apn[@"apn"];
+            item[@"title"] = apn[@"title"];
+            if (apn[@"image"]) item[@"image"] = apn[@"image"];
+            if ([apn[@"url-args"] count] > 0) item[@"arg"] = apn[@"url-args"][0];
+            [list addObject:item];
+        }];
+        
+        NSLog(@"%@", list);
+        
+        if ([list count] > 0) {          
+            NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
+            NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+            
+            NSError *error = nil;
+            if (![fetchedResultsController performFetch:&error]) {
+                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                abort();
+            }
+
+            
+            NSManagedObjectContext *context = [fetchedResultsController managedObjectContext];
+            NSEntityDescription *entity = [[fetchedResultsController fetchRequest] entity];
+            
+            NSLog(@"Downloaded: %lu", (unsigned long)[list count]);
+            [list enumerateObjectsUsingBlock:^(NSDictionary *item, NSUInteger idx, BOOL *stop) {
+                NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
+                [newManagedObject setValuesForKeysWithDictionary:item];
+                [newManagedObject setValue:@NO forKey:@"archived"];
+                self.idx = MAX(self.idx, [item[@"idx"] integerValue]);
+                [self.userDefaults synchronize];
+            }];
+            NSError *dbError = nil;
+            if (![context save:&dbError]) {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                NSLog(@"Unresolved error %@, %@", dbError, [dbError userInfo]);
+                abort();
+            }
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandler(UIBackgroundFetchResultNewData);
+        });
+    });
 }
 
 - (void)handleReceivedNotification {

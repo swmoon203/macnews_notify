@@ -233,9 +233,7 @@
             if (apn[@"image"]) item[@"image"] = apn[@"image"];
             if ([apn[@"url-args"] count] > 0) item[@"arg"] = apn[@"url-args"][0];
             [list addObject:item];
-            self.app.idx = MAX(self.app.idx, [item[@"idx"] integerValue]);
         }];
-        [self.app.userDefaults synchronize];
         
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
         NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
@@ -245,6 +243,8 @@
             NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
             [newManagedObject setValuesForKeysWithDictionary:item];
             [newManagedObject setValue:@NO forKey:@"archived"];
+            self.app.idx = MAX(self.app.idx, [item[@"idx"] integerValue]);
+            [self.app.userDefaults synchronize];
         }];
         
         dispatch_async(dispatch_get_main_queue(), ^{
