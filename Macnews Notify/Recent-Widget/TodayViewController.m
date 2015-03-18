@@ -197,9 +197,11 @@
     completionHandler([self updateData] ? NCUpdateResultNewData : NCUpdateResultNoData);
 }
 - (IBAction)onTap:(id)sender {
-    NSLog(@"onTap");
+    if ([[self.fetchedResultsController sections][0] numberOfObjects] == 0) return;
     
-    NSURL *url = [NSURL URLWithString:@"http://google.com"];
+    id item = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"macnews://%@?%@", [item valueForKey:@"webId"], [item valueForKey:@"arg"]]];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 
