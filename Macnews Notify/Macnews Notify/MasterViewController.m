@@ -14,7 +14,6 @@
 @implementation MasterViewController {
     BOOL _loading;
     UIRefreshControl *_refreshControl;
-    NSDictionary *_hostTitles;
     BOOL _archived;
     NSMutableDictionary *_imageMap;
 }
@@ -122,17 +121,10 @@
     
     NSString *title = [object valueForKey:@"title"];;
     if ([[object valueForKey:@"webId"] isEqualToString:@"web.com.tistory.macnews"] == NO) {
-        if (_hostTitles == nil) {
-            NSMutableDictionary *h = [NSMutableDictionary dictionary];
-            NSArray *hosts = (NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:@"hosts"];
-            [hosts enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-                h[obj[@"webId"]] = obj[@"title"];
-            }];
-            _hostTitles = h;
-        }
+        
  
-        if (_hostTitles[[object valueForKey:@"webId"]] != nil) {
-            NSString *name = _hostTitles[[object valueForKey:@"webId"]];
+        if ([self.app hostWithWebId:[object valueForKey:@"webId"]] != nil) {
+            NSString *name = [self.app hostWithWebId:[object valueForKey:@"webId"]][@"title"];
             title = [NSString stringWithFormat:@"[%@] %@", name, title];
         }
     }
@@ -243,7 +235,7 @@
             [list addObject:item];
             self.app.idx = MAX(self.app.idx, [item[@"idx"] integerValue]);
         }];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self.app.userDefaults synchronize];
         
         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
         NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
