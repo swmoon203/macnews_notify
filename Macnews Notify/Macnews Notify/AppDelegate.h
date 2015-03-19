@@ -13,41 +13,7 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-#pragma mark Remote Push
-@property (readonly, strong, nonatomic) NSString *token;
-
-- (NSString *)tempDirectory;
-
-#pragma mark Core Data
-- (NSURL *)applicationDocumentsDirectory;
-
-
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
-- (void)saveContext;
-- (void)resetContext;
-
-@property (strong, nonatomic, readonly) NSUserDefaults *userDefaults;
-
-@property (nonatomic) NSInteger idx;
-- (void)resetIdx;
-
-#pragma mark Hosts
-- (NSInteger)numberOfHosts;
-- (NSMutableDictionary *)hostAtIndex:(NSInteger)row; //{ title, webId, enabled, sites }
-- (NSMutableDictionary *)hostWithWebId:(NSString *)webId;
-
-@property (nonatomic) BOOL multiHostEnabled;
-
-//multithread needed
-- (void)updateHostSettings;
-- (BOOL)setHost:(NSString *)webId enabled:(BOOL)enabled;
-
-#pragma mark Categories
-
-
 @end
 
 NSString *const AppNeedLoadDataNotification;
-NSString *const AppNeedDataResetNotification;
 NSString *const AppNeedReloadHostSettingsNotification;

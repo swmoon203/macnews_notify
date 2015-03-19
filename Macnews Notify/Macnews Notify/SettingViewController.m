@@ -7,9 +7,9 @@
 //
 
 #import "SettingViewController.h"
-#import "AppDelegate.h"
 #import "NSString+URL.h"
 #import "DetailViewController.h"
+#import "DataStore.h"
 
 #define SEC_Category 0
 #define SEC_Subscription 1
@@ -18,24 +18,16 @@
 
 #define SECTION_COUNT 3
 
-@interface SettingViewController ()
-@property (strong, readonly, nonatomic) AppDelegate *app;
-@end
-
 @implementation SettingViewController {
     NSDictionary *_catagories;
     BOOL _loading;
-}
-
-- (AppDelegate *)app {
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     
-    if (_catagories == nil && self.app.token != nil) {
+    if (_catagories == nil && [DataStore sharedData].token != nil) {
         [self loadCatagoryList];
     }
     
@@ -51,7 +43,7 @@
 - (void)loadCatagoryList {
     _loading = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSString *url = [NSString stringWithFormat:@"https://push.smoon.kr/setting/ios.com.tistory.macnews/%@", self.app.token];
+        NSString *url = [NSString stringWithFormat:@"https://push.smoon.kr/setting/ios.com.tistory.macnews/%@", [DataStore sharedData].token];
         
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
         NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
@@ -61,7 +53,7 @@
         }
         
         
-        [self.app updateHostSettings];
+        [[DataStore sharedData] updateHostSettings];
         
         _loading = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -70,14 +62,14 @@
     });
 }
 - (void)enableMultiHosts {
-    if (self.app.multiHostEnabled) return;
+    if ([DataStore sharedData].multiHostEnabled) return;
     
-    self.app.multiHostEnabled = YES;
+    [DataStore sharedData].multiHostEnabled = YES;
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSInteger count = [self.app numberOfHosts];
-        [self.app updateHostSettings];
+        NSInteger count = [[DataStore sharedData] numberOfHosts];
+        [[DataStore sharedData] updateHostSettings];
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (count == [self.app numberOfHosts]) {
+            if (count == [[DataStore sharedData] numberOfHosts]) {
                 [self.tableView reloadData];
             } else {
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Subscription] withRowAnimation:UITableViewRowAnimationFade];
@@ -98,7 +90,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (section) {
         case SEC_Category: return _catagories != nil ? [_catagories[@"categories"] count] : 1;
-        case SEC_Subscription: return [self.app numberOfHosts];
+        case SEC_Subscription: return [[DataStore sharedData] numberOfHosts];
         case SEC_Reset: return 1;
         case SEC_Info: return 0;
     }
@@ -106,9 +98,9 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == SEC_Category && _catagories == nil) {
-        UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:_loading ? @"loading" : (self.app.token != nil ? @"error" : @"needToken") forIndexPath:indexPath];
+        UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:_loading ? @"loading" : ([DataStore sharedData].token != nil ? @"error" : @"needToken") forIndexPath:indexPath];
         
-        if (_loading == NO && self.app.token == nil) {
+        if (_loading == NO && [DataStore sharedData].token == nil) {
             UIButton *infoBtn = [UIButton buttonWithType:UIButtonTypeInfoDark];
             infoCell.accessoryView = infoBtn;
             [infoBtn addTarget:self action:@selector(onNeedTokenInfo) forControlEvents:UIControlEventTouchUpInside];
@@ -136,14 +128,14 @@
         case SEC_Subscription: {
             cell.accessoryView = [[UISwitch alloc] init];
             [(UISwitch *)cell.accessoryView addTarget:self action:@selector(onSwitch:) forControlEvents:UIControlEventValueChanged];
-            NSDictionary *item = [self.app hostAtIndex:indexPath.row];
+            NSDictionary *item = [[DataStore sharedData] hostAtIndex:indexPath.row];
             
             cell.textLabel.text = item[@"title"];
             cell.detailTextLabel.text = item[@"webId"];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [(UISwitch *)cell.accessoryView setOn:[item[@"enabled"] boolValue]];
             
-            if (self.app.multiHostEnabled == NO) {
+            if ([DataStore sharedData].multiHostEnabled == NO) {
                 UILongPressGestureRecognizer *g = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(enableMultiHosts)];
                 g.minimumPressDuration = 3.0;
                 [cell addGestureRecognizer:g];
@@ -183,8 +175,7 @@
         cell.accessoryView = loading;
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSString *token = [(AppDelegate *)[[UIApplication sharedApplication] delegate] token];
-            NSMutableString *url = [NSMutableString stringWithFormat:@"https://push.smoon.kr/setting/ios.com.tistory.macnews/%@", token];
+            NSMutableString *url = [NSMutableString stringWithFormat:@"https://push.smoon.kr/setting/ios.com.tistory.macnews/%@", [DataStore sharedData].token];
             
             if (sender.on) [url appendString:@"/delete"];
             
@@ -213,7 +204,7 @@
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
             
-            BOOL success = [self.app setHost:[self.app hostAtIndex:indexPath.row][@"webId"] enabled:on];
+            BOOL success = [[DataStore sharedData] setHost:[[DataStore sharedData] hostAtIndex:indexPath.row][@"webId"] enabled:on];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!success) sender.on = !sender.on;
@@ -239,12 +230,12 @@
                                                                        preferredStyle:UIAlertControllerStyleActionSheet];
     [alertController addAction:[UIAlertAction actionWithTitle:@"데이터 초기화" style:UIAlertActionStyleDestructive handler:^(UIAlertAction *action) {
         //reset all
-        [self.app resetIdx];
-        [self.app resetContext];
+        [[DataStore sharedData] resetIdx];
+        [[DataStore sharedData] resetContext];
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"데이터만 삭제 (이후 수신되는 알림만 받아집니다.)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         //reset data only
-        [self.app resetContext];
+        [[DataStore sharedData] resetContext];
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"취소" style:UIAlertActionStyleCancel handler:nil]];
     
@@ -261,7 +252,7 @@
     if ([@[ @"notification" ] containsObject:segue.identifier]) {
         [controller setDetailItem:nil];
         NSDictionary *item = sender;
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[self.app hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[[DataStore sharedData] hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
         
         [controller setUrl:url];
     }
