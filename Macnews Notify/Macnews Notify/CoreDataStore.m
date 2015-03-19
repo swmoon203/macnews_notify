@@ -112,7 +112,8 @@
         
         // that's another database
         if (self.persistentStoreCoordinator != savedContext.persistentStoreCoordinator) return;
-
+        
+        NSLog(@"managedObjectContextDidSave:%@", notification);
         [self mergeChangesFromContextDidSaveNotification:notification];
     });
 }

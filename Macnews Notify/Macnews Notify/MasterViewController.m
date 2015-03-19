@@ -66,7 +66,6 @@
                                                           abort();
                                                       }
                                                   }];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contextDidSaveNotification:) name:NSManagedObjectContextDidSaveNotification object:nil];
     
     _refreshControl = [[UIRefreshControl alloc] init];
     [_refreshControl addTarget:self action:@selector(loadDataFromServer) forControlEvents:UIControlEventValueChanged];
@@ -239,7 +238,6 @@
 }    
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
-    NSLog(@"controllerWillChangeContent");
     [self.tableView beginUpdates];
 }
 
@@ -283,22 +281,7 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     [self.tableView endUpdates];
-    NSLog(@"controllerDidChangeContent");
 }
-
-//- (void)contextDidSaveNotification:(NSNotification *)notification {
-//    NSLog(@"contextDidSaveNotification");
-//    dispatch_async(dispatch_get_main_queue(), ^{
-//        NSManagedObjectContext *savedContext = [notification object];
-//        // ignore change notifications for the main MOC
-//        if (self.managedObjectContext == savedContext) return;
-//        
-//        // that's another database
-//        if (self.managedObjectContext.persistentStoreCoordinator != savedContext.persistentStoreCoordinator) return;
-//        
-//        [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
-//    });
-//}
 
 - (IBAction)onSegmentedChange:(UISegmentedControl *)sender {
     _archived = sender.selectedSegmentIndex == 1;
