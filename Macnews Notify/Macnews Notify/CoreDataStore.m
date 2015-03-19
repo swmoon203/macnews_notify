@@ -7,6 +7,10 @@
 //
 #import "CoreDataStore.h"
 
+@interface NSManagedObjectContext (managedObjectContextDidSave)
+- (void)managedObjectContextDidSave:(NSNotification *)notification;
+@end
+
 @implementation CoreDataStore
 
 - (id)init {
@@ -63,8 +67,15 @@
 }
 
 - (NSManagedObjectContext *)newManagedObjectContext {
+    return [self newManagedObjectContext:NO];
+}
+
+- (NSManagedObjectContext *)newManagedObjectContext:(BOOL)autoMerge {
     NSManagedObjectContext *managedObjectContext = [[NSManagedObjectContext alloc] init];
     [managedObjectContext setPersistentStoreCoordinator:self.persistentStoreCoordinator];
+    if (autoMerge) {
+        [[NSNotificationCenter defaultCenter] addObserver:managedObjectContext selector:@selector(managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
+    }
     return managedObjectContext;
 }
 
@@ -72,7 +83,7 @@
 - (NSManagedObjectContext *)managedObjectContext {
     assert([NSThread isMainThread]);
     if (_managedObjectContext != nil) return _managedObjectContext;
-    return _managedObjectContext = [self newManagedObjectContext];
+    return _managedObjectContext = [self newManagedObjectContext:YES];
 }
 
 - (void)deleteAllEntities:(NSString *)entityName from:(NSManagedObjectContext *)context {
@@ -88,4 +99,22 @@
     error = nil;
     [context save:&error];
 }
+@end
+
+
+@implementation NSManagedObjectContext (managedObjectContextDidSave)
+
+- (void)managedObjectContextDidSave:(NSNotification *)notification {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSManagedObjectContext *savedContext = [notification object];
+        // ignore change notifications for the main MOC
+        if (self == savedContext) return;
+        
+        // that's another database
+        if (self.persistentStoreCoordinator != savedContext.persistentStoreCoordinator) return;
+
+        [self mergeChangesFromContextDidSaveNotification:notification];
+    });
+}
+
 @end

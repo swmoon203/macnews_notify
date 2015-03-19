@@ -30,6 +30,7 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 - (NSManagedObjectContext *)newManagedObjectContext;
+- (NSManagedObjectContext *)newManagedObjectContext:(BOOL)autoMerge;
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext; //main thread only
 
 - (void)deleteAllEntities:(NSString *)entityName from:(NSManagedObjectContext *)context;
