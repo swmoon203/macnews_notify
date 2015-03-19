@@ -193,8 +193,9 @@ static DataStore *__sharedData = nil;
         [self.userDefaults synchronize];
     }
     
-    if (newManagedObject != nil) {
-        
+    if ([newManagedObject valueForKey:@"image"] != nil) {
+        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[newManagedObject valueForKey:@"image"]]];
+        if (imageData != nil) [newManagedObject setValue:imageData forKey:@"imageData"];
     }
     
     NSError *dbError = nil;
