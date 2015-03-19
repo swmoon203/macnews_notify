@@ -8,7 +8,7 @@
 
 #import "DetailViewController.h"
 #import "TUSafariActivity.h"
-#import "AppDelegate.h"
+#import "DataStore.h"
 
 @interface DetailViewController () 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
@@ -22,10 +22,6 @@
 }
 
 #pragma mark - Managing the detail item
-- (AppDelegate *)app {
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
-}
-
 - (void)setDetailItem:(id)newDetailItem {
     if (_detailItem != newDetailItem) {
         _detailItem = newDetailItem;
@@ -41,7 +37,7 @@
     if (self.detailItem) {
         //self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
         
-        url = [NSURL URLWithString:[NSString stringWithFormat:[self.app hostWithWebId:[self.detailItem valueForKey:@"webId"]][@"url"], [self.detailItem valueForKey:@"arg"]]];
+        url = [NSURL URLWithString:[NSString stringWithFormat:[[DataStore sharedData] hostWithWebId:[self.detailItem valueForKey:@"webId"]][@"url"], [self.detailItem valueForKey:@"arg"]]];
     } else if (self.url != nil) {
         url = self.url;
     } else {
@@ -164,7 +160,7 @@
         
         [controller setDetailItem:nil];
         NSDictionary *item = sender;
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[self.app hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[[DataStore sharedData] hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
             
         [controller setUrl:url];
         controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
