@@ -9,14 +9,11 @@
 #import "TodayViewController.h"
 #import <NotificationCenter/NotificationCenter.h>
 #import <CoreData/CoreData.h>
+#import "DataStore.h"
 
 @interface TodayViewController () <NCWidgetProviding, NSFetchedResultsControllerDelegate>
 
-@property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-
-@property (strong, nonatomic) NSString *token;
+@property (strong, nonatomic, readonly) NSFetchedResultsController *fetchedResultsController;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;
 @property (weak, nonatomic) IBOutlet UILabel *lblBody;
@@ -38,42 +35,12 @@
     [self updateScreen];
 }
 
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    if (_persistentStoreCoordinator != nil) return _persistentStoreCoordinator;
-    
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Macnews_Notify" withExtension:@"momd"];
-    NSManagedObjectModel *managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:managedObjectModel];
-    NSURL *directory = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.kr.smoon.ios.macnews"];
-    NSURL *storeURL = [directory URLByAppendingPathComponent:@"Macnews_Notify.sqlite"];
-    
-    NSError *error = nil;
-    NSString *failureReason = @"There was an error creating or loading the application's saved data.";
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
-        // Report any error we got.
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
-        dict[NSLocalizedFailureReasonErrorKey] = failureReason;
-        dict[NSUnderlyingErrorKey] = error;
-        error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-        // Replace this with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    return _persistentStoreCoordinator;
-}
 
 - (NSManagedObjectContext *)managedObjectContext {
-    if (_managedObjectContext != nil) return _managedObjectContext;
-    if (self.persistentStoreCoordinator == nil) return nil;
-    
-    _managedObjectContext = [[NSManagedObjectContext alloc] init];
-    [_managedObjectContext setPersistentStoreCoordinator:self.persistentStoreCoordinator];
-    return _managedObjectContext;
+    return [DataStore sharedData].managedObjectContext;
 }
 
+@synthesize fetchedResultsController=_fetchedResultsController;
 - (NSFetchedResultsController *)fetchedResultsController {
     if (_fetchedResultsController != nil) return _fetchedResultsController;
     [NSFetchedResultsController deleteCacheWithName:@"Master"];
@@ -83,8 +50,8 @@
     [fetchRequest setSortDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"idx" ascending:NO] ]];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"webId == 'web.com.tistory.macnews'"]];
     
-    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
-    self.fetchedResultsController.delegate = self;
+    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[self managedObjectContext] sectionNameKeyPath:nil cacheName:@"Master"];
+    _fetchedResultsController.delegate = self;
     
     NSError *error = nil;
     if (![self.fetchedResultsController performFetch:&error]) {
