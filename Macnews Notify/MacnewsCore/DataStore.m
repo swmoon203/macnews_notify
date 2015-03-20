@@ -14,7 +14,9 @@
 
 @end
 
-@implementation DataStore
+@implementation DataStore {
+    BOOL _updating;
+}
 static DataStore *__sharedData = nil;
 + (DataStore *)sharedData {
     static dispatch_once_t onceToken;
@@ -158,6 +160,9 @@ static DataStore *__sharedData = nil;
 
 #pragma mark - Data
 - (void)updateData:(void (^)(NSInteger statusCode, NSUInteger count))onComplete {
+    if (_updating) return onComplete(-1, 0);
+    _updating = YES;
+    
     NSManagedObjectContext *context = [self newManagedObjectContext];
     
     NSString *url = self.token != nil ? [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%@/%li", self.token, (long)self.idx] :
@@ -201,6 +206,7 @@ static DataStore *__sharedData = nil;
     NSError *dbError = nil;
     [context save:&dbError];
     
+    _updating = NO;
     onComplete([(NSHTTPURLResponse *)response statusCode], [json count]);
 }
 @end
