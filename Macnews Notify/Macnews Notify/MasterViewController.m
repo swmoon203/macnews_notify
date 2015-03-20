@@ -120,7 +120,6 @@
                     [objectData setValue:data forKey:@"imageData"];
                     NSError *error = nil;
                     [context save:&error];
-                    NSLog(@"%@", error);
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [_imageMap removeObjectForKey:url];

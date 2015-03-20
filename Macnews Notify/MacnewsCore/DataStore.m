@@ -56,6 +56,9 @@ static DataStore *__sharedData = nil;
 }
 
 - (void)resetContext {
+    NSLog(@"+resetContext");
+    [self deleteAllEntities:@"Notification" from:self.managedObjectContext];
+    NSLog(@"-resetContext");
     
 }
 

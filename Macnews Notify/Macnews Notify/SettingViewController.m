@@ -10,6 +10,7 @@
 #import "NSString+URL.h"
 #import "DetailViewController.h"
 #import <MacnewsCore/MacnewsCore.h>
+#import "AppDelegate.h"
 
 #define SEC_Category 0
 #define SEC_Subscription 1
@@ -232,10 +233,12 @@
         //reset all
         [[DataStore sharedData] resetIdx];
         [[DataStore sharedData] resetContext];
+        [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"데이터만 삭제 (이후 수신되는 알림만 받아집니다.)" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         //reset data only
         [[DataStore sharedData] resetContext];
+        [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"취소" style:UIAlertActionStyleCancel handler:nil]];
     
