@@ -9,7 +9,7 @@
 #import "SettingViewController.h"
 #import "NSString+URL.h"
 #import "DetailViewController.h"
-#import "DataStore.h"
+#import <MacnewsCore/MacnewsCore.h>
 
 #define SEC_Category 0
 #define SEC_Subscription 1

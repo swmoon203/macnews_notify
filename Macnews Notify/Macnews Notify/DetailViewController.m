@@ -8,7 +8,7 @@
 
 #import "DetailViewController.h"
 #import "TUSafariActivity.h"
-#import "DataStore.h"
+#import <MacnewsCore/MacnewsCore.h>
 
 @interface DetailViewController () 
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
