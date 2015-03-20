@@ -9,7 +9,6 @@
 #import "TodayViewController.h"
 #import <NotificationCenter/NotificationCenter.h>
 #import <CoreData/CoreData.h>
-#import "DataStore.h"
 
 @interface TodayViewController () <NCWidgetProviding, NSFetchedResultsControllerDelegate>
 
@@ -37,7 +36,8 @@
 
 
 - (NSManagedObjectContext *)managedObjectContext {
-    return [DataStore sharedData].managedObjectContext;
+//    return [DataStore sharedData].managedObjectContext;
+    return nil;
 }
 
 @synthesize fetchedResultsController=_fetchedResultsController;

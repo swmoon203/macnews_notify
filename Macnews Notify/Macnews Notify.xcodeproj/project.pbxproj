@@ -13,8 +13,6 @@
 		A502E8861AB7E156001EF9B3 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A502E8851AB7E156001EF9B3 /* TodayViewController.m */; };
 		A502E8881AB7E156001EF9B3 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A502E8871AB7E156001EF9B3 /* MainInterface.storyboard */; };
 		A502E88B1AB7E156001EF9B3 /* Recent-Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A502E87D1AB7E156001EF9B3 /* Recent-Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A51FF1591ABAA2BB00CE0756 /* CoreDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A51FF1561ABAA2BB00CE0756 /* CoreDataStore.m */; };
-		A51FF15A1ABAA2BB00CE0756 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A51FF1581ABAA2BB00CE0756 /* DataStore.m */; };
 		A531F6BE1AAAA09500F1BAAD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F6BD1AAAA09500F1BAAD /* main.m */; };
 		A531F6C11AAAA09500F1BAAD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F6C01AAAA09500F1BAAD /* AppDelegate.m */; };
 		A531F6C41AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A531F6C21AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld */; };
@@ -77,10 +75,6 @@
 		A502E8841AB7E156001EF9B3 /* TodayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TodayViewController.h; sourceTree = "<group>"; };
 		A502E8851AB7E156001EF9B3 /* TodayViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TodayViewController.m; sourceTree = "<group>"; };
 		A502E8871AB7E156001EF9B3 /* MainInterface.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = MainInterface.storyboard; sourceTree = "<group>"; };
-		A51FF1551ABAA2BB00CE0756 /* CoreDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataStore.h; path = "Macnews Notify/CoreDataStore.h"; sourceTree = SOURCE_ROOT; };
-		A51FF1561ABAA2BB00CE0756 /* CoreDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataStore.m; path = "Macnews Notify/CoreDataStore.m"; sourceTree = SOURCE_ROOT; };
-		A51FF1571ABAA2BB00CE0756 /* DataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataStore.h; path = "Macnews Notify/DataStore.h"; sourceTree = SOURCE_ROOT; };
-		A51FF1581ABAA2BB00CE0756 /* DataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataStore.m; path = "Macnews Notify/DataStore.m"; sourceTree = SOURCE_ROOT; };
 		A531F6B81AAAA09500F1BAAD /* Macnews Notify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Macnews Notify.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A531F6BC1AAAA09500F1BAAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A531F6BD1AAAA09500F1BAAD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -168,10 +162,6 @@
 		A502E8811AB7E156001EF9B3 /* Recent-Widget */ = {
 			isa = PBXGroup;
 			children = (
-				A51FF1551ABAA2BB00CE0756 /* CoreDataStore.h */,
-				A51FF1561ABAA2BB00CE0756 /* CoreDataStore.m */,
-				A51FF1571ABAA2BB00CE0756 /* DataStore.h */,
-				A51FF1581ABAA2BB00CE0756 /* DataStore.m */,
 				A5DE171B1AB7F02900886B18 /* Recent-Widget.entitlements */,
 				A502E8841AB7E156001EF9B3 /* TodayViewController.h */,
 				A502E8851AB7E156001EF9B3 /* TodayViewController.m */,
@@ -448,9 +438,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A51FF1591ABAA2BB00CE0756 /* CoreDataStore.m in Sources */,
 				A502E8861AB7E156001EF9B3 /* TodayViewController.m in Sources */,
-				A51FF15A1ABAA2BB00CE0756 /* DataStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
