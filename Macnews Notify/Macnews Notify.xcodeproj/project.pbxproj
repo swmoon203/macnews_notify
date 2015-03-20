@@ -30,7 +30,6 @@
 		A543973D1ABBB269009290B4 /* NSString+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = A54397351ABBB269009290B4 /* NSString+URL.m */; };
 		A543973E1ABBB3AB009290B4 /* CoreDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = A543972E1ABBB269009290B4 /* CoreDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A5F941D81AB15CCA005DA87D /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F941D71AB15CCA005DA87D /* FeedTableViewCell.m */; };
-		A5F941DB1AB5C48D005DA87D /* LazyLoadImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F941DA1AB5C48D005DA87D /* LazyLoadImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -108,8 +107,6 @@
 		A5C419121AACD73800BDA124 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A5F941D61AB15CCA005DA87D /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		A5F941D71AB15CCA005DA87D /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
-		A5F941D91AB5C48D005DA87D /* LazyLoadImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LazyLoadImageView.h; sourceTree = "<group>"; };
-		A5F941DA1AB5C48D005DA87D /* LazyLoadImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LazyLoadImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,8 +185,6 @@
 			children = (
 				A531F7521AAAAD6900F1BAAD /* TUSafariActivity.h */,
 				A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */,
-				A5F941D91AB5C48D005DA87D /* LazyLoadImageView.h */,
-				A5F941DA1AB5C48D005DA87D /* LazyLoadImageView.m */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -374,7 +369,6 @@
 				A531F6C11AAAA09500F1BAAD /* AppDelegate.m in Sources */,
 				A531F6C41AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld in Sources */,
 				A531F6BE1AAAA09500F1BAAD /* main.m in Sources */,
-				A5F941DB1AB5C48D005DA87D /* LazyLoadImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

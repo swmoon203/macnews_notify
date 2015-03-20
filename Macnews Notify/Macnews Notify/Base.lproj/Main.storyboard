@@ -144,7 +144,7 @@ Line3</string>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qHL-9W-j4j" customClass="LazyLoadImageView">
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qHL-9W-j4j">
                                             <rect key="frame" x="8" y="8" width="70" height="64"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="70" id="dXm-vG-H8F"/>
