@@ -10,7 +10,7 @@
 #import "DetailViewController.h"
 #import "MasterViewController.h"
 #import "LazyLoadImageView.h"
-#import "DataStore.h"
+#import <MacnewsCore/MacnewsCore.h>
 
 NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
 NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSettingsNotification";

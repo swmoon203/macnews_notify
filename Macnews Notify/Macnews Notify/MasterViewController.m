@@ -9,7 +9,7 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 #import "LazyLoadImageView.h"
-#import "DataStore.h"
+#import <MacnewsCore/MacnewsCore.h>
 #import "AppDelegate.h"
 
 @implementation MasterViewController {
