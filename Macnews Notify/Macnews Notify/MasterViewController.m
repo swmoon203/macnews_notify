@@ -198,14 +198,17 @@
     _loading = YES;
     [_refreshControl beginRefreshing];
     NSLog(@"Start Loading %li", (long)[DataStore sharedData].idx);
-
+    
+    UIBackgroundTaskIdentifier taskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        
+    }];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-
         [[DataStore sharedData] updateData:^(NSInteger statusCode, NSUInteger count) {
             _loading = NO;
             NSLog(@"End Loading %li", (long)[DataStore sharedData].idx);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_refreshControl endRefreshing];
+                [[UIApplication sharedApplication] endBackgroundTask:taskId];
             });
         }];
     });
