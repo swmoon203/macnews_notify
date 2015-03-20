@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A5013D3C1AAC20CD000B585F /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5013D3B1AAC20CD000B585F /* SettingViewController.m */; };
-		A5013D431AAC8786000B585F /* NSString+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = A5013D421AAC8786000B585F /* NSString+URL.m */; };
 		A502E8801AB7E156001EF9B3 /* NotificationCenter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A502E87F1AB7E156001EF9B3 /* NotificationCenter.framework */; };
 		A502E8861AB7E156001EF9B3 /* TodayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A502E8851AB7E156001EF9B3 /* TodayViewController.m */; };
 		A502E8881AB7E156001EF9B3 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A502E8871AB7E156001EF9B3 /* MainInterface.storyboard */; };
@@ -24,9 +23,6 @@
 		A531F6DE1AAAA09500F1BAAD /* Macnews_NotifyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F6DD1AAAA09500F1BAAD /* Macnews_NotifyTests.m */; };
 		A531F73F1AAAAD1700F1BAAD /* TUSafariActivity.strings in Resources */ = {isa = PBXBuildFile; fileRef = A531F73D1AAAAD1700F1BAAD /* TUSafariActivity.strings */; };
 		A531F7541AAAAD6900F1BAAD /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */; };
-		A57787501ABA84F200927795 /* CoreDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A577874F1ABA84F200927795 /* CoreDataStore.m */; };
-		A57787531ABA8AAC00927795 /* DataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A57787521ABA8AAC00927795 /* DataStore.m */; };
-		A5DE171C1AB7F04100886B18 /* Macnews_Notify.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = A531F6C21AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld */; };
 		A54397081ABBB232009290B4 /* MacnewsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = A54397071ABBB232009290B4 /* MacnewsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A543970E1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
 		A54397171ABBB232009290B4 /* MacnewsCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54397161ABBB232009290B4 /* MacnewsCoreTests.m */; };
@@ -40,6 +36,8 @@
 		A543973C1ABBB269009290B4 /* NSString+URL.h in Headers */ = {isa = PBXBuildFile; fileRef = A54397341ABBB269009290B4 /* NSString+URL.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A543973D1ABBB269009290B4 /* NSString+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = A54397351ABBB269009290B4 /* NSString+URL.m */; };
 		A543973E1ABBB3AB009290B4 /* CoreDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = A543972E1ABBB269009290B4 /* CoreDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A59F455F1ABBB65A003C8BA5 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
+		A5DE171C1AB7F04100886B18 /* Macnews_Notify.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = A531F6C21AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld */; };
 		A5F941D81AB15CCA005DA87D /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F941D71AB15CCA005DA87D /* FeedTableViewCell.m */; };
 		A5F941DB1AB5C48D005DA87D /* LazyLoadImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F941DA1AB5C48D005DA87D /* LazyLoadImageView.m */; };
 /* End PBXBuildFile section */
@@ -80,6 +78,13 @@
 			remoteGlobalIDString = A54397021ABBB232009290B4;
 			remoteInfo = MacnewsCore;
 		};
+		A59F45601ABBB665003C8BA5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A531F6B01AAAA09400F1BAAD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A54397021ABBB232009290B4;
+			remoteInfo = MacnewsCore;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -94,9 +99,6 @@
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXCopyFilesBuildPhase section */
-
-/* Begin PBXCopyFilesBuildPhase section */
 		A54396EC1ABBAD26009290B4 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -114,8 +116,6 @@
 		A5013D321AABDFDD000B585F /* Macnews Notify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Macnews Notify.entitlements"; sourceTree = "<group>"; };
 		A5013D3A1AAC20CD000B585F /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		A5013D3B1AAC20CD000B585F /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
-		A5013D411AAC8786000B585F /* NSString+URL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URL.h"; sourceTree = "<group>"; };
-		A5013D421AAC8786000B585F /* NSString+URL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URL.m"; sourceTree = "<group>"; };
 		A502E87D1AB7E156001EF9B3 /* Recent-Widget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Recent-Widget.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A502E87F1AB7E156001EF9B3 /* NotificationCenter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NotificationCenter.framework; path = System/Library/Frameworks/NotificationCenter.framework; sourceTree = SDKROOT; };
 		A502E8831AB7E156001EF9B3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -185,6 +185,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A59F455F1ABBB65A003C8BA5 /* MacnewsCore.framework in Frameworks */,
 				A502E8801AB7E156001EF9B3 /* NotificationCenter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,6 +409,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A59F45611ABBB665003C8BA5 /* PBXTargetDependency */,
 			);
 			name = "Recent-Widget";
 			productName = "Recent-Widget";
@@ -700,6 +702,11 @@
 			target = A54397021ABBB232009290B4 /* MacnewsCore */;
 			targetProxy = A54397181ABBB232009290B4 /* PBXContainerItemProxy */;
 		};
+		A59F45611ABBB665003C8BA5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A54397021ABBB232009290B4 /* MacnewsCore */;
+			targetProxy = A59F45601ABBB665003C8BA5 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -926,6 +933,7 @@
 		A543971D1ABBB232009290B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
@@ -951,6 +959,7 @@
 		A543971E1ABBB232009290B4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1051,6 +1060,7 @@
 				A543971E1ABBB232009290B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A543971F1ABBB232009290B4 /* Build configuration list for PBXNativeTarget "MacnewsCoreTests" */ = {
 			isa = XCConfigurationList;
@@ -1059,6 +1069,7 @@
 				A54397211ABBB232009290B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
