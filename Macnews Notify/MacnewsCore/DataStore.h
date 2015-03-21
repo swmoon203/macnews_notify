@@ -31,7 +31,7 @@
 
 - (void)resetContext;
 
-- (void)updateData:(void (^)(NSInteger statusCode, NSUInteger count))onComplete;
+- (void)updateData:(void (^)(NSManagedObjectContext *context, NSInteger statusCode, NSUInteger count))onComplete;
 
 - (void)downloadPreviewImages;
 @end

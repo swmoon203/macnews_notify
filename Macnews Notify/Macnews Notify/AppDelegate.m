@@ -201,15 +201,13 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 }
 
 - (void)backgroundUpdateData:(void (^)(UIBackgroundFetchResult result))completionHandler  {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        [[DataStore sharedData] updateData:^(NSInteger statusCode, NSUInteger count) {
-            [[DataStore sharedData] downloadPreviewImages];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                completionHandler(count == 0 ? UIBackgroundFetchResultNoData : UIBackgroundFetchResultNewData);
-            });
-        }];
-    });
+    [[DataStore sharedData] updateData:^(NSManagedObjectContext *context, NSInteger statusCode, NSUInteger count) {
+        [[DataStore sharedData] downloadPreviewImages];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandler(count == 0 ? UIBackgroundFetchResultNoData : UIBackgroundFetchResultNewData);
+        });
+    }];
 }
 
 - (void)handleReceivedNotification {

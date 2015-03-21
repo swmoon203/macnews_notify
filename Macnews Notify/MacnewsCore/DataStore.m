@@ -16,17 +16,27 @@
 
 @implementation DataStore {
     BOOL _updating;
+    dispatch_queue_t _backgroundUpdateQueue;
+    NSManagedObjectContext *_backgroundObjectContext;
+    
+    NSInteger _lastStatusCode, _lastUpdatedCount;
 }
 static DataStore *__sharedData = nil;
 + (DataStore *)sharedData {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSLog(@"[[DataStore alloc] init]");
         __sharedData = [[DataStore alloc] init];
     });
     return __sharedData;
 }
-
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        NSLog(@"[[DataStore alloc] init]");
+        _backgroundUpdateQueue = dispatch_queue_create("kr.smoon.ios.MacnewsCore.backgroundUpdateQueue", DISPATCH_QUEUE_SERIAL);
+    }
+    return self;
+}
 - (NSURL *)managedObjectModelURL {
     return [[NSBundle mainBundle] URLForResource:@"Macnews_Notify" withExtension:@"momd"];
 }
@@ -162,55 +172,69 @@ static DataStore *__sharedData = nil;
 }
 
 #pragma mark - Data
-- (void)updateData:(void (^)(NSInteger statusCode, NSUInteger count))onComplete {
-    if (_updating) return onComplete(-1, 0);
-    _updating = YES;
+
+- (void)updateData:(void (^)(NSManagedObjectContext *context, NSInteger statusCode, NSUInteger count))onComplete {
+    assert([NSThread isMainThread]);
     
-    NSManagedObjectContext *context = [self newManagedObjectContext];
-    
-    NSString *url = self.token != nil ? [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%@/%li", self.token, (long)self.idx] :
-    [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%li", (long)self.idx];
-    
-    NSURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    NSURLResponse *response = nil;
-    NSError *error = nil, *errorJson = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
-    if ([(NSHTTPURLResponse *)response statusCode] != 200) {
-        onComplete([(NSHTTPURLResponse *)response statusCode], 0);
-        return;
+    if (_updating) {
+        dispatch_async(_backgroundUpdateQueue, ^{
+            NSLog(@"already Updating: %@", @([NSThread isMainThread]));
+            onComplete(_backgroundObjectContext, _lastStatusCode, _lastUpdatedCount);
+        });
+    } else {
+        _updating = YES;
+        dispatch_async(_backgroundUpdateQueue, ^{
+            NSLog(@"Update: %@", @([NSThread isMainThread]));
+            if (_backgroundObjectContext == nil) {
+                _backgroundObjectContext = [self newManagedObjectContext];
+            }
+            
+            NSManagedObjectContext *context = _backgroundObjectContext;
+            
+            NSString *url = self.token != nil ? [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%@/%li", self.token, (long)self.idx] :
+            [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%li", (long)self.idx];
+            
+            NSURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+            NSURLResponse *response = nil;
+            NSError *error = nil, *errorJson = nil;
+            NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+            
+            if ([(NSHTTPURLResponse *)response statusCode] != 200) {
+                return onComplete(context, _lastStatusCode = [(NSHTTPURLResponse *)response statusCode], _lastUpdatedCount = 0);
+            }
+            
+            NSString *entityName = @"Notification";
+            
+            NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
+            NSManagedObject *newManagedObject = nil;
+            for (NSDictionary *obj in json) {
+                NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:obj];
+                item[@"reg"] = [NSDate dateWithTimeIntervalSince1970:[item[@"reg"] intValue]];
+                NSDictionary *apn = [NSJSONSerialization JSONObjectWithData:[item[@"contents"] dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+                apn = apn[@"apn"];
+                item[@"title"] = apn[@"title"];
+                if (apn[@"image"]) item[@"image"] = apn[@"image"];
+                if ([apn[@"url-args"] count] > 0) item[@"arg"] = apn[@"url-args"][0];
+                newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
+                [newManagedObject setValuesForKeysWithDictionary:item];
+                [newManagedObject setValue:@NO forKey:@"archived"];
+                
+                self.idx = MAX(self.idx, [item[@"idx"] integerValue]);
+                [self.userDefaults synchronize];
+            }
+            
+            if ([newManagedObject valueForKey:@"image"] != nil) {
+                NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[newManagedObject valueForKey:@"image"]]];
+                if (imageData != nil) [newManagedObject setValue:imageData forKey:@"imageData"];
+            }
+            
+            NSError *dbError = nil;
+            [context save:&dbError];
+            
+            _updating = NO;
+            onComplete(context, _lastStatusCode = [(NSHTTPURLResponse *)response statusCode], _lastUpdatedCount = [json count]);
+        });
     }
-    
-    NSString *entityName = @"Notification";
-    
-    NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
-    NSManagedObject *newManagedObject = nil;
-    for (NSDictionary *obj in json) {
-        NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:obj];
-        item[@"reg"] = [NSDate dateWithTimeIntervalSince1970:[item[@"reg"] intValue]];
-        NSDictionary *apn = [NSJSONSerialization JSONObjectWithData:[item[@"contents"] dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
-        apn = apn[@"apn"];
-        item[@"title"] = apn[@"title"];
-        if (apn[@"image"]) item[@"image"] = apn[@"image"];
-        if ([apn[@"url-args"] count] > 0) item[@"arg"] = apn[@"url-args"][0];
-        newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:entityName inManagedObjectContext:context];
-        [newManagedObject setValuesForKeysWithDictionary:item];
-        [newManagedObject setValue:@NO forKey:@"archived"];
-        
-        self.idx = MAX(self.idx, [item[@"idx"] integerValue]);
-        [self.userDefaults synchronize];
-    }
-    
-    if ([newManagedObject valueForKey:@"image"] != nil) {
-        NSData *imageData = [NSData dataWithContentsOfURL:[NSURL URLWithString:[newManagedObject valueForKey:@"image"]]];
-        if (imageData != nil) [newManagedObject setValue:imageData forKey:@"imageData"];
-    }
-    
-    NSError *dbError = nil;
-    [context save:&dbError];
-    
-    _updating = NO;
-    onComplete([(NSHTTPURLResponse *)response statusCode], [json count]);
 }
 
 - (void)downloadPreviewImages {
