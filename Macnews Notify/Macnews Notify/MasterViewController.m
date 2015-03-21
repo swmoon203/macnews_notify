@@ -127,6 +127,8 @@
             }];
         }
     }
+
+    cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[object valueForKey:@"reg"]];
     return cell;
 }
 
@@ -282,6 +284,17 @@
         abort();
     }
     [self.tableView reloadData];
+}
+
+@synthesize dateFormatter=_dateFormatter;
+- (NSDateFormatter *)dateFormatter {
+    if (_dateFormatter) return _dateFormatter;
+    NSLocale *locale = [NSLocale currentLocale];
+    _dateFormatter = [[NSDateFormatter alloc] init];
+    NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"E MMM d yyyy" options:0 locale:locale];
+    [_dateFormatter setDateFormat:dateFormat];
+    [_dateFormatter setLocale:locale];
+    return _dateFormatter;
 }
 
 #pragma mark - Image Downloader

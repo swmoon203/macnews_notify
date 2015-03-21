@@ -150,19 +150,32 @@ Line3</string>
                                                 <constraint firstAttribute="width" constant="70" id="dXm-vG-H8F"/>
                                             </constraints>
                                         </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UlL-np-9mr">
+                                            <rect key="frame" x="362" y="51" width="197" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="197" id="f22-Nu-byZ"/>
+                                                <constraint firstAttribute="height" constant="21" id="vBb-Q1-5em"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstAttribute="trailing" secondItem="oLM-Yx-kMm" secondAttribute="trailing" id="48q-Ee-tcY"/>
                                         <constraint firstItem="qHL-9W-j4j" firstAttribute="leading" secondItem="37f-cq-3Eg" secondAttribute="leadingMargin" id="DoE-gT-qBz"/>
                                         <constraint firstItem="oLM-Yx-kMm" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" constant="-7" id="EUK-fy-UXn"/>
+                                        <constraint firstItem="UlL-np-9mr" firstAttribute="trailing" secondItem="37f-cq-3Eg" secondAttribute="trailingMargin" id="L26-2h-EWx"/>
                                         <constraint firstItem="oLM-Yx-kMm" firstAttribute="leading" secondItem="qHL-9W-j4j" secondAttribute="trailing" constant="8" symbolic="YES" id="Wbd-Ny-dbK"/>
                                         <constraint firstItem="qHL-9W-j4j" firstAttribute="top" secondItem="37f-cq-3Eg" secondAttribute="topMargin" id="YMz-Xg-zme"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="UlL-np-9mr" secondAttribute="bottom" constant="-0.5" id="eFb-5W-Bbn"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="qHL-9W-j4j" secondAttribute="bottom" constant="-0.5" id="opP-sN-p3F"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="oLM-Yx-kMm" secondAttribute="bottom" constant="19" id="zFv-29-08n"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="dateText" destination="UlL-np-9mr" id="IXn-TN-Inv"/>
                                     <outlet property="previewImage" destination="qHL-9W-j4j" id="vVP-gg-41W"/>
                                     <outlet property="titleText" destination="oLM-Yx-kMm" id="vo3-os-bEV"/>
                                     <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showDetail" id="6S0-TO-JiA"/>
@@ -181,9 +194,21 @@ Line3</string>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hTP-MD-ltt">
+                                            <rect key="frame" x="362" y="51" width="197" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="Jpi-7d-Rf3"/>
+                                                <constraint firstAttribute="width" constant="197" id="Oby-VA-QWz"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" weight="thin" pointSize="12"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
+                                        <constraint firstItem="hTP-MD-ltt" firstAttribute="trailing" secondItem="g3U-P3-uKJ" secondAttribute="trailingMargin" id="3zU-9f-fhB"/>
                                         <constraint firstItem="WM1-uY-Vwh" firstAttribute="leading" secondItem="g3U-P3-uKJ" secondAttribute="leadingMargin" id="5Rk-FN-HiK"/>
+                                        <constraint firstItem="hTP-MD-ltt" firstAttribute="bottom" secondItem="g3U-P3-uKJ" secondAttribute="bottomMargin" id="D4x-2Q-KIt"/>
                                         <constraint firstItem="WM1-uY-Vwh" firstAttribute="top" secondItem="g3U-P3-uKJ" secondAttribute="topMargin" constant="-7" id="dBl-cl-TTx"/>
                                         <constraint firstAttribute="trailing" secondItem="WM1-uY-Vwh" secondAttribute="trailing" id="haX-4H-vBQ"/>
                                         <constraint firstAttribute="bottomMargin" secondItem="WM1-uY-Vwh" secondAttribute="bottom" constant="19" id="ynD-vZ-Ubz"/>
@@ -191,6 +216,7 @@ Line3</string>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="dateText" destination="hTP-MD-ltt" id="kgs-fS-QYl"/>
                                     <outlet property="titleText" destination="WM1-uY-Vwh" id="3Qj-65-Dkw"/>
                                     <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showDetail2" id="koN-OJ-ge6"/>
                                 </connections>

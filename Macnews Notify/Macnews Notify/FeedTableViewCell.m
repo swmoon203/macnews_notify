@@ -27,4 +27,8 @@
 - (UIImageView *)imageView {
     return self.previewImage;
 }
+
+- (UILabel *)detailTextLabel {
+    return self.dateText;
+}
 @end
