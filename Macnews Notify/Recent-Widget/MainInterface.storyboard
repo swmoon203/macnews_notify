@@ -20,8 +20,7 @@
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="GcN-lo-r42">
                                 <rect key="frame" x="16" y="8" width="294" height="24"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="24" id="Nsa-G8-Nfb"/>
-                                    <constraint firstAttribute="width" constant="294" id="hRr-qh-p33"/>
+                                    <constraint firstAttribute="height" constant="24" id="q5I-b1-SxB"/>
                                 </constraints>
                                 <string key="text">Title
 Line1</string>
@@ -29,8 +28,15 @@ Line1</string>
                                 <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wgJ-S4-ULp">
+                                <rect key="frame" x="16" y="46" width="72" height="72"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="72" id="3wf-hu-EoQ"/>
+                                    <constraint firstAttribute="height" constant="72" id="bzC-v7-MFK"/>
+                                </constraints>
+                            </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="top" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="280" translatesAutoresizingMaskIntoConstraints="NO" id="8Et-5B-adL" userLabel="Body Line1 Line2">
-                                <rect key="frame" x="106" y="40" width="198" height="80"/>
+                                <rect key="frame" x="98" y="40" width="206" height="80"/>
                                 <string key="text">Body
 Line1
 Line2
@@ -40,19 +46,18 @@ Line4</string>
                                 <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wgJ-S4-ULp">
-                                <rect key="frame" x="16" y="46" width="72" height="72"/>
-                            </imageView>
                         </subviews>
                         <gestureRecognizers/>
                         <constraints>
-                            <constraint firstItem="GcN-lo-r42" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="8" id="03M-oK-E5L"/>
-                            <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="8Et-5B-adL" secondAttribute="bottom" id="AKc-mb-Hph"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="8Et-5B-adL" secondAttribute="trailing" id="OnM-1I-Wf2"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="-6" id="W7C-fR-0a7"/>
-                            <constraint firstItem="8Et-5B-adL" firstAttribute="top" secondItem="GcN-lo-r42" secondAttribute="bottom" constant="8" id="fd9-ni-f5L"/>
-                            <constraint firstItem="8Et-5B-adL" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" constant="90" id="m1D-HH-DCP"/>
-                            <constraint firstItem="GcN-lo-r42" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="zJ1-nc-YEr"/>
+                            <constraint firstItem="8Et-5B-adL" firstAttribute="trailing" secondItem="S3S-Oj-5AN" secondAttribute="trailingMargin" id="1B8-hK-tvz"/>
+                            <constraint firstItem="FKl-LY-JtV" firstAttribute="top" secondItem="8Et-5B-adL" secondAttribute="bottom" id="EEY-fI-7NA"/>
+                            <constraint firstItem="wgJ-S4-ULp" firstAttribute="top" secondItem="GcN-lo-r42" secondAttribute="bottom" constant="14" id="Xwm-RB-XhH"/>
+                            <constraint firstItem="8Et-5B-adL" firstAttribute="leading" secondItem="wgJ-S4-ULp" secondAttribute="trailing" constant="10" id="h9L-Sm-qAt"/>
+                            <constraint firstItem="GcN-lo-r42" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="k4E-lu-Hnq"/>
+                            <constraint firstItem="8Et-5B-adL" firstAttribute="top" secondItem="GcN-lo-r42" secondAttribute="bottom" constant="8" id="pzz-IZ-9ci"/>
+                            <constraint firstItem="wgJ-S4-ULp" firstAttribute="leading" secondItem="S3S-Oj-5AN" secondAttribute="leadingMargin" id="syu-g8-8aI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GcN-lo-r42" secondAttribute="trailing" constant="-6" id="xaG-v8-Dx8"/>
+                            <constraint firstItem="GcN-lo-r42" firstAttribute="top" secondItem="Ft6-oW-KC0" secondAttribute="bottom" constant="8" id="yae-xT-NeU"/>
                         </constraints>
                         <connections>
                             <outletCollection property="gestureRecognizers" destination="mvr-ob-YCH" appends="YES" id="9It-on-F4m"/>
