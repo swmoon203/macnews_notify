@@ -61,13 +61,14 @@
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         [controller setDetailItem:object];
-        
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] clearScheduledLocalNotification:@{ @"aps": @{ @"url-args": @[ [object valueForKey:@"arg"], [object valueForKey:@"webId"] ] } }];
     } else if ([@[ @"notification" ] containsObject:segue.identifier]) {
         [controller setDetailItem:nil];
         NSDictionary *item = sender;
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[[DataStore sharedData] hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
         
         [controller setUrl:url];
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] clearScheduledLocalNotification:@{ @"aps": @{ @"url-args": @[ item[@"arg"], item[@"webId"] ] } }];
     }
     controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
     controller.navigationItem.leftItemsSupplementBackButton = YES;
@@ -147,7 +148,10 @@
                                                                       title:@"삭제"
                                                                     handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
                                                                         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-                                                                        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+                                                                        NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+                                                                        
+                                                                        [(AppDelegate *)[[UIApplication sharedApplication] delegate] clearScheduledLocalNotification:@{ @"aps": @{ @"url-args": @[ [object valueForKey:@"arg"], [object valueForKey:@"webId"] ] } }];
+                                                                        [context deleteObject:object];
                                                                         
                                                                         NSError *error = nil;
                                                                         if (![context save:&error]) {
@@ -161,8 +165,10 @@
                                                                        title:@"보관"
                                                                      handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
                                                                          NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-                                                                         id item = [self.fetchedResultsController objectAtIndexPath:indexPath];
-                                                                         [item setValue:@YES forKey:@"archived"];
+                                                                         NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
+                                                                         [(AppDelegate *)[[UIApplication sharedApplication] delegate] clearScheduledLocalNotification:@{ @"aps": @{ @"url-args": @[ [object valueForKey:@"arg"], [object valueForKey:@"webId"] ] } }];
+                                                                         
+                                                                         [object setValue:@YES forKey:@"archived"];
                                                                          NSError *error = nil;
                                                                          if (![context save:&error]) {
                                                                              // Replace this implementation with code to handle the error appropriately.

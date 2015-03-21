@@ -19,6 +19,7 @@
 
 - (NSArray *)remindOptionTitles;
 @property (nonatomic) NSInteger remindOption;
+@property (nonatomic, readonly) NSTimeInterval remindOptionTimeInterval;
 
 @property (nonatomic) NSInteger idx;
 - (void)resetIdx;

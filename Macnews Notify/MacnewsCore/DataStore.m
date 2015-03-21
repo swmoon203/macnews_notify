@@ -67,6 +67,9 @@ static DataStore *__sharedData = nil;
 - (void)setRemindOption:(NSInteger)remindOption {
     [self.userDefaults setInteger:remindOption forKey:@"remindOption"];
 }
+- (NSTimeInterval)remindOptionTimeInterval {
+    return [@[ @(5 * 60), @(60 * 60), @(24 * 60 * 60) ][self.remindOption] doubleValue];
+}
 
 - (NSInteger)idx {
     return [self.userDefaults integerForKey:@"idx"];

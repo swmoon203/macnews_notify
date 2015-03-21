@@ -209,9 +209,13 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
  */
 
 - (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler {
-    //NSLog(@"%@", identifier);
-    //NSLog(@"%@",userInfo);
-    
+    [self application:application handleActionWithIdentifier:identifier userInfo:userInfo completionHandler:completionHandler];
+}
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)notification completionHandler:(void(^)())completionHandler {
+    [self application:application handleActionWithIdentifier:identifier userInfo:notification.userInfo completionHandler:completionHandler];
+}
+
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier userInfo:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler {
     [[DataStore sharedData] updateData:^(NSManagedObjectContext *context, NSInteger statusCode, NSUInteger count) {
         NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
         fetchRequest.fetchLimit = 1;
@@ -225,35 +229,37 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
             switch ([@[ @"ARCHIVE_IDENTIFIER", @"REMIND_IDENTIFIER", @"DELETE_IDENTIFIER" ] indexOfObject:identifier]) {
                 case 0: //ARCHIVE_IDENTIFIER
                     [item setValue:@YES forKey:@"archived"];
+                    [self clearScheduledLocalNotification:userInfo];
                     break;
                 case 1: //REMIND_IDENTIFIER
-                    
+                    [self scheduleNotification:userInfo];
                     break;
                 case 2: //DELETE_IDENTIFIER
                     [context deleteObject:item];
+                    [self clearScheduledLocalNotification:userInfo];
                     break;
             }
             if (application.applicationIconBadgeNumber > 0) application.applicationIconBadgeNumber--;
-            
             [context save:&err];
         }
         
         dispatch_async(dispatch_get_main_queue(), completionHandler);
     }];
 }
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
     NSLog(@"didReceiveRemoteNotification:%@", userInfo);
     NSLog(@"%li", application.applicationState);
     NSLog(@"UIApplicationStateActive: %li", UIApplicationStateActive);
     NSLog(@"UIApplicationStateInactive: %li", UIApplicationStateInactive);
     NSLog(@"UIApplicationStateBackground: %li", UIApplicationStateBackground);
-    if (application.applicationState == UIApplicationStateActive) {
+    if (application.applicationState == UIApplicationStateActive) { //received while running
         [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
         completionHandler(UIBackgroundFetchResultNewData);
-    } else if (application.applicationState == UIApplicationStateBackground) {
+    } else if (application.applicationState == UIApplicationStateBackground) { //received while in background
         application.applicationIconBadgeNumber++;
         [self backgroundUpdateData:completionHandler];
-    } else {
+    } else { //app opened with notification
         self.receivedNotification = userInfo;
         completionHandler(UIBackgroundFetchResultNewData);
     }
@@ -287,6 +293,8 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
         self.receivedNotification = nil;
         return;
     }
+    [self clearScheduledLocalNotification:self.receivedNotification];
+    
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     
@@ -310,5 +318,36 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     return YES;
 }
 
+- (void)scheduleNotification:(NSDictionary *)userInfo {
+    
+    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+    if (localNotif == nil) return;
+    
+    localNotif.fireDate = [[NSDate date] dateByAddingTimeInterval:[DataStore sharedData].remindOptionTimeInterval];
+    localNotif.timeZone = [NSTimeZone defaultTimeZone];
+    
+    NSLog(@"%@", localNotif);
+    
+    localNotif.alertTitle = userInfo[@"aps"][@"alert"][@"title"];
+    localNotif.alertBody = userInfo[@"aps"][@"alert"][@"body"];
+    localNotif.category = userInfo[@"aps"][@"category"];
+    
+    localNotif.userInfo = userInfo;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+}
 
+- (void)clearScheduledLocalNotification:(NSDictionary *)userInfo {
+    if (userInfo == nil) return;
+    NSArray *notifications = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    
+    NSArray *args = userInfo[@"aps"][@"url-args"];
+    for (UILocalNotification *noti in notifications) {
+        NSArray *a = noti.userInfo[@"aps"][@"url-args"];
+        if ([args isEqualToArray:a]) {
+            NSLog(@"Cancel: %@", noti);
+            [[UIApplication sharedApplication] cancelLocalNotification:noti];
+        }
+    }
+}
 @end

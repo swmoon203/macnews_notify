@@ -13,6 +13,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 - (void)registerDevice;
+
+- (void)clearScheduledLocalNotification:(NSDictionary *)userInfo;
 @end
 
 NSString *const AppNeedLoadDataNotification;

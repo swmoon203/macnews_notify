@@ -183,6 +183,9 @@
         [DataStore sharedData].responsiveMode = indexPath.row;
         [(AppDelegate *)[[UIApplication sharedApplication] delegate] registerDevice];
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Button] withRowAnimation:UITableViewRowAnimationNone];
+    } else  if (indexPath.section == SEC_Remind) {
+        [DataStore sharedData].remindOption = indexPath.row;
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Remind] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 
