@@ -8,11 +8,20 @@
 
 #import "TableViewCell.h"
 @interface TableViewCell ()
-@property (weak, nonatomic) IBOutlet UIImageView *TImageView;
+@property (weak, nonatomic) IBOutlet UILabel *tTextLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tDetailTextLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *tImageView;
 
 @end
 @implementation TableViewCell
+
+- (UILabel *)textLabel {
+    return self.tTextLabel;
+}
+- (UILabel *)detailTextLabel {
+    return self.tDetailTextLabel;
+}
 - (UIImageView *)imageView {
-    return self.TImageView;
+    return self.tImageView;
 }
 @end

@@ -128,7 +128,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="WCw-Qf-5nD" customClass="FeedTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="WCw-Qf-5nD" customClass="TableViewCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WCw-Qf-5nD" id="37f-cq-3Eg">
@@ -175,13 +175,13 @@ Line3</string>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="dateText" destination="UlL-np-9mr" id="IXn-TN-Inv"/>
-                                    <outlet property="previewImage" destination="qHL-9W-j4j" id="vVP-gg-41W"/>
-                                    <outlet property="titleText" destination="oLM-Yx-kMm" id="vo3-os-bEV"/>
+                                    <outlet property="tDetailTextLabel" destination="UlL-np-9mr" id="wYK-WV-64D"/>
+                                    <outlet property="tImageView" destination="qHL-9W-j4j" id="qhP-H6-Hkv"/>
+                                    <outlet property="tTextLabel" destination="oLM-Yx-kMm" id="arn-ZJ-8La"/>
                                     <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showDetail" id="6S0-TO-JiA"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellNoImage" id="8PH-N9-zz0" customClass="FeedTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellNoImage" id="8PH-N9-zz0" customClass="TableViewCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8PH-N9-zz0" id="g3U-P3-uKJ">
@@ -216,8 +216,8 @@ Line3</string>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="dateText" destination="hTP-MD-ltt" id="kgs-fS-QYl"/>
-                                    <outlet property="titleText" destination="WM1-uY-Vwh" id="3Qj-65-Dkw"/>
+                                    <outlet property="tDetailTextLabel" destination="hTP-MD-ltt" id="R3e-rK-HXP"/>
+                                    <outlet property="tTextLabel" destination="WM1-uY-Vwh" id="Kkg-tY-aRZ"/>
                                     <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showDetail2" id="koN-OJ-ge6"/>
                                 </connections>
                             </tableViewCell>
@@ -360,7 +360,7 @@ Line3</string>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="TImageView" destination="hud-kF-xug" id="zGA-ID-p8u"/>
+                                    <outlet property="tImageView" destination="hud-kF-xug" id="G67-32-HTa"/>
                                 </connections>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="remind" rowHeight="60" id="fv7-Yd-WN6">
@@ -404,7 +404,7 @@ Line3</string>
         <image name="settingIcon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="91F-bu-JiU"/>
+        <segue reference="koN-OJ-ge6"/>
         <segue reference="GKi-kA-LjT"/>
     </inferredMetricsTieBreakers>
 </document>
