@@ -11,9 +11,7 @@
 #import <CoreData/CoreData.h>
 #import <MacnewsCore/MacnewsCore.h>
 
-@interface TodayViewController () <NCWidgetProviding, NSFetchedResultsControllerDelegate>
-
-@property (strong, nonatomic, readonly) NSFetchedResultsController *fetchedResultsController;
+@interface TodayViewController () <NCWidgetProviding>
 
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;
 @property (weak, nonatomic) IBOutlet UILabel *lblBody;
@@ -31,42 +29,24 @@
     [self updateScreen];
 }
 
-
-- (NSManagedObjectContext *)managedObjectContext {
-    return [DataStore sharedData].managedObjectContext;
-}
-
-@synthesize fetchedResultsController=_fetchedResultsController;
-- (NSFetchedResultsController *)fetchedResultsController {
-    if (_fetchedResultsController != nil) return _fetchedResultsController;
-    [NSFetchedResultsController deleteCacheWithName:@"Master"];
+- (BOOL)updateScreen {
+    NSManagedObjectContext *context = [DataStore sharedData].managedObjectContext;
     
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
     [fetchRequest setFetchBatchSize:1];
+    [fetchRequest setFetchLimit:1];
     [fetchRequest setSortDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"idx" ascending:NO] ]];
     [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"webId == 'web.com.tistory.macnews'"]];
     
-    _fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:[self managedObjectContext] sectionNameKeyPath:nil cacheName:@"Master"];
-    _fetchedResultsController.delegate = self;
+    NSError *err = nil;
+    NSArray *items = [context executeFetchRequest:fetchRequest error:&err];
     
-    NSError *error = nil;
-    if (![self.fetchedResultsController performFetch:&error]) {
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-    
-    return _fetchedResultsController;
-}
-
-- (BOOL)updateScreen {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][0];
-    NSLog(@"[sectionInfo numberOfObjects] == %lu", (unsigned long)[sectionInfo numberOfObjects]);
-    if ([sectionInfo numberOfObjects] == 0) {
+    if ([items count] == 0) {
         self.lblTitle.text = @"No data";
         self.lblBody.hidden = YES;
         return NO;
     }
-    id item = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    id item = items[0];
     
     if ([[_current valueForKey:@"idx"] integerValue] == [[item valueForKey:@"idx"] integerValue] && [item valueForKey:@"imageData"] == nil) return NO;
     
@@ -84,21 +64,14 @@
     return YES;
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    [self updateScreen];
-}
-
-
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
     NSLog(@"widgetPerformUpdateWithCompletionHandler");
     completionHandler([self updateScreen] ? NCUpdateResultNewData : NCUpdateResultNoData);
 }
 - (IBAction)onTap:(id)sender {
-    if ([[self.fetchedResultsController sections][0] numberOfObjects] == 0) return;
+    if (_current == nil) return;
     
-    id item = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
-    
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"macnews://%@?%@", [item valueForKey:@"webId"], [item valueForKey:@"arg"]]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"macnews://%@?%@", [_current valueForKey:@"webId"], [_current valueForKey:@"arg"]]];
     [self.extensionContext openURL:url completionHandler:nil];
 }
 
