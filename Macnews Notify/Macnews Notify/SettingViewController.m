@@ -18,9 +18,10 @@
 #define SEC_Button 2
 #define SEC_Remind 3
 #define SEC_Location 4
-#define SEC_Reset 5
+#define SEC_Preference 5
+#define SEC_Reset 6
 
-#define SECTION_COUNT 6
+#define SECTION_COUNT 7
 
 @implementation SettingViewController {
     NSDictionary *_catagories;
@@ -88,7 +89,7 @@
     return SECTION_COUNT;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSArray *titles = @[ @"카테고리", @"구독", @"알림센터 버튼", @"나중에 알림", @"위치 알림", @"초기화" ];
+    NSArray *titles = @[ @"카테고리", @"구독", @"알림센터 버튼", @"나중에 알림", @"위치 알림", @"", @"초기화" ];
     return titles[section];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -98,6 +99,7 @@
         case SEC_Button: return 3;
         case SEC_Remind: return [[[DataStore sharedData] remindOptionTitles] count] + ([DataStore sharedData].canUseLocationNotifications && [DataStore sharedData].location != nil ? 0 : -1);
         case SEC_Location: return [DataStore sharedData].canUseLocationNotifications ? 2 : 1;
+        case SEC_Preference: return 1;
         case SEC_Reset: return 1;
     }
     return 0;
@@ -122,7 +124,7 @@
         return infoCell;
     }
     
-    NSArray *types = @[ @"category", @"webId", @"button", @"remind", @"location", @"reset" ];
+    NSArray *types = @[ @"category", @"webId", @"button", @"remind", @"location", @"preference", @"reset" ];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:types[indexPath.section] forIndexPath:indexPath];
     cell.accessoryView = nil;
@@ -209,6 +211,8 @@
         [(AppDelegate *)[[UIApplication sharedApplication] delegate] detectLocation:^{
             [tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(SEC_Remind, 2)] withRowAnimation:UITableViewRowAnimationNone];
         }];
+    } else if (indexPath.section == SEC_Preference) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
     }
 }
 
