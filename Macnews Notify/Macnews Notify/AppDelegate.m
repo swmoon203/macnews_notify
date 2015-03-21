@@ -323,7 +323,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     if (localNotif == nil) return;
     
-    localNotif.fireDate = [[NSDate date] dateByAddingTimeInterval:[DataStore sharedData].remindOptionTimeInterval];
+    localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow:[DataStore sharedData].remindOptionTimeInterval];
     localNotif.timeZone = [NSTimeZone defaultTimeZone];
     
     NSLog(@"%@", localNotif);
