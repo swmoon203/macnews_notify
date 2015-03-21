@@ -108,11 +108,11 @@
                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZZe-Ae-nIo">
-                                    <rect key="frame" x="8" y="7" width="584" height="30"/>
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZZe-Ae-nIo">
+                                    <rect key="frame" x="8" y="7" width="584" height="29"/>
                                     <segments>
-                                        <segment title="List"/>
-                                        <segment title="Archive"/>
+                                        <segment title="목록"/>
+                                        <segment title="보관"/>
                                     </segments>
                                     <connections>
                                         <action selector="onSegmentedChange:" destination="7bK-jq-Zjz" eventType="valueChanged" id="kDp-OD-cBy"/>

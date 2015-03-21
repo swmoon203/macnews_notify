@@ -156,9 +156,8 @@
                                                                             abort();
                                                                         }
                                     }];
-    //button.backgroundColor = [UIColor redColor]; //arbitrary color
     UITableViewRowAction *archive = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
-                                                                       title:@"저장"
+                                                                       title:@"보관"
                                                                      handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
                                                                          NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
                                                                          id item = [self.fetchedResultsController objectAtIndexPath:indexPath];
@@ -172,9 +171,23 @@
                                                                          }
                                                                          
                                      }];
-    //button2.backgroundColor = [UIColor greenColor]; //arbitrary color
+    UITableViewRowAction *unarchive = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
+                                                                       title:@"복원"
+                                                                     handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+                                                                         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+                                                                         id item = [self.fetchedResultsController objectAtIndexPath:indexPath];
+                                                                         [item setValue:@NO forKey:@"archived"];
+                                                                         NSError *error = nil;
+                                                                         if (![context save:&error]) {
+                                                                             // Replace this implementation with code to handle the error appropriately.
+                                                                             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                                                                             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                                                             abort();
+                                                                         }
+                                                                         
+                                                                     }];
     
-    return _archived ? @[ delete] : @[ delete, archive ]; //array with all the buttons you want. 1,2,3, etc...
+    return _archived ? @[ delete, unarchive ] : @[ delete, archive ]; //array with all the buttons you want. 1,2,3, etc...
 }
 
 #pragma mark - Data
