@@ -12,5 +12,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *titleText;
 @property (weak, nonatomic) IBOutlet UIImageView *previewImage;
 
+@property (weak, nonatomic) IBOutlet UILabel *dateText;
 
 @end

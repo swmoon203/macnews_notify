@@ -58,5 +58,14 @@
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>macnews</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

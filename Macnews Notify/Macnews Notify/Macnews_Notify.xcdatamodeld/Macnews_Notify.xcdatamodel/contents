@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C1510" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Notification">
+        <attribute name="archived" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="arg" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="contents" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="idx" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageData" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="reg" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="webId" optional="YES" attributeType="String" syncable="YES"/>
         <userInfo/>
     </entity>
     <elements>
-        <element name="Notification" positionX="261" positionY="189" width="128" height="150"/>
+        <element name="Notification" positionX="54" positionY="266" width="92" height="180"/>
     </elements>
 </model>

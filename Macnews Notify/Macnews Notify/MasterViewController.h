@@ -19,5 +19,6 @@
 @property (strong, readonly, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 
+@property (strong, readonly, nonatomic) NSDateFormatter *dateFormatter;
 @end
 

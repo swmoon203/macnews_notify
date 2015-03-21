@@ -8,17 +8,16 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import <MacnewsCore/MacnewsCore.h>
 #import "AppDelegate.h"
-#import "LazyLoadImageView.h"
 
 @implementation MasterViewController {
     BOOL _loading;
     UIRefreshControl *_refreshControl;
-    NSDictionary *_hostTitles;
-}
-
-- (AppDelegate *)app {
-    return (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    BOOL _archived;
+    NSMutableDictionary *_imageMap;
+    
+    NSOperationQueue *_imageDownloadQueue;
 }
 
 - (void)awakeFromNib {
@@ -33,15 +32,11 @@
     [super viewDidLoad];
     self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
     
+    _imageMap = [NSMutableDictionary dictionary];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromServer) name:AppNeedLoadDataNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromServer) name:UIApplicationWillEnterForegroundNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserverForName:AppNeedDataResetNotification object:nil
-                                                       queue:[NSOperationQueue mainQueue]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      self.fetchedResultsController = nil;
-                                                      [self.tableView reloadData];
-                                                  }];
     
     _refreshControl = [[UIRefreshControl alloc] init];
     [_refreshControl addTarget:self action:@selector(loadDataFromServer) forControlEvents:UIControlEventValueChanged];
@@ -69,7 +64,7 @@
     } else if ([@[ @"notification" ] containsObject:segue.identifier]) {
         [controller setDetailItem:nil];
         NSDictionary *item = sender;
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[self.app hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:[[DataStore sharedData] hostWithWebId:item[@"webId"]][@"url"], item[@"arg"]]];
         
         [controller setUrl:url];
     }
@@ -94,27 +89,46 @@
     
     NSString *title = [object valueForKey:@"title"];;
     if ([[object valueForKey:@"webId"] isEqualToString:@"web.com.tistory.macnews"] == NO) {
-        if (_hostTitles == nil) {
-            NSMutableDictionary *h = [NSMutableDictionary dictionary];
-            NSArray *hosts = (NSArray *)[[NSUserDefaults standardUserDefaults] objectForKey:@"hosts"];
-            [hosts enumerateObjectsUsingBlock:^(NSDictionary *obj, NSUInteger idx, BOOL *stop) {
-                h[obj[@"webId"]] = obj[@"title"];
-            }];
-            _hostTitles = h;
-        }
- 
-        if (_hostTitles[[object valueForKey:@"webId"]] != nil) {
-            NSString *name = _hostTitles[[object valueForKey:@"webId"]];
+        
+        NSString *name = [[DataStore sharedData] hostWithWebId:[object valueForKey:@"webId"]][@"title"];
+        if (name != nil) {
             title = [NSString stringWithFormat:@"[%@] %@", name, title];
         }
     }
     cell.textLabel.text = title;
-    //cell.previewImage.hidden = YES;
+    cell.imageView.image = nil;
     if ([object valueForKey:@"image"] != nil) {
-        //cell.previewImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[object valueForKey:@"image"]]]];
-        
-        [(LazyLoadImageView *)cell.imageView setUrl:[object valueForKey:@"image"]];
+        if ([object valueForKey:@"imageData"] != nil) {
+            NSData *data = [object valueForKey:@"imageData"];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                UIImage *image = [UIImage imageWithData:data];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    cell.imageView.image = image;
+                });
+            });
+        } else if (_imageMap[[object valueForKey:@"image"]] == nil) {
+            NSString *url = [object valueForKey:@"image"];
+            NSManagedObjectID *objectId = [object objectID];
+            _imageMap[url] = objectId;
+            [[self imageDownloadQueue] addOperationWithBlock:^{
+                NSLog(@"Download: %@", url);
+                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+                
+                if (data) {
+                    NSManagedObjectContext *context = [[DataStore sharedData] newManagedObjectContext];
+                    NSManagedObject *objectData = [context objectWithID:objectId];
+                    [objectData setValue:data forKey:@"imageData"];
+                    NSError *error = nil;
+                    [context save:&error];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_imageMap removeObjectForKey:url];
+                });
+            }];
+        }
     }
+
+    cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[object valueForKey:@"reg"]];
     return cell;
 }
 
@@ -146,112 +160,65 @@
     UITableViewRowAction *archive = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal
                                                                        title:@"저장"
                                                                      handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-                                         NSLog(@"Action to perform with Button2!");
+                                                                         NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+                                                                         id item = [self.fetchedResultsController objectAtIndexPath:indexPath];
+                                                                         [item setValue:@YES forKey:@"archived"];
+                                                                         NSError *error = nil;
+                                                                         if (![context save:&error]) {
+                                                                             // Replace this implementation with code to handle the error appropriately.
+                                                                             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                                                                             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                                                             abort();
+                                                                         }
+                                                                         
                                      }];
     //button2.backgroundColor = [UIColor greenColor]; //arbitrary color
     
-    return @[ delete, archive ]; //array with all the buttons you want. 1,2,3, etc...
+    return _archived ? @[ delete] : @[ delete, archive ]; //array with all the buttons you want. 1,2,3, etc...
 }
 
 #pragma mark - Data
 - (void)loadDataFromServer {
+    assert([NSThread isMainThread]);
     if (_loading) return;
     _loading = YES;
     [_refreshControl beginRefreshing];
-    NSLog(@"Start Loading %li", (long)self.app.idx);
+    NSLog(@"Start Loading %li", (long)[DataStore sharedData].idx);
     
+    UIBackgroundTaskIdentifier taskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        
+    }];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSString *url = self.app.token != nil ? [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%@/%li", self.app.token, (long)self.app.idx] :
-        [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%li", (long)self.app.idx];
-        
-        NSURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-        NSURLResponse *response = nil;
-        NSError *error = nil, *errorJson = nil;
-        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-        
-        if ([(NSHTTPURLResponse *)response statusCode] != 200) {
+        [[DataStore sharedData] updateData:^(NSInteger statusCode, NSUInteger count) {
             _loading = NO;
-            // TODO: ui error: network
-            NSLog(@"Error Loading");
+            NSLog(@"End Loading %li", (long)[DataStore sharedData].idx);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_refreshControl endRefreshing];
+                [[UIApplication sharedApplication] endBackgroundTask:taskId];
             });
-            return;
-        }
-        
-        NSArray *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&errorJson];
-        NSMutableArray *list = [NSMutableArray array];
-        [json enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            NSMutableDictionary *item = [NSMutableDictionary dictionaryWithDictionary:obj];
-            item[@"reg"] = [NSDate dateWithTimeIntervalSince1970:[item[@"reg"] intValue]];
-            NSDictionary *apn = [NSJSONSerialization JSONObjectWithData:[item[@"contents"] dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
-            apn = apn[@"apn"];
-            item[@"title"] = apn[@"title"];
-            if (apn[@"image"]) item[@"image"] = apn[@"image"];
-            if ([apn[@"url-args"] count] > 0) item[@"arg"] = apn[@"url-args"][0];
-            [list addObject:item];
-            self.app.idx = MAX(self.app.idx, [item[@"idx"] integerValue]);
         }];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-        
-        NSLog(@"Downloaded: %lu", (unsigned long)[list count]);
-        [list enumerateObjectsUsingBlock:^(NSDictionary *item, NSUInteger idx, BOOL *stop) {
-            NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-            [newManagedObject setValuesForKeysWithDictionary:item];
-        }];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            
-            
-            NSError *dbError = nil;
-            if (![context save:&dbError]) {
-                // Replace this implementation with code to handle the error appropriately.
-                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-                abort();
-            }
-            _loading = NO;
-            [_refreshControl endRefreshing];
-            NSLog(@"End Loading %li", (long)self.app.idx);
-        });
     });
 }
 
 #pragma mark - Fetched results controller
 - (NSManagedObjectContext *)managedObjectContext {
-    return [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    return [DataStore sharedData].managedObjectContext;
 }
 
 - (NSFetchedResultsController *)fetchedResultsController {
     if (_fetchedResultsController != nil) return _fetchedResultsController;
+    [NSFetchedResultsController deleteCacheWithName:@"Master"];
     
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    // Edit the entity name as appropriate.
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Notification" inManagedObjectContext:self.managedObjectContext];
-    [fetchRequest setEntity:entity];
-    
-    // Set the batch size to a suitable number.
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
     [fetchRequest setFetchBatchSize:20];
+    [fetchRequest setSortDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"idx" ascending:NO] ]];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"archived == %@", @(_archived)]];
     
-    // Edit the sort key as appropriate.
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"idx" ascending:NO];
-    NSArray *sortDescriptors = @[sortDescriptor];
-    
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    
-    // Edit the section name key path and cache name if appropriate.
-    // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
+    self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:@"Master"];
+    self.fetchedResultsController.delegate = self;
     
 	NSError *error = nil;
 	if (![self.fetchedResultsController performFetch:&error]) {
-	     // Replace this implementation with code to handle the error appropriately.
-	     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
 	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
@@ -305,14 +272,52 @@
     [self.tableView endUpdates];
 }
 
-/*
-// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
- 
- - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    // In the simplest, most efficient, case, reload the table view.
+- (IBAction)onSegmentedChange:(UISegmentedControl *)sender {
+    _archived = sender.selectedSegmentIndex == 1;
+    
+    [NSFetchedResultsController deleteCacheWithName:@"Master"];
+    
+    [self.fetchedResultsController.fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"archived == %@", @(_archived)]];
+    NSError *error = nil;
+    if (![self.fetchedResultsController performFetch:&error]) {
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
     [self.tableView reloadData];
 }
- */
+
+@synthesize dateFormatter=_dateFormatter;
+- (NSDateFormatter *)dateFormatter {
+    if (_dateFormatter) return _dateFormatter;
+    NSLocale *locale = [NSLocale currentLocale];
+    _dateFormatter = [[NSDateFormatter alloc] init];
+    NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"E MMM d yyyy" options:0 locale:locale];
+    [_dateFormatter setDateFormat:dateFormat];
+    [_dateFormatter setLocale:locale];
+    return _dateFormatter;
+}
+
+#pragma mark - Image Downloader
+- (NSOperationQueue *)imageDownloadQueue {
+    if (_imageDownloadQueue) return _imageDownloadQueue;
+    _imageDownloadQueue = [[NSOperationQueue alloc] init];
+    _imageDownloadQueue.maxConcurrentOperationCount = 3;
+    _imageDownloadQueue.qualityOfService = NSQualityOfServiceBackground;
+    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      UIBackgroundTaskIdentifier taskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+                                                          [_imageDownloadQueue cancelAllOperations];
+                                                      }];
+                                                      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                                                          [_imageDownloadQueue waitUntilAllOperationsAreFinished];
+                                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                                              [[UIApplication sharedApplication] endBackgroundTask:taskId];
+                                                          });
+                                                      });
+                                                  }];
+    return _imageDownloadQueue;
+}
 
 @end
