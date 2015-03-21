@@ -187,6 +187,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
         [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
         completionHandler(UIBackgroundFetchResultNewData);
     } else if (application.applicationState == UIApplicationStateBackground) {
+        application.applicationIconBadgeNumber++;
         [self backgroundUpdateData:completionHandler];
     } else {
         self.receivedNotification = userInfo;
