@@ -15,6 +15,7 @@
 @property (strong, nonatomic, readonly) NSUserDefaults *userDefaults;
 
 @property (strong, nonatomic, readonly) NSString *token;
+@property (nonatomic) NSInteger responsiveMode;
 @property (nonatomic) NSInteger idx;
 - (void)resetIdx;
 

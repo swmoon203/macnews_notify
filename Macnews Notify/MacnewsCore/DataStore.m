@@ -51,6 +51,13 @@ static DataStore *__sharedData = nil;
     return (_userDefaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.kr.smoon.ios.macnews"]);
 }
 
+- (NSInteger)responsiveMode {
+    return [self.userDefaults integerForKey:@"responsiveMode"];
+}
+- (void)setResponsiveMode:(NSInteger)responsiveMode {
+    [self.userDefaults setInteger:responsiveMode forKey:@"responsiveMode"];
+}
+
 - (NSInteger)idx {
     return [self.userDefaults integerForKey:@"idx"];
 }
@@ -64,6 +71,7 @@ static DataStore *__sharedData = nil;
 - (NSString *)token {
     return [self.userDefaults stringForKey:@"deviceToken"];
 }
+
 
 - (void)resetContext {
     NSLog(@"+resetContext");
