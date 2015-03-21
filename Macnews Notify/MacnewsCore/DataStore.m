@@ -212,4 +212,29 @@ static DataStore *__sharedData = nil;
     _updating = NO;
     onComplete([(NSHTTPURLResponse *)response statusCode], [json count]);
 }
+
+- (void)downloadPreviewImages {
+    assert([NSThread isMainThread] == NO);
+    
+    NSManagedObjectContext *context = [self newManagedObjectContext];
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
+    [fetchRequest setFetchBatchSize:5];
+    [fetchRequest setFetchLimit:5];
+    [fetchRequest setSortDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"idx" ascending:NO] ]];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"image != nil && imageData == nil"]];
+    [fetchRequest setPropertiesToFetch:@[ @"image" ]];
+    
+    NSError *err = nil;
+    NSArray *results = [context executeFetchRequest:fetchRequest error:&err];
+    
+    for (NSManagedObject *object in results) {
+        NSLog(@"Download: %@", [object valueForKey:@"image"]);
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[object valueForKey:@"image"]]];
+        if (data) {
+            [object setValue:data forKey:@"imageData"];
+        }
+    }
+    [context save:&err];
+}
 @end
