@@ -9,6 +9,7 @@
 #import "MasterViewController.h"
 #import "DetailViewController.h"
 #import <MacnewsCore/MacnewsCore.h>
+#import <MRProgress/MRProgress.h>
 #import "AppDelegate.h"
 
 @implementation MasterViewController {
@@ -199,7 +200,7 @@
     NSLog(@"Start Loading %li", (long)[DataStore sharedData].idx);
     
     UIBackgroundTaskIdentifier taskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        
+        [[UIApplication sharedApplication] endBackgroundTask:taskId];
     }];
     [[DataStore sharedData] updateData:^(NSManagedObjectContext *context, NSInteger statusCode, NSUInteger count) {
         _loading = NO;
@@ -207,6 +208,16 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [_refreshControl endRefreshing];
             [[UIApplication sharedApplication] endBackgroundTask:taskId];
+            
+            if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive && statusCode != 200) {
+                [MRProgressOverlayView showOverlayAddedTo:self.view.window
+                                                    title:@"인터넷 접속 에러"
+                                                     mode:MRProgressOverlayViewModeCross
+                                                 animated:YES];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 1.0 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
+                    [MRProgressOverlayView dismissAllOverlaysForView:self.view.window animated:YES];
+                });
+            }
         });
     }];
 }
