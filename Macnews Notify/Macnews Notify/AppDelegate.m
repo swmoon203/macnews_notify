@@ -187,13 +187,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
         [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
         completionHandler(UIBackgroundFetchResultNewData);
     } else if (application.applicationState == UIApplicationStateBackground) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            [[DataStore sharedData] updateData:^(NSInteger statusCode, NSUInteger count) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    completionHandler(count == 0 ? UIBackgroundFetchResultNoData : UIBackgroundFetchResultNewData);
-                });
-            }];
-        });
+        [self backgroundUpdateData:completionHandler];
     } else {
         self.receivedNotification = userInfo;
         completionHandler(UIBackgroundFetchResultNewData);
@@ -203,8 +197,14 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 - (void)application:(UIApplication *)application performFetchWithCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
     NSLog(@"performFetchWithCompletionHandler %i", [NSThread isMainThread]);
     
+    [self backgroundUpdateData:completionHandler];
+}
+
+- (void)backgroundUpdateData:(void (^)(UIBackgroundFetchResult result))completionHandler  {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         [[DataStore sharedData] updateData:^(NSInteger statusCode, NSUInteger count) {
+            [[DataStore sharedData] downloadPreviewImages];
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 completionHandler(count == 0 ? UIBackgroundFetchResultNoData : UIBackgroundFetchResultNewData);
             });
