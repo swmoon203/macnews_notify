@@ -14,7 +14,9 @@
 
 @end
 
-@implementation DataStore
+@implementation DataStore {
+    BOOL _updating;
+}
 static DataStore *__sharedData = nil;
 + (DataStore *)sharedData {
     static dispatch_once_t onceToken;
@@ -54,6 +56,9 @@ static DataStore *__sharedData = nil;
 }
 
 - (void)resetContext {
+    NSLog(@"+resetContext");
+    [self deleteAllEntities:@"Notification" from:self.managedObjectContext];
+    NSLog(@"-resetContext");
     
 }
 
@@ -158,6 +163,9 @@ static DataStore *__sharedData = nil;
 
 #pragma mark - Data
 - (void)updateData:(void (^)(NSInteger statusCode, NSUInteger count))onComplete {
+    if (_updating) return onComplete(-1, 0);
+    _updating = YES;
+    
     NSManagedObjectContext *context = [self newManagedObjectContext];
     
     NSString *url = self.token != nil ? [NSString stringWithFormat:@"https://push.smoon.kr/v1/notification/%@/%li", self.token, (long)self.idx] :
@@ -201,6 +209,32 @@ static DataStore *__sharedData = nil;
     NSError *dbError = nil;
     [context save:&dbError];
     
+    _updating = NO;
     onComplete([(NSHTTPURLResponse *)response statusCode], [json count]);
+}
+
+- (void)downloadPreviewImages {
+    assert([NSThread isMainThread] == NO);
+    
+    NSManagedObjectContext *context = [self newManagedObjectContext];
+    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
+    [fetchRequest setFetchBatchSize:5];
+    [fetchRequest setFetchLimit:5];
+    [fetchRequest setSortDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"idx" ascending:NO] ]];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"image != nil && imageData == nil"]];
+    [fetchRequest setPropertiesToFetch:@[ @"image" ]];
+    
+    NSError *err = nil;
+    NSArray *results = [context executeFetchRequest:fetchRequest error:&err];
+    
+    for (NSManagedObject *object in results) {
+        NSLog(@"Download: %@", [object valueForKey:@"image"]);
+        NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:[object valueForKey:@"image"]]];
+        if (data) {
+            [object setValue:data forKey:@"imageData"];
+        }
+    }
+    [context save:&err];
 }
 @end

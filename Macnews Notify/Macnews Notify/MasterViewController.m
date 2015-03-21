@@ -8,7 +8,6 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
-#import "LazyLoadImageView.h"
 #import <MacnewsCore/MacnewsCore.h>
 #import "AppDelegate.h"
 
@@ -17,6 +16,8 @@
     UIRefreshControl *_refreshControl;
     BOOL _archived;
     NSMutableDictionary *_imageMap;
+    
+    NSOperationQueue *_imageDownloadQueue;
 }
 
 - (void)awakeFromNib {
@@ -36,36 +37,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromServer) name:AppNeedLoadDataNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadDataFromServer) name:UIApplicationWillEnterForegroundNotification object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserverForName:AppNeedDataResetNotification object:nil
-//                                                       queue:[NSOperationQueue mainQueue]
-//                                                  usingBlock:^(NSNotification *note) {
-//                                                      self.fetchedResultsController = nil;
-//                                                      [self.tableView reloadData];
-//                                                  }];
-    [[NSNotificationCenter defaultCenter] addObserverForName:LazyLoadImageViewNotification
-                                                      object:nil
-                                                       queue:[NSOperationQueue mainQueue]
-                                                  usingBlock:^(NSNotification *note) {
-                                                      NSIndexPath *indexPath = _imageMap[note.userInfo[@"url"]];
-                                                      if (indexPath == nil) return;
-                                                      NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-                                                      
-                                                      if ([object valueForKey:@"imageData"] != nil) return;
-                                                      
-                                                      [_imageMap removeObjectForKey:note.userInfo[@"url"]];
-                                                      if (note.userInfo[@"imageData"] == nil) return;
-                                                      
-                                                      [object setValue:note.userInfo[@"imageData"] forKey:@"imageData"];
-                                                      
-                                                      NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-                                                      NSError *dbError = nil;
-                                                      if (![context save:&dbError]) {
-                                                          // Replace this implementation with code to handle the error appropriately.
-                                                          // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-                                                          NSLog(@"Unresolved error %@, %@", dbError, [dbError userInfo]);
-                                                          abort();
-                                                      }
-                                                  }];
     
     _refreshControl = [[UIRefreshControl alloc] init];
     [_refreshControl addTarget:self action:@selector(loadDataFromServer) forControlEvents:UIControlEventValueChanged];
@@ -125,24 +96,39 @@
         }
     }
     cell.textLabel.text = title;
-    //cell.previewImage.hidden = YES;
+    cell.imageView.image = nil;
     if ([object valueForKey:@"image"] != nil) {
-        //cell.previewImage.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[object valueForKey:@"image"]]]];
-        
-        if ([object valueForKey:@"imageData"] == nil && _imageMap[[object valueForKey:@"image"]] == nil) {
-            _imageMap[[object valueForKey:@"image"]] = indexPath;
-            [(LazyLoadImageView *)cell.imageView setUrl:[object valueForKey:@"image"]];
-        } else {
-            [(LazyLoadImageView *)cell.imageView setUrl:nil];
+        if ([object valueForKey:@"imageData"] != nil) {
+            NSData *data = [object valueForKey:@"imageData"];
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-                NSData *data = [object valueForKey:@"imageData"];
                 UIImage *image = [UIImage imageWithData:data];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     cell.imageView.image = image;
                 });
             });
+        } else if (_imageMap[[object valueForKey:@"image"]] == nil) {
+            NSString *url = [object valueForKey:@"image"];
+            NSManagedObjectID *objectId = [object objectID];
+            _imageMap[url] = objectId;
+            [[self imageDownloadQueue] addOperationWithBlock:^{
+                NSLog(@"Download: %@", url);
+                NSData *data = [NSData dataWithContentsOfURL:[NSURL URLWithString:url]];
+                
+                if (data) {
+                    NSManagedObjectContext *context = [[DataStore sharedData] newManagedObjectContext];
+                    NSManagedObject *objectData = [context objectWithID:objectId];
+                    [objectData setValue:data forKey:@"imageData"];
+                    NSError *error = nil;
+                    [context save:&error];
+                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_imageMap removeObjectForKey:url];
+                });
+            }];
         }
     }
+
+    cell.detailTextLabel.text = [self.dateFormatter stringFromDate:[object valueForKey:@"reg"]];
     return cell;
 }
 
@@ -198,14 +184,17 @@
     _loading = YES;
     [_refreshControl beginRefreshing];
     NSLog(@"Start Loading %li", (long)[DataStore sharedData].idx);
-
+    
+    UIBackgroundTaskIdentifier taskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        
+    }];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-
         [[DataStore sharedData] updateData:^(NSInteger statusCode, NSUInteger count) {
             _loading = NO;
             NSLog(@"End Loading %li", (long)[DataStore sharedData].idx);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_refreshControl endRefreshing];
+                [[UIApplication sharedApplication] endBackgroundTask:taskId];
             });
         }];
     });
@@ -295,6 +284,40 @@
         abort();
     }
     [self.tableView reloadData];
+}
+
+@synthesize dateFormatter=_dateFormatter;
+- (NSDateFormatter *)dateFormatter {
+    if (_dateFormatter) return _dateFormatter;
+    NSLocale *locale = [NSLocale currentLocale];
+    _dateFormatter = [[NSDateFormatter alloc] init];
+    NSString *dateFormat = [NSDateFormatter dateFormatFromTemplate:@"E MMM d yyyy" options:0 locale:locale];
+    [_dateFormatter setDateFormat:dateFormat];
+    [_dateFormatter setLocale:locale];
+    return _dateFormatter;
+}
+
+#pragma mark - Image Downloader
+- (NSOperationQueue *)imageDownloadQueue {
+    if (_imageDownloadQueue) return _imageDownloadQueue;
+    _imageDownloadQueue = [[NSOperationQueue alloc] init];
+    _imageDownloadQueue.maxConcurrentOperationCount = 3;
+    _imageDownloadQueue.qualityOfService = NSQualityOfServiceBackground;
+    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification
+                                                      object:nil
+                                                       queue:[NSOperationQueue mainQueue]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      UIBackgroundTaskIdentifier taskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+                                                          [_imageDownloadQueue cancelAllOperations];
+                                                      }];
+                                                      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+                                                          [_imageDownloadQueue waitUntilAllOperationsAreFinished];
+                                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                                              [[UIApplication sharedApplication] endBackgroundTask:taskId];
+                                                          });
+                                                      });
+                                                  }];
+    return _imageDownloadQueue;
 }
 
 @end

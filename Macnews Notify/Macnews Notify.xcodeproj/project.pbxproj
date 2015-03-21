@@ -20,12 +20,9 @@
 		A531F6CD1AAAA09500F1BAAD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A531F6CB1AAAA09500F1BAAD /* Main.storyboard */; };
 		A531F6CF1AAAA09500F1BAAD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A531F6CE1AAAA09500F1BAAD /* Images.xcassets */; };
 		A531F6D21AAAA09500F1BAAD /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A531F6D01AAAA09500F1BAAD /* LaunchScreen.xib */; };
-		A531F6DE1AAAA09500F1BAAD /* Macnews_NotifyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F6DD1AAAA09500F1BAAD /* Macnews_NotifyTests.m */; };
 		A531F73F1AAAAD1700F1BAAD /* TUSafariActivity.strings in Resources */ = {isa = PBXBuildFile; fileRef = A531F73D1AAAAD1700F1BAAD /* TUSafariActivity.strings */; };
 		A531F7541AAAAD6900F1BAAD /* TUSafariActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */; };
 		A54397081ABBB232009290B4 /* MacnewsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = A54397071ABBB232009290B4 /* MacnewsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A543970E1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
-		A54397171ABBB232009290B4 /* MacnewsCoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A54397161ABBB232009290B4 /* MacnewsCoreTests.m */; };
 		A543971A1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
 		A543971B1ABBB232009290B4 /* MacnewsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A54397371ABBB269009290B4 /* CoreDataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = A543972F1ABBB269009290B4 /* CoreDataStore.m */; };
@@ -39,7 +36,6 @@
 		A59F455F1ABBB65A003C8BA5 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
 		A5DE171C1AB7F04100886B18 /* Macnews_Notify.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = A531F6C21AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld */; };
 		A5F941D81AB15CCA005DA87D /* FeedTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F941D71AB15CCA005DA87D /* FeedTableViewCell.m */; };
-		A5F941DB1AB5C48D005DA87D /* LazyLoadImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = A5F941DA1AB5C48D005DA87D /* LazyLoadImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,9 +130,6 @@
 		A531F6C91AAAA09500F1BAAD /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		A531F6CE1AAAA09500F1BAAD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A531F6D11AAAA09500F1BAAD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		A531F6D71AAAA09500F1BAAD /* Macnews NotifyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Macnews NotifyTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A531F6DC1AAAA09500F1BAAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A531F6DD1AAAA09500F1BAAD /* Macnews_NotifyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Macnews_NotifyTests.m; sourceTree = "<group>"; };
 		A531F73E1AAAAD1700F1BAAD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
 		A531F7401AAAAD1E00F1BAAD /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
 		A531F7411AAAAD2100F1BAAD /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/TUSafariActivity.strings; sourceTree = "<group>"; };
@@ -161,9 +154,6 @@
 		A54397031ABBB232009290B4 /* MacnewsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MacnewsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A54397061ABBB232009290B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A54397071ABBB232009290B4 /* MacnewsCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacnewsCore.h; sourceTree = "<group>"; };
-		A543970D1ABBB232009290B4 /* MacnewsCoreTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MacnewsCoreTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A54397151ABBB232009290B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A54397161ABBB232009290B4 /* MacnewsCoreTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MacnewsCoreTests.m; sourceTree = "<group>"; };
 		A543972E1ABBB269009290B4 /* CoreDataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreDataStore.h; sourceTree = "<group>"; };
 		A543972F1ABBB269009290B4 /* CoreDataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreDataStore.m; sourceTree = "<group>"; };
 		A54397301ABBB269009290B4 /* DataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataStore.h; sourceTree = "<group>"; };
@@ -176,8 +166,6 @@
 		A5DE171B1AB7F02900886B18 /* Recent-Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Recent-Widget.entitlements"; sourceTree = "<group>"; };
 		A5F941D61AB15CCA005DA87D /* FeedTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedTableViewCell.h; sourceTree = "<group>"; };
 		A5F941D71AB15CCA005DA87D /* FeedTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedTableViewCell.m; sourceTree = "<group>"; };
-		A5F941D91AB5C48D005DA87D /* LazyLoadImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LazyLoadImageView.h; sourceTree = "<group>"; };
-		A5F941DA1AB5C48D005DA87D /* LazyLoadImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LazyLoadImageView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,25 +186,10 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A531F6D41AAAA09500F1BAAD /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A54396FF1ABBB232009290B4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A543970A1ABBB232009290B4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A543970E1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -255,11 +228,9 @@
 			isa = PBXGroup;
 			children = (
 				A531F6BA1AAAA09500F1BAAD /* Macnews Notify */,
-				A531F6DA1AAAA09500F1BAAD /* Macnews NotifyTests */,
 				A502E8811AB7E156001EF9B3 /* Recent-Widget */,
 				A502E87E1AB7E156001EF9B3 /* Frameworks */,
 				A54397041ABBB232009290B4 /* MacnewsCore */,
-				A54397131ABBB232009290B4 /* MacnewsCoreTests */,
 				A531F6B91AAAA09500F1BAAD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -268,10 +239,8 @@
 			isa = PBXGroup;
 			children = (
 				A531F6B81AAAA09500F1BAAD /* Macnews Notify.app */,
-				A531F6D71AAAA09500F1BAAD /* Macnews NotifyTests.xctest */,
 				A502E87D1AB7E156001EF9B3 /* Recent-Widget.appex */,
 				A54397031ABBB232009290B4 /* MacnewsCore.framework */,
-				A543970D1ABBB232009290B4 /* MacnewsCoreTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -310,30 +279,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		A531F6DA1AAAA09500F1BAAD /* Macnews NotifyTests */ = {
-			isa = PBXGroup;
-			children = (
-				A531F6DD1AAAA09500F1BAAD /* Macnews_NotifyTests.m */,
-				A531F6DB1AAAA09500F1BAAD /* Supporting Files */,
-			);
-			path = "Macnews NotifyTests";
-			sourceTree = "<group>";
-		};
-		A531F6DB1AAAA09500F1BAAD /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				A531F6DC1AAAA09500F1BAAD /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		A531F6E71AAAAAA600F1BAAD /* Library */ = {
 			isa = PBXGroup;
 			children = (
 				A531F7521AAAAD6900F1BAAD /* TUSafariActivity.h */,
 				A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */,
-				A5F941D91AB5C48D005DA87D /* LazyLoadImageView.h */,
-				A5F941DA1AB5C48D005DA87D /* LazyLoadImageView.m */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -359,23 +309,6 @@
 			isa = PBXGroup;
 			children = (
 				A54397061ABBB232009290B4 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		A54397131ABBB232009290B4 /* MacnewsCoreTests */ = {
-			isa = PBXGroup;
-			children = (
-				A54397161ABBB232009290B4 /* MacnewsCoreTests.m */,
-				A54397141ABBB232009290B4 /* Supporting Files */,
-			);
-			path = MacnewsCoreTests;
-			sourceTree = "<group>";
-		};
-		A54397141ABBB232009290B4 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				A54397151ABBB232009290B4 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -437,24 +370,6 @@
 			productReference = A531F6B81AAAA09500F1BAAD /* Macnews Notify.app */;
 			productType = "com.apple.product-type.application";
 		};
-		A531F6D61AAAA09500F1BAAD /* Macnews NotifyTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A531F6E41AAAA09500F1BAAD /* Build configuration list for PBXNativeTarget "Macnews NotifyTests" */;
-			buildPhases = (
-				A531F6D31AAAA09500F1BAAD /* Sources */,
-				A531F6D41AAAA09500F1BAAD /* Frameworks */,
-				A531F6D51AAAA09500F1BAAD /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A531F6D91AAAA09500F1BAAD /* PBXTargetDependency */,
-			);
-			name = "Macnews NotifyTests";
-			productName = "Macnews NotifyTests";
-			productReference = A531F6D71AAAA09500F1BAAD /* Macnews NotifyTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		A54397021ABBB232009290B4 /* MacnewsCore */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A543971C1ABBB232009290B4 /* Build configuration list for PBXNativeTarget "MacnewsCore" */;
@@ -472,25 +387,6 @@
 			productName = MacnewsCore;
 			productReference = A54397031ABBB232009290B4 /* MacnewsCore.framework */;
 			productType = "com.apple.product-type.framework";
-		};
-		A543970C1ABBB232009290B4 /* MacnewsCoreTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A543971F1ABBB232009290B4 /* Build configuration list for PBXNativeTarget "MacnewsCoreTests" */;
-			buildPhases = (
-				A54397091ABBB232009290B4 /* Sources */,
-				A543970A1ABBB232009290B4 /* Frameworks */,
-				A543970B1ABBB232009290B4 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A54397101ABBB232009290B4 /* PBXTargetDependency */,
-				A54397121ABBB232009290B4 /* PBXTargetDependency */,
-			);
-			name = MacnewsCoreTests;
-			productName = MacnewsCoreTests;
-			productReference = A543970D1ABBB232009290B4 /* MacnewsCoreTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -522,17 +418,9 @@
 							};
 						};
 					};
-					A531F6D61AAAA09500F1BAAD = {
-						CreatedOnToolsVersion = 6.1.1;
-						TestTargetID = A531F6B71AAAA09400F1BAAD;
-					};
 					A54397021ABBB232009290B4 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = M5P6YBX6ZZ;
-					};
-					A543970C1ABBB232009290B4 = {
-						CreatedOnToolsVersion = 6.2;
-						TestTargetID = A531F6B71AAAA09400F1BAAD;
 					};
 				};
 			};
@@ -570,10 +458,8 @@
 			projectRoot = "";
 			targets = (
 				A531F6B71AAAA09400F1BAAD /* Macnews Notify */,
-				A531F6D61AAAA09500F1BAAD /* Macnews NotifyTests */,
 				A502E87C1AB7E156001EF9B3 /* Recent-Widget */,
 				A54397021ABBB232009290B4 /* MacnewsCore */,
-				A543970C1ABBB232009290B4 /* MacnewsCoreTests */,
 			);
 		};
 /* End PBXProject section */
@@ -599,21 +485,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A531F6D51AAAA09500F1BAAD /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A54397011ABBB232009290B4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A543970B1ABBB232009290B4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -643,15 +515,6 @@
 				A531F6C11AAAA09500F1BAAD /* AppDelegate.m in Sources */,
 				A531F6C41AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld in Sources */,
 				A531F6BE1AAAA09500F1BAAD /* main.m in Sources */,
-				A5F941DB1AB5C48D005DA87D /* LazyLoadImageView.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A531F6D31AAAA09500F1BAAD /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A531F6DE1AAAA09500F1BAAD /* Macnews_NotifyTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,14 +526,6 @@
 				A54397391ABBB269009290B4 /* DataStore.m in Sources */,
 				A543973B1ABBB269009290B4 /* NSString+Hashes.m in Sources */,
 				A543973D1ABBB269009290B4 /* NSString+URL.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A54397091ABBB232009290B4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A54397171ABBB232009290B4 /* MacnewsCoreTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -896,40 +751,6 @@
 			};
 			name = Release;
 		};
-		A531F6E51AAAA09500F1BAAD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Macnews NotifyTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Macnews Notify.app/Macnews Notify";
-			};
-			name = Debug;
-		};
-		A531F6E61AAAA09500F1BAAD /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "Macnews NotifyTests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Macnews Notify.app/Macnews Notify";
-			};
-			name = Release;
-		};
 		A543971D1ABBB232009290B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -979,41 +800,6 @@
 			};
 			name = Release;
 		};
-		A54397201ABBB232009290B4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = MacnewsCoreTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Macnews Notify.app/Macnews Notify";
-			};
-			name = Debug;
-		};
-		A54397211ABBB232009290B4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = MacnewsCoreTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Macnews Notify.app/Macnews Notify";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1044,29 +830,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A531F6E41AAAA09500F1BAAD /* Build configuration list for PBXNativeTarget "Macnews NotifyTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A531F6E51AAAA09500F1BAAD /* Debug */,
-				A531F6E61AAAA09500F1BAAD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A543971C1ABBB232009290B4 /* Build configuration list for PBXNativeTarget "MacnewsCore" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A543971D1ABBB232009290B4 /* Debug */,
 				A543971E1ABBB232009290B4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A543971F1ABBB232009290B4 /* Build configuration list for PBXNativeTarget "MacnewsCoreTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A54397201ABBB232009290B4 /* Debug */,
-				A54397211ABBB232009290B4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
