@@ -35,6 +35,35 @@
 		A538B10F1ABD757D00828F03 /* MacnewsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A538B1151ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1131ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A538B1161ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1141ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.m */; };
+		A538B1451ABDE9FD00828F03 /* MRProgress.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1441ABDE9FD00828F03 /* MRProgress.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1571ABDE9FD00828F03 /* MRProgress.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A538B1401ABDE9FD00828F03 /* MRProgress.framework */; };
+		A538B1581ABDE9FD00828F03 /* MRProgress.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A538B1401ABDE9FD00828F03 /* MRProgress.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A538B1641ABDEA3B00828F03 /* MRBlurView.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1601ABDEA3B00828F03 /* MRBlurView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1651ABDEA3B00828F03 /* MRBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1611ABDEA3B00828F03 /* MRBlurView.m */; };
+		A538B1661ABDEA3B00828F03 /* UIImage+MRImageEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1621ABDEA3B00828F03 /* UIImage+MRImageEffects.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1671ABDEA3B00828F03 /* UIImage+MRImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1631ABDEA3B00828F03 /* UIImage+MRImageEffects.m */; };
+		A538B1781ABDEA5900828F03 /* MRActivityIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1691ABDEA5900828F03 /* MRActivityIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1791ABDEA5900828F03 /* MRActivityIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B16A1ABDEA5900828F03 /* MRActivityIndicatorView.m */; };
+		A538B17A1ABDEA5900828F03 /* MRCircularProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B16B1ABDEA5900828F03 /* MRCircularProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B17B1ABDEA5900828F03 /* MRCircularProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B16C1ABDEA5900828F03 /* MRCircularProgressView.m */; };
+		A538B17C1ABDEA5900828F03 /* MRIconView.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B16D1ABDEA5900828F03 /* MRIconView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B17D1ABDEA5900828F03 /* MRIconView.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B16E1ABDEA5900828F03 /* MRIconView.m */; };
+		A538B17E1ABDEA5900828F03 /* MRNavigationBarProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B16F1ABDEA5900828F03 /* MRNavigationBarProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B17F1ABDEA5900828F03 /* MRNavigationBarProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1701ABDEA5900828F03 /* MRNavigationBarProgressView.m */; };
+		A538B1801ABDEA5900828F03 /* MRProgressOverlayView.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1711ABDEA5900828F03 /* MRProgressOverlayView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1811ABDEA5900828F03 /* MRProgressOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1721ABDEA5900828F03 /* MRProgressOverlayView.m */; };
+		A538B1821ABDEA5900828F03 /* MRProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1731ABDEA5900828F03 /* MRProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1831ABDEA5900828F03 /* MRProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1741ABDEA5900828F03 /* MRProgressView.m */; };
+		A538B1841ABDEA5900828F03 /* MRStopableView.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1751ABDEA5900828F03 /* MRStopableView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1851ABDEA5900828F03 /* MRStopButton.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1761ABDEA5900828F03 /* MRStopButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1861ABDEA5900828F03 /* MRStopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1771ABDEA5900828F03 /* MRStopButton.m */; };
+		A538B19D1ABDEA6D00828F03 /* MRMessageInterceptor.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1961ABDEA6D00828F03 /* MRMessageInterceptor.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B19E1ABDEA6D00828F03 /* MRMessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1971ABDEA6D00828F03 /* MRMessageInterceptor.m */; };
+		A538B19F1ABDEA6D00828F03 /* MRMethodCopier.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1981ABDEA6D00828F03 /* MRMethodCopier.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1A01ABDEA6D00828F03 /* MRMethodCopier.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1991ABDEA6D00828F03 /* MRMethodCopier.m */; };
+		A538B1A11ABDEA6D00828F03 /* MRProgressHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B19A1ABDEA6D00828F03 /* MRProgressHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1A21ABDEA6D00828F03 /* MRWeakProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B19B1ABDEA6D00828F03 /* MRWeakProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1A31ABDEA6D00828F03 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B19C1ABDEA6D00828F03 /* MRWeakProxy.m */; };
 		A54397081ABBB232009290B4 /* MacnewsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = A54397071ABBB232009290B4 /* MacnewsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A543971A1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
 		A543971B1ABBB232009290B4 /* MacnewsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -78,6 +107,13 @@
 			remoteGlobalIDString = A54397021ABBB232009290B4;
 			remoteInfo = MacnewsCore;
 		};
+		A538B1551ABDE9FD00828F03 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A531F6B01AAAA09400F1BAAD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A538B13F1ABDE9FD00828F03;
+			remoteInfo = MRProgress;
+		};
 		A54397181ABBB232009290B4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A531F6B01AAAA09400F1BAAD /* Project object */;
@@ -117,6 +153,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				A538B1581ABDE9FD00828F03 /* MRProgress.framework in Embed Frameworks */,
 				A543971B1ABBB232009290B4 /* MacnewsCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -183,6 +220,35 @@
 		A538B1001ABD751300828F03 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A538B1131ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIMutableUserNotificationAction+Simple.h"; sourceTree = "<group>"; };
 		A538B1141ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIMutableUserNotificationAction+Simple.m"; sourceTree = "<group>"; };
+		A538B1401ABDE9FD00828F03 /* MRProgress.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MRProgress.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A538B1431ABDE9FD00828F03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A538B1441ABDE9FD00828F03 /* MRProgress.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MRProgress.h; sourceTree = "<group>"; };
+		A538B1601ABDEA3B00828F03 /* MRBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRBlurView.h; sourceTree = "<group>"; };
+		A538B1611ABDEA3B00828F03 /* MRBlurView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRBlurView.m; sourceTree = "<group>"; };
+		A538B1621ABDEA3B00828F03 /* UIImage+MRImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+MRImageEffects.h"; sourceTree = "<group>"; };
+		A538B1631ABDEA3B00828F03 /* UIImage+MRImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+MRImageEffects.m"; sourceTree = "<group>"; };
+		A538B1691ABDEA5900828F03 /* MRActivityIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRActivityIndicatorView.h; sourceTree = "<group>"; };
+		A538B16A1ABDEA5900828F03 /* MRActivityIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRActivityIndicatorView.m; sourceTree = "<group>"; };
+		A538B16B1ABDEA5900828F03 /* MRCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRCircularProgressView.h; sourceTree = "<group>"; };
+		A538B16C1ABDEA5900828F03 /* MRCircularProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRCircularProgressView.m; sourceTree = "<group>"; };
+		A538B16D1ABDEA5900828F03 /* MRIconView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRIconView.h; sourceTree = "<group>"; };
+		A538B16E1ABDEA5900828F03 /* MRIconView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRIconView.m; sourceTree = "<group>"; };
+		A538B16F1ABDEA5900828F03 /* MRNavigationBarProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRNavigationBarProgressView.h; sourceTree = "<group>"; };
+		A538B1701ABDEA5900828F03 /* MRNavigationBarProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRNavigationBarProgressView.m; sourceTree = "<group>"; };
+		A538B1711ABDEA5900828F03 /* MRProgressOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressOverlayView.h; sourceTree = "<group>"; };
+		A538B1721ABDEA5900828F03 /* MRProgressOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRProgressOverlayView.m; sourceTree = "<group>"; };
+		A538B1731ABDEA5900828F03 /* MRProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressView.h; sourceTree = "<group>"; };
+		A538B1741ABDEA5900828F03 /* MRProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRProgressView.m; sourceTree = "<group>"; };
+		A538B1751ABDEA5900828F03 /* MRStopableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRStopableView.h; sourceTree = "<group>"; };
+		A538B1761ABDEA5900828F03 /* MRStopButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRStopButton.h; sourceTree = "<group>"; };
+		A538B1771ABDEA5900828F03 /* MRStopButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRStopButton.m; sourceTree = "<group>"; };
+		A538B1961ABDEA6D00828F03 /* MRMessageInterceptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRMessageInterceptor.h; sourceTree = "<group>"; };
+		A538B1971ABDEA6D00828F03 /* MRMessageInterceptor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRMessageInterceptor.m; sourceTree = "<group>"; };
+		A538B1981ABDEA6D00828F03 /* MRMethodCopier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRMethodCopier.h; sourceTree = "<group>"; };
+		A538B1991ABDEA6D00828F03 /* MRMethodCopier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRMethodCopier.m; sourceTree = "<group>"; };
+		A538B19A1ABDEA6D00828F03 /* MRProgressHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressHelper.h; sourceTree = "<group>"; };
+		A538B19B1ABDEA6D00828F03 /* MRWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRWeakProxy.h; sourceTree = "<group>"; };
+		A538B19C1ABDEA6D00828F03 /* MRWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRWeakProxy.m; sourceTree = "<group>"; };
 		A54397031ABBB232009290B4 /* MacnewsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MacnewsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A54397061ABBB232009290B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A54397071ABBB232009290B4 /* MacnewsCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacnewsCore.h; sourceTree = "<group>"; };
@@ -204,6 +270,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A538B1571ABDE9FD00828F03 /* MRProgress.framework in Frameworks */,
 				A543971A1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -225,6 +292,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A538B13C1ABDE9FD00828F03 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A54396FF1ABBB232009290B4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -243,6 +317,7 @@
 				A538B0D01ABD742E00828F03 /* Recent-Widget */,
 				A538B0E51ABD751300828F03 /* Macnews Notify WatchKit Extension */,
 				A538B0FA1ABD751300828F03 /* Macnews Notify WatchKit App */,
+				A538B1411ABDE9FD00828F03 /* MRProgress */,
 				A538B0CD1ABD742E00828F03 /* Frameworks */,
 				A531F6B91AAAA09500F1BAAD /* Products */,
 			);
@@ -256,6 +331,7 @@
 				A538B0CC1ABD742E00828F03 /* Recent-Widget.appex */,
 				A538B0E41ABD751300828F03 /* Macnews Notify WatchKit Extension.appex */,
 				A538B0F61ABD751300828F03 /* Macnews Notify WatchKit App.app */,
+				A538B1401ABDE9FD00828F03 /* MRProgress.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -372,6 +448,73 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		A538B1411ABDE9FD00828F03 /* MRProgress */ = {
+			isa = PBXGroup;
+			children = (
+				A538B1441ABDE9FD00828F03 /* MRProgress.h */,
+				A538B15F1ABDEA3B00828F03 /* Blur */,
+				A538B1681ABDEA5900828F03 /* Components */,
+				A538B1951ABDEA6D00828F03 /* Utils */,
+				A538B1421ABDE9FD00828F03 /* Supporting Files */,
+			);
+			path = MRProgress;
+			sourceTree = "<group>";
+		};
+		A538B1421ABDE9FD00828F03 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				A538B1431ABDE9FD00828F03 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		A538B15F1ABDEA3B00828F03 /* Blur */ = {
+			isa = PBXGroup;
+			children = (
+				A538B1601ABDEA3B00828F03 /* MRBlurView.h */,
+				A538B1611ABDEA3B00828F03 /* MRBlurView.m */,
+				A538B1621ABDEA3B00828F03 /* UIImage+MRImageEffects.h */,
+				A538B1631ABDEA3B00828F03 /* UIImage+MRImageEffects.m */,
+			);
+			path = Blur;
+			sourceTree = "<group>";
+		};
+		A538B1681ABDEA5900828F03 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A538B1691ABDEA5900828F03 /* MRActivityIndicatorView.h */,
+				A538B16A1ABDEA5900828F03 /* MRActivityIndicatorView.m */,
+				A538B16B1ABDEA5900828F03 /* MRCircularProgressView.h */,
+				A538B16C1ABDEA5900828F03 /* MRCircularProgressView.m */,
+				A538B16D1ABDEA5900828F03 /* MRIconView.h */,
+				A538B16E1ABDEA5900828F03 /* MRIconView.m */,
+				A538B16F1ABDEA5900828F03 /* MRNavigationBarProgressView.h */,
+				A538B1701ABDEA5900828F03 /* MRNavigationBarProgressView.m */,
+				A538B1711ABDEA5900828F03 /* MRProgressOverlayView.h */,
+				A538B1721ABDEA5900828F03 /* MRProgressOverlayView.m */,
+				A538B1731ABDEA5900828F03 /* MRProgressView.h */,
+				A538B1741ABDEA5900828F03 /* MRProgressView.m */,
+				A538B1751ABDEA5900828F03 /* MRStopableView.h */,
+				A538B1761ABDEA5900828F03 /* MRStopButton.h */,
+				A538B1771ABDEA5900828F03 /* MRStopButton.m */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A538B1951ABDEA6D00828F03 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				A538B1961ABDEA6D00828F03 /* MRMessageInterceptor.h */,
+				A538B1971ABDEA6D00828F03 /* MRMessageInterceptor.m */,
+				A538B1981ABDEA6D00828F03 /* MRMethodCopier.h */,
+				A538B1991ABDEA6D00828F03 /* MRMethodCopier.m */,
+				A538B19A1ABDEA6D00828F03 /* MRProgressHelper.h */,
+				A538B19B1ABDEA6D00828F03 /* MRWeakProxy.h */,
+				A538B19C1ABDEA6D00828F03 /* MRWeakProxy.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		A54397041ABBB232009290B4 /* MacnewsCore */ = {
 			isa = PBXGroup;
 			children = (
@@ -402,6 +545,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		A538B13D1ABDE9FD00828F03 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A538B1451ABDE9FD00828F03 /* MRProgress.h in Headers */,
+				A538B17A1ABDEA5900828F03 /* MRCircularProgressView.h in Headers */,
+				A538B1A21ABDEA6D00828F03 /* MRWeakProxy.h in Headers */,
+				A538B1661ABDEA3B00828F03 /* UIImage+MRImageEffects.h in Headers */,
+				A538B17C1ABDEA5900828F03 /* MRIconView.h in Headers */,
+				A538B1821ABDEA5900828F03 /* MRProgressView.h in Headers */,
+				A538B1A11ABDEA6D00828F03 /* MRProgressHelper.h in Headers */,
+				A538B17E1ABDEA5900828F03 /* MRNavigationBarProgressView.h in Headers */,
+				A538B19F1ABDEA6D00828F03 /* MRMethodCopier.h in Headers */,
+				A538B1841ABDEA5900828F03 /* MRStopableView.h in Headers */,
+				A538B1851ABDEA5900828F03 /* MRStopButton.h in Headers */,
+				A538B1641ABDEA3B00828F03 /* MRBlurView.h in Headers */,
+				A538B1801ABDEA5900828F03 /* MRProgressOverlayView.h in Headers */,
+				A538B19D1ABDEA6D00828F03 /* MRMessageInterceptor.h in Headers */,
+				A538B1781ABDEA5900828F03 /* MRActivityIndicatorView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A54397001ABBB232009290B4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -434,6 +599,7 @@
 				A54397191ABBB232009290B4 /* PBXTargetDependency */,
 				A538B0D91ABD742E00828F03 /* PBXTargetDependency */,
 				A538B1031ABD751300828F03 /* PBXTargetDependency */,
+				A538B1561ABDE9FD00828F03 /* PBXTargetDependency */,
 			);
 			name = "Macnews Notify";
 			productName = "Macnews Notify";
@@ -492,6 +658,24 @@
 			productReference = A538B0F61ABD751300828F03 /* Macnews Notify WatchKit App.app */;
 			productType = "com.apple.product-type.application.watchapp";
 		};
+		A538B13F1ABDE9FD00828F03 /* MRProgress */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A538B1591ABDE9FD00828F03 /* Build configuration list for PBXNativeTarget "MRProgress" */;
+			buildPhases = (
+				A538B13B1ABDE9FD00828F03 /* Sources */,
+				A538B13C1ABDE9FD00828F03 /* Frameworks */,
+				A538B13D1ABDE9FD00828F03 /* Headers */,
+				A538B13E1ABDE9FD00828F03 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MRProgress;
+			productName = MRProgress;
+			productReference = A538B1401ABDE9FD00828F03 /* MRProgress.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		A54397021ABBB232009290B4 /* MacnewsCore */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A543971C1ABBB232009290B4 /* Build configuration list for PBXNativeTarget "MacnewsCore" */;
@@ -542,6 +726,10 @@
 					A538B0F51ABD751300828F03 = {
 						CreatedOnToolsVersion = 6.2;
 					};
+					A538B13F1ABDE9FD00828F03 = {
+						CreatedOnToolsVersion = 6.2;
+						DevelopmentTeam = M5P6YBX6ZZ;
+					};
 					A54397021ABBB232009290B4 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = M5P6YBX6ZZ;
@@ -586,6 +774,7 @@
 				A538B0CB1ABD742E00828F03 /* Recent-Widget */,
 				A538B0E31ABD751300828F03 /* Macnews Notify WatchKit Extension */,
 				A538B0F51ABD751300828F03 /* Macnews Notify WatchKit App */,
+				A538B13F1ABDE9FD00828F03 /* MRProgress */,
 			);
 		};
 /* End PBXProject section */
@@ -625,6 +814,13 @@
 			files = (
 				A538B0FF1ABD751300828F03 /* Interface.storyboard in Resources */,
 				A538B1011ABD751300828F03 /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A538B13E1ABDE9FD00828F03 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -671,6 +867,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A538B13B1ABDE9FD00828F03 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A538B1811ABDEA5900828F03 /* MRProgressOverlayView.m in Sources */,
+				A538B19E1ABDEA6D00828F03 /* MRMessageInterceptor.m in Sources */,
+				A538B1791ABDEA5900828F03 /* MRActivityIndicatorView.m in Sources */,
+				A538B1831ABDEA5900828F03 /* MRProgressView.m in Sources */,
+				A538B1A31ABDEA6D00828F03 /* MRWeakProxy.m in Sources */,
+				A538B1A01ABDEA6D00828F03 /* MRMethodCopier.m in Sources */,
+				A538B1861ABDEA5900828F03 /* MRStopButton.m in Sources */,
+				A538B1651ABDEA3B00828F03 /* MRBlurView.m in Sources */,
+				A538B1671ABDEA3B00828F03 /* UIImage+MRImageEffects.m in Sources */,
+				A538B17B1ABDEA5900828F03 /* MRCircularProgressView.m in Sources */,
+				A538B17F1ABDEA5900828F03 /* MRNavigationBarProgressView.m in Sources */,
+				A538B17D1ABDEA5900828F03 /* MRIconView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A54396FE1ABBB232009290B4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -705,6 +920,11 @@
 			isa = PBXTargetDependency;
 			target = A54397021ABBB232009290B4 /* MacnewsCore */;
 			targetProxy = A538B1101ABD757D00828F03 /* PBXContainerItemProxy */;
+		};
+		A538B1561ABDE9FD00828F03 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A538B13F1ABDE9FD00828F03 /* MRProgress */;
+			targetProxy = A538B1551ABDE9FD00828F03 /* PBXContainerItemProxy */;
 		};
 		A54397191ABBB232009290B4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -970,6 +1190,53 @@
 			};
 			name = Release;
 		};
+		A538B15A1ABDE9FD00828F03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MRProgress/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A538B15B1ABDE9FD00828F03 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = MRProgress/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		A543971D1ABBB232009290B4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1056,12 +1323,22 @@
 				A538B1081ABD751300828F03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A538B10A1ABD751300828F03 /* Build configuration list for PBXNativeTarget "Macnews Notify WatchKit Extension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A538B1051ABD751300828F03 /* Debug */,
 				A538B1061ABD751300828F03 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A538B1591ABDE9FD00828F03 /* Build configuration list for PBXNativeTarget "MRProgress" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A538B15A1ABDE9FD00828F03 /* Debug */,
+				A538B15B1ABDE9FD00828F03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
