@@ -65,6 +65,7 @@
 		A538B1A21ABDEA6D00828F03 /* MRWeakProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B19B1ABDEA6D00828F03 /* MRWeakProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A538B1A31ABDEA6D00828F03 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B19C1ABDEA6D00828F03 /* MRWeakProxy.m */; };
 		A538B1A71ABDF59F00828F03 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1A61ABDF59F00828F03 /* TableViewCell.m */; };
+		A538B1A91ABE146300828F03 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A538B1A81ABE146300828F03 /* CoreLocation.framework */; };
 		A54397081ABBB232009290B4 /* MacnewsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = A54397071ABBB232009290B4 /* MacnewsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A543971A1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
 		A543971B1ABBB232009290B4 /* MacnewsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -251,6 +252,7 @@
 		A538B19C1ABDEA6D00828F03 /* MRWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRWeakProxy.m; sourceTree = "<group>"; };
 		A538B1A51ABDF59F00828F03 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
 		A538B1A61ABDF59F00828F03 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
+		A538B1A81ABE146300828F03 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		A54397031ABBB232009290B4 /* MacnewsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MacnewsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A54397061ABBB232009290B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A54397071ABBB232009290B4 /* MacnewsCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacnewsCore.h; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A538B1A91ABE146300828F03 /* CoreLocation.framework in Frameworks */,
 				A538B1571ABDE9FD00828F03 /* MRProgress.framework in Frameworks */,
 				A543971A1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */,
 			);
@@ -317,7 +320,6 @@
 				A538B0D01ABD742E00828F03 /* Recent-Widget */,
 				A538B0E51ABD751300828F03 /* Macnews Notify WatchKit Extension */,
 				A538B0FA1ABD751300828F03 /* Macnews Notify WatchKit App */,
-				A538B1411ABDE9FD00828F03 /* MRProgress */,
 				A538B0CD1ABD742E00828F03 /* Frameworks */,
 				A531F6B91AAAA09500F1BAAD /* Products */,
 			);
@@ -382,6 +384,8 @@
 		A538B0CD1ABD742E00828F03 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A538B1411ABDE9FD00828F03 /* MRProgress */,
+				A538B1A81ABE146300828F03 /* CoreLocation.framework */,
 				A538B0CE1ABD742E00828F03 /* NotificationCenter.framework */,
 			);
 			name = Frameworks;

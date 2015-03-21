@@ -10,15 +10,17 @@
 #import "NSString+URL.h"
 #import "DetailViewController.h"
 #import <MacnewsCore/MacnewsCore.h>
+#import <CoreLocation/CoreLocation.h>
 #import "AppDelegate.h"
 
 #define SEC_Category 0
 #define SEC_Subscription 1
 #define SEC_Button 2
 #define SEC_Remind 3
-#define SEC_Reset 4
+#define SEC_Location 4
+#define SEC_Reset 5
 
-#define SECTION_COUNT 5
+#define SECTION_COUNT 6
 
 @implementation SettingViewController {
     NSDictionary *_catagories;
@@ -86,7 +88,7 @@
     return SECTION_COUNT;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSArray *titles = @[ @"카테고리", @"구독", @"알림센터 버튼", @"나중에 알림", @"초기화" ];
+    NSArray *titles = @[ @"카테고리", @"구독", @"알림센터 버튼", @"나중에 알림", @"위치 알림", @"초기화" ];
     return titles[section];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -94,7 +96,8 @@
         case SEC_Category: return _catagories != nil ? [_catagories[@"categories"] count] : 1;
         case SEC_Subscription: return [[DataStore sharedData] numberOfHosts];
         case SEC_Button: return 3;
-        case SEC_Remind: return [[[DataStore sharedData] remindOptionTitles] count];
+        case SEC_Remind: return [[[DataStore sharedData] remindOptionTitles] count] + ([DataStore sharedData].canUseLocationNotifications && [DataStore sharedData].location != nil ? 0 : -1);
+        case SEC_Location: return [DataStore sharedData].canUseLocationNotifications ? 2 : 1;
         case SEC_Reset: return 1;
     }
     return 0;
@@ -119,7 +122,7 @@
         return infoCell;
     }
     
-    NSArray *types = @[ @"category", @"webId", @"button", @"remind", @"reset" ];
+    NSArray *types = @[ @"category", @"webId", @"button", @"remind", @"location", @"reset" ];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:types[indexPath.section] forIndexPath:indexPath];
     cell.accessoryView = nil;
@@ -167,6 +170,22 @@
             
             break;
         }
+        case SEC_Location: {
+            if ([DataStore sharedData].canUseLocationNotifications == NO) {
+                cell.textLabel.text = @"위치 서비스 권한이 필요합니다.";
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else {
+                if (indexPath.row == 0) {
+                    CLLocation *location = [DataStore sharedData].location;
+                    cell.textLabel.text = location == nil ? @"위치 설정이 필요합니다." : [NSString stringWithFormat:@"%f, %f", location.coordinate.longitude, location.coordinate.latitude];
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                } else {
+                    cell.textLabel.text = @"알림 받을 위치 설정";
+                    cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+                }
+            }
+            break;
+        }
         case SEC_Reset: {
             
             break;
@@ -186,6 +205,10 @@
     } else  if (indexPath.section == SEC_Remind) {
         [DataStore sharedData].remindOption = indexPath.row;
         [tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Remind] withRowAnimation:UITableViewRowAnimationNone];
+    } else if (indexPath.section == SEC_Location && indexPath.row == 1) {
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] detectLocation:^{
+            [tableView reloadSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(SEC_Remind, 2)] withRowAnimation:UITableViewRowAnimationNone];
+        }];
     }
 }
 

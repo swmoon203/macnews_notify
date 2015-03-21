@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "CoreDataStore.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface DataStore : CoreDataStore
 + (DataStore *)sharedData;
@@ -20,6 +21,9 @@
 - (NSArray *)remindOptionTitles;
 @property (nonatomic) NSInteger remindOption;
 @property (nonatomic, readonly) NSTimeInterval remindOptionTimeInterval;
+
+@property (nonatomic) BOOL canUseLocationNotifications;
+@property (strong, nonatomic) CLLocation *location;
 
 @property (nonatomic) NSInteger idx;
 - (void)resetIdx;

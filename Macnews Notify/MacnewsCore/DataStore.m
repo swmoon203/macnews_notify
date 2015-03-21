@@ -59,7 +59,7 @@ static DataStore *__sharedData = nil;
 }
 
 - (NSArray *)remindOptionTitles {
-    return @[ @"5분후", @"한시간후", @"내일" ];
+    return @[ @"5분후", @"한시간후", @"내일", @"위치알림" ];
 }
 - (NSInteger)remindOption {
     return [self.userDefaults integerForKey:@"remindOption"];
@@ -68,7 +68,30 @@ static DataStore *__sharedData = nil;
     [self.userDefaults setInteger:remindOption forKey:@"remindOption"];
 }
 - (NSTimeInterval)remindOptionTimeInterval {
-    return [@[ @(5 * 60), @(60 * 60), @(24 * 60 * 60) ][self.remindOption] doubleValue];
+    return [@[ @(5 * 60), @(60 * 60), @(24 * 60 * 60) ][self.remindOption < 3 ? self.remindOption : 0 ] doubleValue];
+}
+
+- (BOOL)canUseLocationNotifications {
+    return [self.userDefaults boolForKey:@"canUseLocationNotifications"];
+}
+- (void)setCanUseLocationNotifications:(BOOL)canUseLocationNotifications {
+    [self.userDefaults setBool:canUseLocationNotifications forKey:@"canUseLocationNotifications"];
+}
+- (CLLocation *)location {
+    NSDictionary *data = [self.userDefaults objectForKey:@"location"];
+    if (data == nil) return nil;
+    return [[CLLocation alloc] initWithLatitude:[data[@"latitude"] doubleValue] longitude:[data[@"longitude"] doubleValue]];
+}
+- (void)setLocation:(CLLocation *)location {
+    if (location == nil) {
+        [self.userDefaults removeObjectForKey:@"location"];
+    } else {
+        [self.userDefaults setObject:@{
+                                       @"latitude": @(location.coordinate.latitude),
+                                       @"longitude": @(location.coordinate.longitude)
+                                       }
+                              forKey:@"location"];
+    }
 }
 
 - (NSInteger)idx {

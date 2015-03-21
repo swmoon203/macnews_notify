@@ -9,7 +9,7 @@
 #import "AppDelegate.h"
 #import "DetailViewController.h"
 #import "MasterViewController.h"
-#import <MacnewsCore/MacnewsCore.h>
+#import <MRProgress/MRProgress.h>
 
 NSString *const AppNeedLoadDataNotification = @"AppNeedLoadDataNotification";
 NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSettingsNotification";
@@ -21,6 +21,10 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 
 @implementation AppDelegate {
     BOOL _enteredBackground;
+    CLLocationManager *_locationManager;
+    MRProgressOverlayView *_overlayView;
+    void(^_onCompleteLocating)();
+    int _filterCount;
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -34,11 +38,14 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     _enteredBackground = YES;
     self.receivedNotification = launchOptions[UIApplicationLaunchOptionsRemoteNotificationKey];
     [application setMinimumBackgroundFetchInterval:UIApplicationBackgroundFetchIntervalMinimum];
+    
+    [self registerLocationService];
     return YES;
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [self handleReceivedNotification];
+    
     _enteredBackground = NO;
 }
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -323,10 +330,19 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     if (localNotif == nil) return;
     
-    localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow:[DataStore sharedData].remindOptionTimeInterval];
-    localNotif.timeZone = [NSTimeZone defaultTimeZone];
-    
-    NSLog(@"%@", localNotif);
+    CLLocation *location = [DataStore sharedData].location;
+    if ([DataStore sharedData].canUseLocationNotifications &&
+        [DataStore sharedData].remindOption == [[DataStore sharedData].remindOptionTitles count] -1 &&
+        location != nil) {
+        localNotif.regionTriggersOnce = YES;
+        
+        localNotif.region = [[CLCircularRegion alloc] initWithCenter:location.coordinate
+                                                              radius:100
+                                                          identifier:@"LOCNOTI"];
+    } else {
+        localNotif.fireDate = [NSDate dateWithTimeIntervalSinceNow:[DataStore sharedData].remindOptionTimeInterval];
+        localNotif.timeZone = [NSTimeZone defaultTimeZone];
+    }
     
     localNotif.alertTitle = userInfo[@"aps"][@"alert"][@"title"];
     localNotif.alertBody = userInfo[@"aps"][@"alert"][@"body"];
@@ -348,6 +364,42 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
             NSLog(@"Cancel: %@", noti);
             [[UIApplication sharedApplication] cancelLocalNotification:noti];
         }
+    }
+}
+
+- (void)registerLocationService {
+    _locationManager = [[CLLocationManager alloc] init];
+    _locationManager.delegate = self;
+    
+    [_locationManager requestWhenInUseAuthorization];
+}
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    [DataStore sharedData].canUseLocationNotifications = (status == kCLAuthorizationStatusAuthorizedWhenInUse);
+}
+
+- (void)detectLocation:(void (^)())onComplete {
+    [_locationManager startUpdatingLocation];
+    _overlayView = [MRProgressOverlayView showOverlayAddedTo:self.window
+                                                       title:@"위치 측정중..."
+                                                        mode:MRProgressOverlayViewModeIndeterminate
+                                                    animated:YES];
+    _onCompleteLocating = onComplete;
+    _filterCount = 0;
+}
+- (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    CLLocation *location = [locations lastObject];
+    [DataStore sharedData].location = location;
+    NSLog(@"%f, %f, %f, %f, %@", location.coordinate.longitude, location.coordinate.latitude, location.horizontalAccuracy, location.verticalAccuracy, location);
+
+    [_overlayView setTitleLabelText:[NSString stringWithFormat:@"위치 측정중...\n%f, %f\n%lim", location.coordinate.longitude, location.coordinate.latitude, (long)location.horizontalAccuracy]];
+    _filterCount++;
+    
+    if (location.horizontalAccuracy <= 65 && _filterCount >= 5) {
+        [_overlayView dismiss:YES];
+        _overlayView = nil;
+        [_locationManager stopUpdatingLocation];
+        _onCompleteLocating();
+        _onCompleteLocating = nil;
     }
 }
 @end
