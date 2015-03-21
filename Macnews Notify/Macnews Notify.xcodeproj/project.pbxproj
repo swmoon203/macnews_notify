@@ -33,6 +33,8 @@
 		A538B1041ABD751300828F03 /* Macnews Notify WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A538B0E41ABD751300828F03 /* Macnews Notify WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A538B10E1ABD757D00828F03 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
 		A538B10F1ABD757D00828F03 /* MacnewsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		A538B1151ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1131ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A538B1161ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1141ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.m */; };
 		A54397081ABBB232009290B4 /* MacnewsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = A54397071ABBB232009290B4 /* MacnewsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A543971A1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
 		A543971B1ABBB232009290B4 /* MacnewsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -179,6 +181,8 @@
 		A538B0FC1ABD751300828F03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A538B0FE1ABD751300828F03 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
 		A538B1001ABD751300828F03 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		A538B1131ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIMutableUserNotificationAction+Simple.h"; sourceTree = "<group>"; };
+		A538B1141ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIMutableUserNotificationAction+Simple.m"; sourceTree = "<group>"; };
 		A54397031ABBB232009290B4 /* MacnewsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MacnewsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A54397061ABBB232009290B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A54397071ABBB232009290B4 /* MacnewsCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacnewsCore.h; sourceTree = "<group>"; };
@@ -380,6 +384,8 @@
 				A54397331ABBB269009290B4 /* NSString+Hashes.m */,
 				A54397341ABBB269009290B4 /* NSString+URL.h */,
 				A54397351ABBB269009290B4 /* NSString+URL.m */,
+				A538B1131ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.h */,
+				A538B1141ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.m */,
 				A54397051ABBB232009290B4 /* Supporting Files */,
 			);
 			path = MacnewsCore;
@@ -404,6 +410,7 @@
 				A54397081ABBB232009290B4 /* MacnewsCore.h in Headers */,
 				A543973C1ABBB269009290B4 /* NSString+URL.h in Headers */,
 				A54397381ABBB269009290B4 /* DataStore.h in Headers */,
+				A538B1151ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.h in Headers */,
 				A543973A1ABBB269009290B4 /* NSString+Hashes.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -670,6 +677,7 @@
 			files = (
 				A54397371ABBB269009290B4 /* CoreDataStore.m in Sources */,
 				A54397391ABBB269009290B4 /* DataStore.m in Sources */,
+				A538B1161ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.m in Sources */,
 				A543973B1ABBB269009290B4 /* NSString+Hashes.m in Sources */,
 				A543973D1ABBB269009290B4 /* NSString+URL.m in Sources */,
 			);

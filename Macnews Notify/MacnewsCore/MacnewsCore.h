@@ -18,6 +18,8 @@ FOUNDATION_EXPORT const unsigned char MacnewsCoreVersionString[];
 
 #import <MacnewsCore/NSString+Hashes.h>
 #import <MacnewsCore/NSString+URL.h>
+#import <MacnewsCore/UIMutableUserNotificationAction+Simple.h>
 
 #import <MacnewsCore/CoreDataStore.h>
 #import <MacnewsCore/DataStore.h>
+
