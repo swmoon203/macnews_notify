@@ -14,10 +14,11 @@
 
 #define SEC_Category 0
 #define SEC_Subscription 1
-#define SEC_Reset 2
-#define SEC_Info 3
+#define SEC_Button 2
+#define SEC_Remind 3
+#define SEC_Reset 4
 
-#define SECTION_COUNT 3
+#define SECTION_COUNT 5
 
 @implementation SettingViewController {
     NSDictionary *_catagories;
@@ -85,18 +86,26 @@
     return SECTION_COUNT;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSArray *titles = @[ @"카테고리", @"구독", @"", @"" ];
+    NSArray *titles = @[ @"카테고리", @"구독", @"알림센터 버튼", @"나중에 알림", @"초기화" ];
     return titles[section];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     switch (section) {
         case SEC_Category: return _catagories != nil ? [_catagories[@"categories"] count] : 1;
         case SEC_Subscription: return [[DataStore sharedData] numberOfHosts];
+        case SEC_Button: return 3;
+        case SEC_Remind: return [[[DataStore sharedData] remindOptionTitles] count];
         case SEC_Reset: return 1;
-        case SEC_Info: return 0;
     }
     return 0;
 }
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == SEC_Button) {
+        return 60.0;
+    }
+    return tableView.rowHeight;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == SEC_Category && _catagories == nil) {
         UITableViewCell *infoCell = [tableView dequeueReusableCellWithIdentifier:_loading ? @"loading" : ([DataStore sharedData].token != nil ? @"error" : @"needToken") forIndexPath:indexPath];
@@ -110,7 +119,7 @@
         return infoCell;
     }
     
-    NSArray *types = @[ @"category", @"webId", @"reset" ];
+    NSArray *types = @[ @"category", @"webId", @"button", @"remind", @"reset" ];
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:types[indexPath.section] forIndexPath:indexPath];
     cell.accessoryView = nil;
@@ -144,11 +153,22 @@
             }
             break;
         }
-        case SEC_Reset: {
+        case SEC_Button: {
+            cell.imageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"setting_button_option_%li", (long)indexPath.row]];
+            cell.accessoryType = [DataStore sharedData].responsiveMode == indexPath.row ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
+            cell.accessoryView = [DataStore sharedData].responsiveMode == indexPath.row ? nil : [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 24.0, cell.contentView.frame.size.height)];
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            break;
+        }
+        case SEC_Remind: {
+            cell.textLabel.text = [[DataStore sharedData] remindOptionTitles][indexPath.row];
+            cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            cell.accessoryType = [DataStore sharedData].remindOption == indexPath.row ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
             
             break;
         }
-        case SEC_Info: {
+        case SEC_Reset: {
+            
             break;
         }
     }
@@ -159,6 +179,10 @@
     
     if (indexPath.section == SEC_Reset) {
         [self resetData];
+    } else if (indexPath.section == SEC_Button) {
+        [DataStore sharedData].responsiveMode = indexPath.row;
+        [(AppDelegate *)[[UIApplication sharedApplication] delegate] registerDevice];
+        [tableView reloadSections:[NSIndexSet indexSetWithIndex:SEC_Button] withRowAnimation:UITableViewRowAnimationNone];
     }
 }
 

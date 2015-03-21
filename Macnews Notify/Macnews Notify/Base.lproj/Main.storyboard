@@ -108,7 +108,7 @@
                             <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
-                                <segmentedControl opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZZe-Ae-nIo">
+                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="ZZe-Ae-nIo">
                                     <rect key="frame" x="8" y="7" width="584" height="29"/>
                                     <segments>
                                         <segment title="목록"/>
@@ -123,7 +123,7 @@
                             <constraints>
                                 <constraint firstItem="ZZe-Ae-nIo" firstAttribute="leading" secondItem="dre-89-MEp" secondAttribute="leadingMargin" id="27v-9h-jF2"/>
                                 <constraint firstItem="ZZe-Ae-nIo" firstAttribute="trailing" secondItem="dre-89-MEp" secondAttribute="trailingMargin" id="NPZ-ui-roE"/>
-                                <constraint firstItem="ZZe-Ae-nIo" firstAttribute="bottom" secondItem="dre-89-MEp" secondAttribute="bottomMargin" id="fbt-ds-jMA"/>
+                                <constraint firstItem="ZZe-Ae-nIo" firstAttribute="bottom" secondItem="dre-89-MEp" secondAttribute="bottomMargin" constant="-1" id="fbt-ds-jMA"/>
                                 <constraint firstItem="ZZe-Ae-nIo" firstAttribute="top" secondItem="dre-89-MEp" secondAttribute="top" constant="7" id="lN5-Vj-OdZ"/>
                             </constraints>
                         </view>
@@ -343,6 +343,32 @@ Line3</string>
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="button" rowHeight="60" id="jer-iy-a7d" customClass="TableViewCell">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jer-iy-a7d" id="LWm-C1-tHt">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hud-kF-xug">
+                                            <rect key="frame" x="8" y="5" width="545" height="49.5"/>
+                                        </imageView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="hud-kF-xug" firstAttribute="leading" secondItem="LWm-C1-tHt" secondAttribute="leading" constant="8" id="Bie-t3-GpA"/>
+                                        <constraint firstAttribute="bottom" secondItem="hud-kF-xug" secondAttribute="bottom" constant="5" id="ISf-WA-L4u"/>
+                                        <constraint firstItem="hud-kF-xug" firstAttribute="top" secondItem="LWm-C1-tHt" secondAttribute="top" constant="5" id="RCY-es-BAW"/>
+                                        <constraint firstItem="hud-kF-xug" firstAttribute="trailing" secondItem="LWm-C1-tHt" secondAttribute="trailingMargin" id="mez-i4-tcV"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="TImageView" destination="hud-kF-xug" id="zGA-ID-p8u"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="remind" rowHeight="60" id="fv7-Yd-WN6">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="fv7-Yd-WN6" id="OND-Ls-cAd">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <sections/>
                         <connections>
@@ -378,7 +404,7 @@ Line3</string>
         <image name="settingIcon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="koN-OJ-ge6"/>
+        <segue reference="91F-bu-JiU"/>
         <segue reference="GKi-kA-LjT"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -58,6 +58,16 @@ static DataStore *__sharedData = nil;
     [self.userDefaults setInteger:responsiveMode forKey:@"responsiveMode"];
 }
 
+- (NSArray *)remindOptionTitles {
+    return @[ @"5분후", @"한시간후", @"내일" ];
+}
+- (NSInteger)remindOption {
+    return [self.userDefaults integerForKey:@"remindOption"];
+}
+- (void)setRemindOption:(NSInteger)remindOption {
+    [self.userDefaults setInteger:remindOption forKey:@"remindOption"];
+}
+
 - (NSInteger)idx {
     return [self.userDefaults integerForKey:@"idx"];
 }

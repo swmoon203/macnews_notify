@@ -12,7 +12,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate, UISplitViewControllerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-
+- (void)registerDevice;
 @end
 
 NSString *const AppNeedLoadDataNotification;

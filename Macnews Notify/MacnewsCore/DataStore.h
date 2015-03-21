@@ -16,6 +16,10 @@
 
 @property (strong, nonatomic, readonly) NSString *token;
 @property (nonatomic) NSInteger responsiveMode;
+
+- (NSArray *)remindOptionTitles;
+@property (nonatomic) NSInteger remindOption;
+
 @property (nonatomic) NSInteger idx;
 - (void)resetIdx;
 

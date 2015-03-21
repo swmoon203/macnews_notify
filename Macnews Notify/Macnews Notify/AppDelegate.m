@@ -75,16 +75,47 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 - (void)registerDevice {
     [[UIApplication sharedApplication] registerForRemoteNotifications];
     
-    UIUserNotificationSettings *settings = [[UIApplication sharedApplication] currentUserNotificationSettings];
+   NSArray *actionOptions = @[
+                              @{
+                                  @"identifier": @"ARCHIVE_IDENTIFIER",
+                                  @"title": @"보관",
+                                  @"activationMode": @(UIUserNotificationActivationModeBackground),
+                                  @"destructive": @NO,
+                                  @"authenticationRequired": @NO
+                                  },
+                              @{
+                                  @"identifier": @"REMIND_IDENTIFIER",
+                                  @"title": @"나중에",
+                                  @"activationMode": @(UIUserNotificationActivationModeBackground),
+                                  @"destructive": @NO,
+                                  @"authenticationRequired": @NO
+                                  },
+                              @{
+                                  @"identifier": @"DELETE_IDENTIFIER",
+                                  @"title": @"삭제",
+                                  @"activationMode": @(UIUserNotificationActivationModeBackground),
+                                  @"destructive": @YES,
+                                  @"authenticationRequired": @NO
+                                  }
+                              ];
+    NSArray *actions = [UIMutableUserNotificationAction userNotificationActionsWith:actionOptions];
     
-    if (settings.types == UIUserNotificationTypeNone) {
-        UIUserNotificationType types = UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge;
-        UIUserNotificationSettings *notifSettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
-        
-        [[UIApplication sharedApplication] registerUserNotificationSettings:notifSettings];
-        
-        if ([DataStore sharedData].token != nil) [self afterRegistration:nil];
-    }
+    
+    UIMutableUserNotificationCategory *category = [[UIMutableUserNotificationCategory alloc] init];
+    category.identifier = @"NEW_ARTICLE";
+    [category setActions:actions forContext:UIUserNotificationActionContextDefault];
+    
+    NSArray *responsiveOption = @[
+                                  @[ actions[2], actions[0] ], //보관, 삭제
+                                  @[ actions[1], actions[0] ], //보관, 나중에
+                                  @[ actions[2], actions[1] ]  //나중에, 삭제
+                                  ];
+    [category setActions:responsiveOption[[DataStore sharedData].responsiveMode] forContext:UIUserNotificationActionContextMinimal];
+    
+    UIUserNotificationType types = UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge;
+    UIUserNotificationSettings *notifSettings = [UIUserNotificationSettings settingsForTypes:types categories:[NSSet setWithObject:category]];
+    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:notifSettings];
 }
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     NSString *token = [NSString stringWithFormat:@"%@", deviceToken]; 
@@ -177,6 +208,39 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
  
  */
 
+- (void)application:(UIApplication *)application handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)userInfo completionHandler:(void(^)())completionHandler {
+    //NSLog(@"%@", identifier);
+    //NSLog(@"%@",userInfo);
+    
+    [[DataStore sharedData] updateData:^(NSManagedObjectContext *context, NSInteger statusCode, NSUInteger count) {
+        NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
+        fetchRequest.fetchLimit = 1;
+        fetchRequest.includesPropertyValues = NO;
+        fetchRequest.predicate = [NSPredicate predicateWithFormat:@"arg == %@ AND webId == %@", userInfo[@"aps"][@"url-args"][0], userInfo[@"aps"][@"url-args"][1]];
+        
+        NSError *err = nil;
+        NSArray *items = [context executeFetchRequest:fetchRequest error:&err];
+        if ([items count] > 0) {
+            NSManagedObject *item = items[0];
+            switch ([@[ @"ARCHIVE_IDENTIFIER", @"REMIND_IDENTIFIER", @"DELETE_IDENTIFIER" ] indexOfObject:identifier]) {
+                case 0: //ARCHIVE_IDENTIFIER
+                    [item setValue:@YES forKey:@"archived"];
+                    break;
+                case 1: //REMIND_IDENTIFIER
+                    
+                    break;
+                case 2: //DELETE_IDENTIFIER
+                    [context deleteObject:item];
+                    break;
+            }
+            if (application.applicationIconBadgeNumber > 0) application.applicationIconBadgeNumber--;
+            
+            [context save:&err];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), completionHandler);
+    }];
+}
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
     NSLog(@"didReceiveRemoteNotification:%@", userInfo);
     NSLog(@"%li", application.applicationState);
@@ -212,9 +276,13 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 }
 
 - (void)handleReceivedNotification {
+    NSLog(@"scheduledLocalNotifications: %@", [[UIApplication sharedApplication] scheduledLocalNotifications]);
+    
+
+    //Clear remote notifications and badge number
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    //[[UIApplication sharedApplication] cancelAllLocalNotifications];
     if (self.receivedNotification == nil || _enteredBackground == NO) {
         self.receivedNotification = nil;
         return;

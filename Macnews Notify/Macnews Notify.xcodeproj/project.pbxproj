@@ -64,6 +64,7 @@
 		A538B1A11ABDEA6D00828F03 /* MRProgressHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B19A1ABDEA6D00828F03 /* MRProgressHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A538B1A21ABDEA6D00828F03 /* MRWeakProxy.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B19B1ABDEA6D00828F03 /* MRWeakProxy.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A538B1A31ABDEA6D00828F03 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B19C1ABDEA6D00828F03 /* MRWeakProxy.m */; };
+		A538B1A71ABDF59F00828F03 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1A61ABDF59F00828F03 /* TableViewCell.m */; };
 		A54397081ABBB232009290B4 /* MacnewsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = A54397071ABBB232009290B4 /* MacnewsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A543971A1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
 		A543971B1ABBB232009290B4 /* MacnewsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -249,6 +250,8 @@
 		A538B19A1ABDEA6D00828F03 /* MRProgressHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressHelper.h; sourceTree = "<group>"; };
 		A538B19B1ABDEA6D00828F03 /* MRWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRWeakProxy.h; sourceTree = "<group>"; };
 		A538B19C1ABDEA6D00828F03 /* MRWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRWeakProxy.m; sourceTree = "<group>"; };
+		A538B1A51ABDF59F00828F03 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
+		A538B1A61ABDF59F00828F03 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
 		A54397031ABBB232009290B4 /* MacnewsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MacnewsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A54397061ABBB232009290B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A54397071ABBB232009290B4 /* MacnewsCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacnewsCore.h; sourceTree = "<group>"; };
@@ -375,6 +378,8 @@
 			children = (
 				A531F7521AAAAD6900F1BAAD /* TUSafariActivity.h */,
 				A531F7531AAAAD6900F1BAAD /* TUSafariActivity.m */,
+				A538B1A51ABDF59F00828F03 /* TableViewCell.h */,
+				A538B1A61ABDF59F00828F03 /* TableViewCell.m */,
 			);
 			name = Library;
 			sourceTree = "<group>";
@@ -842,6 +847,7 @@
 				A5F941D81AB15CCA005DA87D /* FeedTableViewCell.m in Sources */,
 				A531F7541AAAAD6900F1BAAD /* TUSafariActivity.m in Sources */,
 				A531F6C71AAAA09500F1BAAD /* MasterViewController.m in Sources */,
+				A538B1A71ABDF59F00828F03 /* TableViewCell.m in Sources */,
 				A5013D3C1AAC20CD000B585F /* SettingViewController.m in Sources */,
 				A531F6C11AAAA09500F1BAAD /* AppDelegate.m in Sources */,
 				A531F6C41AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld in Sources */,
