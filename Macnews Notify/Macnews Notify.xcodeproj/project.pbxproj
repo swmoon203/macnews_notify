@@ -30,7 +30,6 @@
 		A538B0F71ABD751300828F03 /* Macnews Notify WatchKit App.app in Resources */ = {isa = PBXBuildFile; fileRef = A538B0F61ABD751300828F03 /* Macnews Notify WatchKit App.app */; };
 		A538B0FF1ABD751300828F03 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A538B0FD1ABD751300828F03 /* Interface.storyboard */; };
 		A538B1011ABD751300828F03 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A538B1001ABD751300828F03 /* Images.xcassets */; };
-		A538B1041ABD751300828F03 /* Macnews Notify WatchKit Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A538B0E41ABD751300828F03 /* Macnews Notify WatchKit Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A538B10E1ABD757D00828F03 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
 		A538B10F1ABD757D00828F03 /* MacnewsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A538B1151ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.h in Headers */ = {isa = PBXBuildFile; fileRef = A538B1131ABDC54100828F03 /* UIMutableUserNotificationAction+Simple.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -95,13 +94,6 @@
 			remoteGlobalIDString = A538B0F51ABD751300828F03;
 			remoteInfo = "Macnews Notify WatchKit App";
 		};
-		A538B1021ABD751300828F03 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A531F6B01AAAA09400F1BAAD /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A538B0E31ABD751300828F03;
-			remoteInfo = "Macnews Notify WatchKit Extension";
-		};
 		A538B1101ABD757D00828F03 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A531F6B01AAAA09400F1BAAD /* Project object */;
@@ -132,7 +124,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				A538B1041ABD751300828F03 /* Macnews Notify WatchKit Extension.appex in Embed App Extensions */,
 				A538B0DA1ABD742E00828F03 /* Recent-Widget.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
@@ -605,7 +596,6 @@
 			dependencies = (
 				A54397191ABBB232009290B4 /* PBXTargetDependency */,
 				A538B0D91ABD742E00828F03 /* PBXTargetDependency */,
-				A538B1031ABD751300828F03 /* PBXTargetDependency */,
 				A538B1561ABDE9FD00828F03 /* PBXTargetDependency */,
 			);
 			name = "Macnews Notify";
@@ -924,11 +914,6 @@
 			target = A538B0F51ABD751300828F03 /* Macnews Notify WatchKit App */;
 			targetProxy = A538B0F81ABD751300828F03 /* PBXContainerItemProxy */;
 		};
-		A538B1031ABD751300828F03 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A538B0E31ABD751300828F03 /* Macnews Notify WatchKit Extension */;
-			targetProxy = A538B1021ABD751300828F03 /* PBXContainerItemProxy */;
-		};
 		A538B1111ABD757D00828F03 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A54397021ABBB232009290B4 /* MacnewsCore */;
@@ -1086,7 +1071,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Macnews Notify/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -1101,7 +1086,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Macnews Notify/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
