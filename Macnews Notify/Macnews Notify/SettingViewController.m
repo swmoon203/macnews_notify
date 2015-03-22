@@ -182,7 +182,7 @@
                     cell.textLabel.text = location == nil ? @"위치 설정이 필요합니다." : [NSString stringWithFormat:@"%f, %f", location.coordinate.longitude, location.coordinate.latitude];
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 } else {
-                    cell.textLabel.text = @"알림 받을 위치 설정";
+                    cell.textLabel.text = @"현재 위치를 알림 받을 위치로 설정";
                     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
                 }
             }
