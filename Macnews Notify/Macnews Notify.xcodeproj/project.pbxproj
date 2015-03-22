@@ -66,6 +66,7 @@
 		A538B1A31ABDEA6D00828F03 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B19C1ABDEA6D00828F03 /* MRWeakProxy.m */; };
 		A538B1A71ABDF59F00828F03 /* TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B1A61ABDF59F00828F03 /* TableViewCell.m */; };
 		A538B1A91ABE146300828F03 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A538B1A81ABE146300828F03 /* CoreLocation.framework */; };
+		A538B1AB1ABE3CE700828F03 /* Macnews_Notify.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = A531F6C21AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld */; };
 		A54397081ABBB232009290B4 /* MacnewsCore.h in Headers */ = {isa = PBXBuildFile; fileRef = A54397071ABBB232009290B4 /* MacnewsCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A543971A1ABBB232009290B4 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
 		A543971B1ABBB232009290B4 /* MacnewsCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -253,6 +254,7 @@
 		A538B1A51ABDF59F00828F03 /* TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TableViewCell.h; sourceTree = "<group>"; };
 		A538B1A61ABDF59F00828F03 /* TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TableViewCell.m; sourceTree = "<group>"; };
 		A538B1A81ABE146300828F03 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		A538B1AA1ABE3C5500828F03 /* Recent-Widget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Recent-Widget.entitlements"; sourceTree = "<group>"; };
 		A54397031ABBB232009290B4 /* MacnewsCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MacnewsCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A54397061ABBB232009290B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A54397071ABBB232009290B4 /* MacnewsCore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MacnewsCore.h; sourceTree = "<group>"; };
@@ -394,6 +396,7 @@
 		A538B0D01ABD742E00828F03 /* Recent-Widget */ = {
 			isa = PBXGroup;
 			children = (
+				A538B1AA1ABE3C5500828F03 /* Recent-Widget.entitlements */,
 				A538B0D31ABD742E00828F03 /* TodayViewController.h */,
 				A538B0D41ABD742E00828F03 /* TodayViewController.m */,
 				A538B0D61ABD742E00828F03 /* MainInterface.storyboard */,
@@ -722,6 +725,11 @@
 					A538B0CB1ABD742E00828F03 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = M5P6YBX6ZZ;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					A538B0E31ABD751300828F03 = {
 						CreatedOnToolsVersion = 6.2;
@@ -799,6 +807,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A538B1AB1ABE3CE700828F03 /* Macnews_Notify.xcdatamodeld in Resources */,
 				A538B0D71ABD742E00828F03 /* MainInterface.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1102,6 +1111,7 @@
 		A538B0DB1ABD742E00828F03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Recent-Widget/Recent-Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1119,6 +1129,7 @@
 		A538B0DC1ABD742E00828F03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Recent-Widget/Recent-Widget.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
