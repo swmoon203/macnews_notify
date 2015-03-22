@@ -255,11 +255,6 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
-    NSLog(@"didReceiveRemoteNotification:%@", userInfo);
-    NSLog(@"%li", application.applicationState);
-    NSLog(@"UIApplicationStateActive: %li", UIApplicationStateActive);
-    NSLog(@"UIApplicationStateInactive: %li", UIApplicationStateInactive);
-    NSLog(@"UIApplicationStateBackground: %li", UIApplicationStateBackground);
     if (application.applicationState == UIApplicationStateActive) { //received while running
         [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
         completionHandler(UIBackgroundFetchResultNewData);
