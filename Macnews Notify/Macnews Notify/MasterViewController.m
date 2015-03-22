@@ -44,13 +44,6 @@
     [self.tableView addSubview:_refreshControl];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-//    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//    if (app.receivedNotification != nil) {
-//    //    [self performSegueWithIdentifier:@"showDetail" sender:self];
-//    }
-}
-
 #pragma mark - Segues
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([@[ @"showDetail", @"showDetail2", @"notification" ] containsObject:segue.identifier] == NO) return;
@@ -205,7 +198,8 @@
     [_refreshControl beginRefreshing];
     NSLog(@"Start Loading %li", (long)[DataStore sharedData].idx);
     
-    UIBackgroundTaskIdentifier taskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+    UIBackgroundTaskIdentifier taskId = 0;
+    taskId = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [[UIApplication sharedApplication] endBackgroundTask:taskId];
     }];
     [[DataStore sharedData] updateData:^(NSManagedObjectContext *context, NSInteger statusCode, NSUInteger count) {
