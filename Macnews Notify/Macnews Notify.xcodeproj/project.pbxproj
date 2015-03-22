@@ -1356,6 +1356,7 @@
 				A538B15B1ABDE9FD00828F03 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A543971C1ABBB232009290B4 /* Build configuration list for PBXNativeTarget "MacnewsCore" */ = {
 			isa = XCConfigurationList;
