@@ -320,6 +320,11 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
     NSLog(@"openURL:%@", url);
     
+    NSString *arg = url.query;
+    NSString *webId = url.host;
+    if (arg == nil || webId == nil) return YES;
+    if ([[DataStore sharedData] hostWithWebId:webId] == nil) return NO;
+    
     self.receivedNotification = @{ @"aps": @{ @"url-args": @[ url.query, url.host ] } };
     
     return YES;
