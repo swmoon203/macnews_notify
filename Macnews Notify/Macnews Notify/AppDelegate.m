@@ -78,7 +78,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 //    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 //}
 
-#pragma mark - Notification
+#pragma mark - Notification Service
 - (void)registerDevice {
     [[UIApplication sharedApplication] registerForRemoteNotifications];
     
@@ -285,9 +285,6 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 }
 
 - (void)handleReceivedNotification {
-    NSLog(@"scheduledLocalNotifications: %@", [[UIApplication sharedApplication] scheduledLocalNotifications]);
-    
-
     //Clear remote notifications and badge number
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:1];
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
@@ -296,12 +293,18 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
         self.receivedNotification = nil;
         return;
     }
-    [self clearScheduledLocalNotification:self.receivedNotification];
+    
+    [self openArticle:self.receivedNotification];
+    self.receivedNotification = nil;
+}
+
+- (void)openArticle:(NSDictionary *)info {
+    [self clearScheduledLocalNotification:info];
     
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     
-    NSArray *args = self.receivedNotification[@"aps"][@"url-args"];
+    NSArray *args = info[@"aps"][@"url-args"];
     NSDictionary *item = @{ @"webId": args[1], @"arg": args[0] };
     
     UIViewController *viewController = [navigationController.viewControllers lastObject];
@@ -310,7 +313,6 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     }
 
     [viewController performSegueWithIdentifier:@"notification" sender:item];
-    self.receivedNotification = nil;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
@@ -321,8 +323,12 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     if (arg == nil || webId == nil) return YES;
     if ([[DataStore sharedData] hostWithWebId:webId] == nil) return NO;
     
-    self.receivedNotification = @{ @"aps": @{ @"url-args": @[ url.query, url.host ] } };
-    
+    NSDictionary *info = @{ @"aps": @{ @"url-args": @[ url.query, url.host ] } };
+    if (application.applicationState != UIApplicationStateBackground) {
+        [self openArticle:info];
+    } else {
+        self.receivedNotification = info;
+    }
     return YES;
 }
 
@@ -367,6 +373,8 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
         }
     }
 }
+
+#pragma mark - Location Service
 
 - (void)registerLocationService {
     _locationManager = [[CLLocationManager alloc] init];
