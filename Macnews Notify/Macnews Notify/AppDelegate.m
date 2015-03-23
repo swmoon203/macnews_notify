@@ -411,4 +411,11 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
         _onCompleteLocating = nil;
     }
 }
+
+#pragma mark - WatchKit
+- (void)application:(UIApplication *)application handleWatchKitExtensionRequest:(NSDictionary *)userInfo reply:(void(^)(NSDictionary *replyInfo))reply {
+    NSLog(@"%@", userInfo);
+    [application openURL:[[DataStore sharedData] openURLWithDictionary:userInfo]];
+    reply(nil);
+}
 @end

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A5013D3C1AAC20CD000B585F /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5013D3B1AAC20CD000B585F /* SettingViewController.m */; };
+		A51231981ABFCD3800D3EA9C /* RowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A51231971ABFCD3800D3EA9C /* RowController.m */; };
+		A5289F5D1ABFE64700F93353 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5289F5C1ABFE64700F93353 /* InterfaceController.m */; };
+		A5289F601AC05B9600F93353 /* DetailInterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A5289F5F1AC05B9600F93353 /* DetailInterfaceController.m */; };
 		A531F6BE1AAAA09500F1BAAD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F6BD1AAAA09500F1BAAD /* main.m */; };
 		A531F6C11AAAA09500F1BAAD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A531F6C01AAAA09500F1BAAD /* AppDelegate.m */; };
 		A531F6C41AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A531F6C21AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld */; };
@@ -23,7 +26,7 @@
 		A538B0D71ABD742E00828F03 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A538B0D61ABD742E00828F03 /* MainInterface.storyboard */; };
 		A538B0DA1ABD742E00828F03 /* Recent-Widget.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = A538B0CC1ABD742E00828F03 /* Recent-Widget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A538B0DF1ABD748100828F03 /* MacnewsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A54397031ABBB232009290B4 /* MacnewsCore.framework */; };
-		A538B0EB1ABD751300828F03 /* InterfaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B0EA1ABD751300828F03 /* InterfaceController.m */; };
+		A538B0EB1ABD751300828F03 /* TableController.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B0EA1ABD751300828F03 /* TableController.m */; };
 		A538B0EE1ABD751300828F03 /* NotificationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B0ED1ABD751300828F03 /* NotificationController.m */; };
 		A538B0F11ABD751300828F03 /* GlanceController.m in Sources */ = {isa = PBXBuildFile; fileRef = A538B0F01ABD751300828F03 /* GlanceController.m */; };
 		A538B0F31ABD751300828F03 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A538B0F21ABD751300828F03 /* Images.xcassets */; };
@@ -78,6 +81,7 @@
 		A543973C1ABBB269009290B4 /* NSString+URL.h in Headers */ = {isa = PBXBuildFile; fileRef = A54397341ABBB269009290B4 /* NSString+URL.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A543973D1ABBB269009290B4 /* NSString+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = A54397351ABBB269009290B4 /* NSString+URL.m */; };
 		A543973E1ABBB3AB009290B4 /* CoreDataStore.h in Headers */ = {isa = PBXBuildFile; fileRef = A543972E1ABBB269009290B4 /* CoreDataStore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A5468E371ABFD6E800F182B1 /* Macnews_Notify.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = A531F6C21AAAA09500F1BAAD /* Macnews_Notify.xcdatamodeld */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -167,6 +171,12 @@
 		A5013D321AABDFDD000B585F /* Macnews Notify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Macnews Notify.entitlements"; sourceTree = "<group>"; };
 		A5013D3A1AAC20CD000B585F /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		A5013D3B1AAC20CD000B585F /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		A51231961ABFCD3800D3EA9C /* RowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RowController.h; sourceTree = "<group>"; };
+		A51231971ABFCD3800D3EA9C /* RowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RowController.m; sourceTree = "<group>"; };
+		A5289F5B1ABFE64700F93353 /* InterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
+		A5289F5C1ABFE64700F93353 /* InterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		A5289F5E1AC05B9600F93353 /* DetailInterfaceController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailInterfaceController.h; sourceTree = "<group>"; };
+		A5289F5F1AC05B9600F93353 /* DetailInterfaceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailInterfaceController.m; sourceTree = "<group>"; };
 		A531F6B81AAAA09500F1BAAD /* Macnews Notify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Macnews Notify.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A531F6BC1AAAA09500F1BAAD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A531F6BD1AAAA09500F1BAAD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -209,8 +219,8 @@
 		A538B0E41ABD751300828F03 /* Macnews Notify WatchKit Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Macnews Notify WatchKit Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A538B0E71ABD751300828F03 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A538B0E81ABD751300828F03 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
-		A538B0E91ABD751300828F03 /* InterfaceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InterfaceController.h; sourceTree = "<group>"; };
-		A538B0EA1ABD751300828F03 /* InterfaceController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InterfaceController.m; sourceTree = "<group>"; };
+		A538B0E91ABD751300828F03 /* TableController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableController.h; sourceTree = "<group>"; };
+		A538B0EA1ABD751300828F03 /* TableController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableController.m; sourceTree = "<group>"; };
 		A538B0EC1ABD751300828F03 /* NotificationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationController.h; sourceTree = "<group>"; };
 		A538B0ED1ABD751300828F03 /* NotificationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationController.m; sourceTree = "<group>"; };
 		A538B0EF1ABD751300828F03 /* GlanceController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GlanceController.h; sourceTree = "<group>"; };
@@ -266,6 +276,7 @@
 		A54397331ABBB269009290B4 /* NSString+Hashes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hashes.m"; sourceTree = "<group>"; };
 		A54397341ABBB269009290B4 /* NSString+URL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URL.h"; sourceTree = "<group>"; };
 		A54397351ABBB269009290B4 /* NSString+URL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URL.m"; sourceTree = "<group>"; };
+		A5468E361ABFD6A100F182B1 /* Macnews Notify WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Macnews Notify WatchKit Extension.entitlements"; sourceTree = "<group>"; };
 		A5C419121AACD73800BDA124 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -416,8 +427,15 @@
 		A538B0E51ABD751300828F03 /* Macnews Notify WatchKit Extension */ = {
 			isa = PBXGroup;
 			children = (
-				A538B0E91ABD751300828F03 /* InterfaceController.h */,
-				A538B0EA1ABD751300828F03 /* InterfaceController.m */,
+				A5468E361ABFD6A100F182B1 /* Macnews Notify WatchKit Extension.entitlements */,
+				A5289F5B1ABFE64700F93353 /* InterfaceController.h */,
+				A5289F5C1ABFE64700F93353 /* InterfaceController.m */,
+				A538B0E91ABD751300828F03 /* TableController.h */,
+				A538B0EA1ABD751300828F03 /* TableController.m */,
+				A51231961ABFCD3800D3EA9C /* RowController.h */,
+				A51231971ABFCD3800D3EA9C /* RowController.m */,
+				A5289F5E1AC05B9600F93353 /* DetailInterfaceController.h */,
+				A5289F5F1AC05B9600F93353 /* DetailInterfaceController.m */,
 				A538B0EC1ABD751300828F03 /* NotificationController.h */,
 				A538B0ED1ABD751300828F03 /* NotificationController.m */,
 				A538B0EF1ABD751300828F03 /* GlanceController.h */,
@@ -734,6 +752,11 @@
 					A538B0E31ABD751300828F03 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = M5P6YBX6ZZ;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					A538B0F51ABD751300828F03 = {
 						CreatedOnToolsVersion = 6.2;
@@ -816,6 +839,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5468E371ABFD6E800F182B1 /* Macnews_Notify.xcdatamodeld in Resources */,
 				A538B0F31ABD751300828F03 /* Images.xcassets in Resources */,
 				A538B0F71ABD751300828F03 /* Macnews Notify WatchKit App.app in Resources */,
 			);
@@ -875,7 +899,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A538B0EE1ABD751300828F03 /* NotificationController.m in Sources */,
-				A538B0EB1ABD751300828F03 /* InterfaceController.m in Sources */,
+				A538B0EB1ABD751300828F03 /* TableController.m in Sources */,
+				A51231981ABFCD3800D3EA9C /* RowController.m in Sources */,
+				A5289F5D1ABFE64700F93353 /* InterfaceController.m in Sources */,
+				A5289F601AC05B9600F93353 /* DetailInterfaceController.m in Sources */,
 				A538B0F11ABD751300828F03 /* GlanceController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1144,6 +1171,7 @@
 		A538B1051ABD751300828F03 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Macnews Notify WatchKit Extension/Macnews Notify WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1154,6 +1182,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Debug;
@@ -1161,6 +1190,7 @@
 		A538B1061ABD751300828F03 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "Macnews Notify WatchKit Extension/Macnews Notify WatchKit Extension.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -1168,6 +1198,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
 			};
 			name = Release;

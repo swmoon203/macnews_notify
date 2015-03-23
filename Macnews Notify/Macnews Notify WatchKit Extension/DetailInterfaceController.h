@@ -1,5 +1,5 @@
 //
-//  InterfaceController.h
+//  DetailInterfaceController.h
 //  Macnews Notify
 //
 //  Created by mtjddnr on 2015. 3. 23..
@@ -9,6 +9,6 @@
 #import <WatchKit/WatchKit.h>
 #import <Foundation/Foundation.h>
 
-@interface InterfaceController : WKInterfaceController
+@interface DetailInterfaceController : WKInterfaceController
 
 @end
