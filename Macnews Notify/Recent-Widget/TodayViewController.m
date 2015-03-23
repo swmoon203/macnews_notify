@@ -48,8 +48,6 @@
     }
     id item = items[0];
     
-    if ([[_current valueForKey:@"idx"] integerValue] == [[item valueForKey:@"idx"] integerValue] && [item valueForKey:@"imageData"] == nil) return NO;
-    
     self.lblBody.hidden = NO;
     
     self.lblTitle.text = [item valueForKey:@"title"];
