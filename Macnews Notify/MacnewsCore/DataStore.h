@@ -41,6 +41,7 @@
 
 - (NSURL *)urlWithArticle:(NSManagedObject *)object;
 - (NSURL *)openURLWith:(NSManagedObject *)object;
+- (NSURL *)openURLWithDictionary:(NSDictionary *)dictionary;
 
 @property (nonatomic) BOOL multiHostEnabled;
 

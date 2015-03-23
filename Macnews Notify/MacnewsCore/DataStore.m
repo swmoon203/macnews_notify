@@ -170,6 +170,10 @@ static DataStore *__sharedData = nil;
     return [NSURL URLWithString:[NSString stringWithFormat:@"macnews://%@?%@", [object valueForKey:@"webId"], [object valueForKey:@"arg"]]];
 }
 
+- (NSURL *)openURLWithDictionary:(NSDictionary *)dictionary {
+    return [NSURL URLWithString:[NSString stringWithFormat:@"macnews://%@?%@", dictionary[@"webId"], dictionary[@"arg"]]];
+}
+
 - (void)saveHosts {
     [self.userDefaults setObject:self.hosts forKey:@"hosts"];
     [self.userDefaults synchronize];
