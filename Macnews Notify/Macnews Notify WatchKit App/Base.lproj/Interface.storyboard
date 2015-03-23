@@ -5,106 +5,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="3737"/>
     </dependencies>
     <scenes>
-        <!--main-->
-        <scene sceneID="aou-V4-d1y">
-            <objects>
-                <controller identifier="main" id="AgC-eL-Hgc" customClass="InterfaceController">
-                    <items>
-                        <group width="1" alignment="left" id="dIq-Qi-awf">
-                            <items>
-                                <group alignment="left" radius="20" id="wlU-xd-9Z1">
-                                    <items>
-                                        <imageView alignment="left" image="icon" id="bLV-gy-5gk"/>
-                                    </items>
-                                </group>
-                                <label alignment="left" verticalAlignment="center" text="Back to the Mac" id="tLe-zs-uGg">
-                                    <fontDescription key="font" type="system" weight="thin" pointSize="15"/>
-                                    <variation key="device=watch38mm">
-                                        <fontDescription key="font" type="system" weight="thin" pointSize="13"/>
-                                    </variation>
-                                </label>
-                            </items>
-                        </group>
-                        <group width="1" height="107" alignment="center" verticalAlignment="center" layout="vertical" spacing="0.0" id="wml-jd-vd1">
-                            <items>
-                                <group alignment="center" verticalAlignment="center" spacing="8" id="Pa7-i3-MNu">
-                                    <items>
-                                        <group alignment="center" verticalAlignment="center" radius="25" id="B2z-b3-8xz">
-                                            <items>
-                                                <button width="50" height="50" alignment="center" verticalAlignment="center" title="목록" id="VlH-OP-Xmv">
-                                                    <fontDescription key="font" type="system" weight="thin" pointSize="15"/>
-                                                    <connections>
-                                                        <segue destination="XwF-hT-X6J" kind="push" identifier="list" id="uZK-Vg-9pq"/>
-                                                    </connections>
-                                                </button>
-                                            </items>
-                                        </group>
-                                        <group alignment="center" verticalAlignment="center" radius="25" id="khv-R8-Rrr">
-                                            <items>
-                                                <button width="50" height="50" alignment="center" verticalAlignment="center" title="보관" id="YJF-3O-CZH">
-                                                    <fontDescription key="font" type="system" weight="thin" pointSize="15"/>
-                                                    <variation key="device=watch38mm" title="보관"/>
-                                                    <connections>
-                                                        <segue destination="XwF-hT-X6J" kind="push" identifier="archive" id="T9e-25-Wy9"/>
-                                                    </connections>
-                                                </button>
-                                            </items>
-                                        </group>
-                                    </items>
-                                </group>
-                                <group alignment="center" verticalAlignment="center" spacing="5" id="IXe-q9-uSi">
-                                    <items>
-                                        <group alignment="center" verticalAlignment="center" radius="25" id="aqQ-ZE-KFe">
-                                            <items>
-                                                <button width="50" height="50" alignment="center" verticalAlignment="center" title="설정" id="bnF-Hf-KJf">
-                                                    <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="font" type="system" weight="thin" pointSize="15"/>
-                                                    <variation key="device=watch38mm" title="설정"/>
-                                                </button>
-                                            </items>
-                                        </group>
-                                    </items>
-                                </group>
-                            </items>
-                            <variation key="device=watch42mm" height="132"/>
-                        </group>
-                    </items>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="378" y="173"/>
-        </scene>
-        <!--Table Controller-->
-        <scene sceneID="bNI-XQ-kJt">
-            <objects>
-                <controller id="XwF-hT-X6J" customClass="TableController">
-                    <items>
-                        <table alignment="left" id="Yol-SC-KCW">
-                            <items>
-                                <tableRow identifier="row" id="mbu-Yg-bIU" customClass="RowController">
-                                    <group key="rootItem" width="1" alignment="left" id="CZN-Ou-7x1">
-                                        <items>
-                                            <label alignment="left" verticalAlignment="center" text="Label" numberOfLines="2" id="Bll-ac-gIz">
-                                                <fontDescription key="font" type="system" weight="thin" pointSize="10"/>
-                                            </label>
-                                        </items>
-                                        <connections>
-                                            <segue destination="pSD-Sy-2V2" kind="push" id="dR2-l6-zJL"/>
-                                        </connections>
-                                    </group>
-                                    <connections>
-                                        <outlet property="titleLabel" destination="Bll-ac-gIz" id="9Z8-pa-6Q0"/>
-                                    </connections>
-                                </tableRow>
-                            </items>
-                        </table>
-                    </items>
-                    <connections>
-                        <outlet property="table" destination="Yol-SC-KCW" id="CJN-kv-sXZ"/>
-                    </connections>
-                </controller>
-            </objects>
-            <point key="canvasLocation" x="625" y="173"/>
-        </scene>
         <!--Table Controller-->
         <scene sceneID="Tcc-pP-uqf">
             <objects>
@@ -163,12 +63,15 @@
                                 <imageView alignment="center" contentMode="scaleAspectFill" id="3LZ-1G-W7u"/>
                             </items>
                         </group>
-                        <label width="136" height="42.5" alignment="left" text="Label" numberOfLines="3" minimumScaleFactor="0.60000000000000009" id="VjA-Wg-1eP">
-                            <fontDescription key="font" type="system" weight="thin" pointSize="10"/>
+                        <label width="136" alignment="left" numberOfLines="3" minimumScaleFactor="0.60000000000000009" id="VjA-Wg-1eP">
+                            <string key="text">Label
+2
+3</string>
+                            <fontDescription key="font" type="system" weight="thin" pointSize="12"/>
                         </label>
                         <separator alignment="left" id="KMB-mI-bp3"/>
                         <label alignment="left" text="Label" numberOfLines="5" id="NGW-Vj-gIH">
-                            <fontDescription key="font" type="system" weight="ultraLight" pointSize="10"/>
+                            <fontDescription key="font" type="system" weight="ultraLight" pointSize="12"/>
                         </label>
                         <button width="1" alignment="left" title="열기" id="AsQ-eb-Pcy">
                             <connections>
@@ -176,12 +79,7 @@
                             </connections>
                         </button>
                     </items>
-                    <menu key="menu" id="Zdl-YK-9vm">
-                        <items>
-                            <menuItem title="보관" icon="add" id="7em-DF-1nI"/>
-                            <menuItem title="삭제" icon="trash" id="aRC-ep-dei"/>
-                        </items>
-                    </menu>
+                    <menu key="menu" id="Zdl-YK-9vm"/>
                     <connections>
                         <outlet property="contentLabel" destination="NGW-Vj-gIH" id="8Ft-b3-wB9"/>
                         <outlet property="imageView" destination="3LZ-1G-W7u" id="Ibd-28-rRK"/>
@@ -189,7 +87,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="882" y="398"/>
+            <point key="canvasLocation" x="553" y="398.75"/>
         </scene>
         <!--Glance Interface Controller-->
         <scene sceneID="BOz-TT-tkC">
@@ -228,8 +126,4 @@
             <point key="canvasLocation" x="553" y="1001"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="51N-g5-GfU"/>
-        <segue reference="uZK-Vg-9pq"/>
-    </inferredMetricsTieBreakers>
 </document>

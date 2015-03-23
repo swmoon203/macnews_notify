@@ -28,6 +28,7 @@
     // Configure interface objects here.
     _object = context;
     [self updataScreen];
+    [self updateMenu];
 }
 
 - (void)willActivate {
@@ -65,6 +66,31 @@
                                                NSLog(@"%@", replyInfo);
                                                NSLog(@"%@", error);
                                            }];
+}
+
+- (void)updateMenu {
+    [self clearAllMenuItems];
+    BOOL archived = [[_object valueForKey:@"archived"] boolValue];
+    [self addMenuItemWithImageNamed:archived ? @"listIcon" : @"archiveIcon" title:archived ? @"복원" : @"보관" action:@selector(switchArchive)];
+    [self addMenuItemWithItemIcon:WKMenuItemIconTrash title:@"삭제" action:@selector(deleteArticle)];
+    [self addMenuItemWithItemIcon:WKMenuItemIconAdd title:@"읽기 목록" action:@selector(addToReadingList)];
+    
+}
+
+- (void)switchArchive {
+    [_object setValue:@(![[_object valueForKey:@"archived"] boolValue]) forKey:@"archived"];
+    [self updateMenu];
+}
+
+- (void)addToReadingList{
+    [[DataStore sharedData] addToSafariReadingList:_object];
+}
+- (void)deleteArticle {
+    NSManagedObjectContext *context = [DataStore sharedData].managedObjectContext;
+    [context deleteObject:_object];
+    NSError *err = nil;
+    [context save:&err];
+    [self popController];
 }
 @end
 

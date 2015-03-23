@@ -60,7 +60,7 @@
 - (void)updateMenu {
     [self clearAllMenuItems];
     [self addMenuItemWithImageNamed:self.archived ? @"listIcon" : @"archiveIcon" title:self.archived ? @"목록 열기" : @"보관 열기" action:@selector(onTapSwitch)];
-    [self addMenuItemWithImageNamed:@"settingIcon" title:@"설정" action:@selector(onTabSetting)];
+    //[self addMenuItemWithImageNamed:@"settingIcon" title:@"설정" action:@selector(onTabSetting)];
 }
 
 - (void)willActivate {
@@ -85,9 +85,9 @@
     return [(RowController *)[table rowControllerAtIndex:rowIndex] object];
 }
 
-- (void)onTabSetting {
-    
-}
+//- (void)onTabSetting {
+//    
+//}
 
 - (void)onTapSwitch {
     self.archived = !self.archived;
