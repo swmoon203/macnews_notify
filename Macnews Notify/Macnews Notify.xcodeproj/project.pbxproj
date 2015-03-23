@@ -436,10 +436,10 @@
 				A51231971ABFCD3800D3EA9C /* RowController.m */,
 				A5289F5E1AC05B9600F93353 /* DetailInterfaceController.h */,
 				A5289F5F1AC05B9600F93353 /* DetailInterfaceController.m */,
-				A538B0EC1ABD751300828F03 /* NotificationController.h */,
-				A538B0ED1ABD751300828F03 /* NotificationController.m */,
 				A538B0EF1ABD751300828F03 /* GlanceController.h */,
 				A538B0F01ABD751300828F03 /* GlanceController.m */,
+				A538B0EC1ABD751300828F03 /* NotificationController.h */,
+				A538B0ED1ABD751300828F03 /* NotificationController.m */,
 				A538B0F21ABD751300828F03 /* Images.xcassets */,
 				A538B0E61ABD751300828F03 /* Supporting Files */,
 			);
