@@ -10,6 +10,10 @@
 #import "CoreDataStore.h"
 #import <CoreLocation/CoreLocation.h>
 
+#define addToSafariReadingListIfSet(o) \
+    if ([DataStore sharedData].addReadingListWhenArchived) \
+        [[DataStore sharedData] addToSafariReadingList:o]
+
 @interface DataStore : CoreDataStore
 + (DataStore *)sharedData;
 
@@ -25,6 +29,8 @@
 @property (nonatomic) BOOL canUseLocationNotifications;
 @property (strong, nonatomic) CLLocation *location;
 
+@property (nonatomic) BOOL addReadingListWhenArchived;
+
 @property (nonatomic) NSInteger idx;
 - (void)resetIdx;
 
@@ -32,6 +38,9 @@
 - (NSInteger)numberOfHosts;
 - (NSMutableDictionary *)hostAtIndex:(NSInteger)row; //{ title, webId, enabled, sites }
 - (NSMutableDictionary *)hostWithWebId:(NSString *)webId;
+
+- (NSURL *)urlWithArticle:(NSManagedObject *)object;
+- (NSURL *)openURLWith:(NSManagedObject *)object;
 
 @property (nonatomic) BOOL multiHostEnabled;
 
@@ -44,4 +53,8 @@
 - (void)updateData:(void (^)(NSManagedObjectContext *context, NSInteger statusCode, NSUInteger count))onComplete;
 
 - (void)downloadPreviewImages;
+
+- (void)addToSafariReadingList:(NSManagedObject *)object;
 @end
+
+

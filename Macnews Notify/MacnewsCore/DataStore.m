@@ -7,6 +7,8 @@
 //
 
 #import "DataStore.h"
+#import <SafariServices/SafariServices.h>
+
 @interface DataStore ()
 
 @property (strong, nonatomic) NSMutableArray *hosts;
@@ -94,6 +96,13 @@ static DataStore *__sharedData = nil;
     }
 }
 
+- (BOOL)addReadingListWhenArchived {
+    return [self.userDefaults boolForKey:@"addReadingListWhenArchived"];
+}
+- (void)setAddReadingListWhenArchived:(BOOL)addReadingListWhenArchived {
+    [self.userDefaults setBool:addReadingListWhenArchived forKey:@"addReadingListWhenArchived"];
+}
+
 - (NSInteger)idx {
     return [self.userDefaults integerForKey:@"idx"];
 }
@@ -152,6 +161,15 @@ static DataStore *__sharedData = nil;
 - (NSMutableDictionary *)hostWithWebId:(NSString *)webId {
     return self.hostsMap[webId];
 }
+
+- (NSURL *)urlWithArticle:(NSManagedObject *)object {
+    return [NSURL URLWithString:[NSString stringWithFormat:[self hostWithWebId:[object valueForKey:@"webId"]][@"url"], [object valueForKey:@"arg"]]];
+}
+
+- (NSURL *)openURLWith:(NSManagedObject *)object {
+    return [NSURL URLWithString:[NSString stringWithFormat:@"macnews://%@?%@", [object valueForKey:@"webId"], [object valueForKey:@"arg"]]];
+}
+
 - (void)saveHosts {
     [self.userDefaults setObject:self.hosts forKey:@"hosts"];
     [self.userDefaults synchronize];
@@ -304,5 +322,24 @@ static DataStore *__sharedData = nil;
         }
     }
     [context save:&err];
+}
+
+- (void)addToSafariReadingList:(NSManagedObject *)object {    
+    SSReadingList *readList = [SSReadingList defaultReadingList];
+    NSError *error = nil;
+    
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[[object valueForKey:@"contents"] dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
+    
+    BOOL status = [readList addReadingListItemWithURL:[self urlWithArticle:object]
+                                                title:[NSString stringWithFormat:@"[B2M] %@", [object valueForKey:@"title"]]
+                                          previewText:json[@"apn"][@"message"]
+                                                error:&error];
+    
+    if (status) {
+        NSLog(@"Added URL");
+    }
+    else {
+        NSLog(@"Error: %@", [error localizedDescription]);
+    }
 }
 @end
