@@ -37,7 +37,7 @@
     if (self.detailItem) {
         //self.detailDescriptionLabel.text = [[self.detailItem valueForKey:@"timeStamp"] description];
         
-        url = [NSURL URLWithString:[NSString stringWithFormat:[[DataStore sharedData] hostWithWebId:[self.detailItem valueForKey:@"webId"]][@"url"], [self.detailItem valueForKey:@"arg"]]];
+        url = [[DataStore sharedData] urlWithArticle:self.detailItem];
     } else if (self.url != nil) {
         url = self.url;
     } else {
