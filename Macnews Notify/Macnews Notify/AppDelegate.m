@@ -236,6 +236,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
             switch ([@[ @"ARCHIVE_IDENTIFIER", @"REMIND_IDENTIFIER", @"DELETE_IDENTIFIER" ] indexOfObject:identifier]) {
                 case 0: //ARCHIVE_IDENTIFIER
                     [item setValue:@YES forKey:@"archived"];
+                    addToSafariReadingListIfSet(item);
                     [self clearScheduledLocalNotification:userInfo];
                     break;
                 case 1: //REMIND_IDENTIFIER
