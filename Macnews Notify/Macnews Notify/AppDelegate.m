@@ -256,6 +256,7 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult result))completionHandler {
+    //NSLog(@"%@", [[NSString alloc] initWithData:[NSJSONSerialization dataWithJSONObject:userInfo options:NSJSONReadingMutableContainers error:nil] encoding:NSUTF8StringEncoding]);
     if (application.applicationState == UIApplicationStateActive) { //received while running
         [[NSNotificationCenter defaultCenter] postNotificationName:AppNeedLoadDataNotification object:nil];
         completionHandler(UIBackgroundFetchResultNewData);

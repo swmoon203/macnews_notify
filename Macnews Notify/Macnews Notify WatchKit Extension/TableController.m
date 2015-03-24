@@ -96,6 +96,16 @@
 }
 
 
+//- (void)handleActionWithIdentifier:(NSString *)identifier forRemoteNotification:(NSDictionary *)remoteNotification {
+//    NSLog(@"%@", identifier);
+//    NSLog(@"%@", remoteNotification);
+//}
+//- (void)handleActionWithIdentifier:(NSString *)identifier forLocalNotification:(UILocalNotification *)localNotification {
+//    NSLog(@"%@", identifier);
+//    NSLog(@"%@", localNotification);
+//}
+
+
 @end
 
 

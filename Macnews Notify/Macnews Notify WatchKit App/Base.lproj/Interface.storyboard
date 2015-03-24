@@ -63,7 +63,7 @@
                                 <imageView alignment="center" contentMode="scaleAspectFill" id="3LZ-1G-W7u"/>
                             </items>
                         </group>
-                        <label width="136" alignment="left" numberOfLines="3" minimumScaleFactor="0.60000000000000009" id="VjA-Wg-1eP">
+                        <label width="136" alignment="left" numberOfLines="0" minimumScaleFactor="0.60000000000000009" id="VjA-Wg-1eP">
                             <string key="text">Label
 2
 3</string>
@@ -130,21 +130,33 @@
                     <items>
                         <label alignment="left" text="Alert Label" id="XkS-y5-khE"/>
                     </items>
-                    <notificationCategory key="notificationCategory" identifier="info" id="JfB-70-Muf"/>
+                    <notificationCategory key="notificationCategory" identifier="NEW_ARTICLE" id="JfB-70-Muf"/>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
-                        <outlet property="notificationAlertLabel" destination="XkS-y5-khE" id="49B-RR-99y"/>
-                        <segue destination="gdX-wl-uQE" kind="relationship" relationship="dynamicNotificationInterface" id="fKh-qV-3T2"/>
+                        <outlet property="notificationAlertLabel" destination="XkS-y5-khE" id="Xbd-jT-7VB"/>
+                        <segue destination="nPd-VC-AfR" kind="relationship" relationship="dynamicNotificationInterface" id="GEH-Pq-6Fc"/>
                     </connections>
                 </notificationController>
             </objects>
             <point key="canvasLocation" x="235" y="1001"/>
         </scene>
         <!--Notification Controller-->
-        <scene sceneID="KIl-fV-djm">
+        <scene sceneID="TYh-rP-c1U">
             <objects>
-                <controller id="gdX-wl-uQE" customClass="NotificationController"/>
+                <controller id="nPd-VC-AfR" customClass="NotificationController">
+                    <items>
+                        <label alignment="left" text="Label" numberOfLines="0" id="9ST-Of-6V6">
+                            <fontDescription key="font" type="system" weight="thin" pointSize="12"/>
+                        </label>
+                    </items>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <edgeInsets key="margins" left="2" right="2" top="1" bottom="2"/>
+                    <connections>
+                        <outlet property="titleLabel" destination="9ST-Of-6V6" id="Enu-D0-TJR"/>
+                    </connections>
+                </controller>
             </objects>
-            <point key="canvasLocation" x="553" y="1001"/>
+            <point key="canvasLocation" x="535" y="1001"/>
         </scene>
     </scenes>
 </document>
