@@ -26,6 +26,7 @@
 //Need implementation
 - (NSURL *)managedObjectModelURL;
 - (NSURL *)storeURL;
+- (NSDictionary *)persistentStoreCoordinatorOptions;
 
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
