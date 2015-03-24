@@ -48,8 +48,6 @@
     }
     id item = items[0];
     
-    if ([[_current valueForKey:@"idx"] integerValue] == [[item valueForKey:@"idx"] integerValue] && [item valueForKey:@"imageData"] == nil) return NO;
-    
     self.lblBody.hidden = NO;
     
     self.lblTitle.text = [item valueForKey:@"title"];
@@ -71,8 +69,7 @@
 - (IBAction)onTap:(id)sender {
     if (_current == nil) return;
     
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"macnews://%@?%@", [_current valueForKey:@"webId"], [_current valueForKey:@"arg"]]];
-    [self.extensionContext openURL:url completionHandler:nil];
+    [self.extensionContext openURL:[[DataStore sharedData] openURLWith:_current] completionHandler:nil];
 }
 
 @end

@@ -16,12 +16,34 @@
 #define SEC_Category 0
 #define SEC_Subscription 1
 #define SEC_Button 2
-#define SEC_Remind 3
-#define SEC_Location 4
-#define SEC_Preference 5
-#define SEC_Reset 6
+#define SEC_Archive 3
+#define SEC_Remind 4
+#define SEC_Location 5
+#define SEC_Preference 6
+#define SEC_Reset 7
 
-#define SECTION_COUNT 7
+#define SECTION_COUNT 8
+
+#define SECTION_HEADERS @[ \
+                @"카테고리", \
+                @"구독", \
+                @"알림센터 버튼", \
+                @"보관", \
+                @"나중에 알림", \
+                @"위치 알림", \
+                @"", \
+                @"초기화" \
+        ]
+#define SECTION_IDFS @[ \
+                @"category", \
+                @"webId", \
+                @"button", \
+                @"archive", \
+                @"remind", \
+                @"location", \
+                @"preference", \
+                @"reset" \
+        ]
 
 @implementation SettingViewController {
     NSDictionary *_catagories;
@@ -89,7 +111,7 @@
     return SECTION_COUNT;
 }
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    NSArray *titles = @[ @"카테고리", @"구독", @"알림센터 버튼", @"나중에 알림", @"위치 알림", @"", @"초기화" ];
+    NSArray *titles = SECTION_HEADERS;
     return titles[section];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -97,6 +119,7 @@
         case SEC_Category: return _catagories != nil ? [_catagories[@"categories"] count] : 1;
         case SEC_Subscription: return [[DataStore sharedData] numberOfHosts];
         case SEC_Button: return 3;
+        case SEC_Archive: return 1;
         case SEC_Remind: return [[[DataStore sharedData] remindOptionTitles] count] + ([DataStore sharedData].canUseLocationNotifications && [DataStore sharedData].location != nil ? 0 : -1);
         case SEC_Location: return [DataStore sharedData].canUseLocationNotifications ? 2 : 1;
         case SEC_Preference: return 1;
@@ -124,7 +147,7 @@
         return infoCell;
     }
     
-    NSArray *types = @[ @"category", @"webId", @"button", @"remind", @"location", @"preference", @"reset" ];
+    NSArray *types = SECTION_IDFS;
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:types[indexPath.section] forIndexPath:indexPath];
     cell.accessoryView = nil;
@@ -163,6 +186,12 @@
             cell.accessoryType = [DataStore sharedData].responsiveMode == indexPath.row ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
             cell.accessoryView = [DataStore sharedData].responsiveMode == indexPath.row ? nil : [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 24.0, cell.contentView.frame.size.height)];
             cell.selectionStyle = UITableViewCellSelectionStyleDefault;
+            break;
+        }
+        case SEC_Archive: {
+            cell.accessoryView = [[UISwitch alloc] init];
+            [(UISwitch *)cell.accessoryView addTarget:self action:@selector(onSwitch:) forControlEvents:UIControlEventValueChanged];
+            [(UISwitch *)cell.accessoryView setOn:[DataStore sharedData].addReadingListWhenArchived];
             break;
         }
         case SEC_Remind: {
@@ -268,6 +297,9 @@
                 cell.accessoryView = sender;
             });
         });
+    } else if (indexPath.section == SEC_Archive) {
+        [DataStore sharedData].addReadingListWhenArchived = sender.on;
+        sender.enabled = YES;
     }
 }
 

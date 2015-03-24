@@ -162,6 +162,7 @@
                                                                          [(AppDelegate *)[[UIApplication sharedApplication] delegate] clearScheduledLocalNotification:@{ @"aps": @{ @"url-args": @[ [object valueForKey:@"arg"], [object valueForKey:@"webId"] ] } }];
                                                                          
                                                                          [object setValue:@YES forKey:@"archived"];
+                                                                         addToSafariReadingListIfSet(object);
                                                                          NSError *error = nil;
                                                                          if (![context save:&error]) {
                                                                              // Replace this implementation with code to handle the error appropriately.
