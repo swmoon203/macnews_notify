@@ -123,10 +123,10 @@
             </objects>
             <point key="canvasLocation" x="235" y="672"/>
         </scene>
-        <!--Static Notification Interface Controller-->
+        <!--bgtopohigh-->
         <scene sceneID="AEw-b0-oYE">
             <objects>
-                <notificationController id="YCC-NB-fut">
+                <notificationController backgroundImage="bgtopohigh" contentMode="scaleAspectFill" id="YCC-NB-fut">
                     <items>
                         <label alignment="left" text="Alert Label" id="XkS-y5-khE"/>
                     </items>
@@ -140,17 +140,17 @@
             </objects>
             <point key="canvasLocation" x="235" y="1001"/>
         </scene>
-        <!--Notification Controller-->
+        <!--bgtopohigh-->
         <scene sceneID="TYh-rP-c1U">
             <objects>
-                <controller id="nPd-VC-AfR" customClass="NotificationController">
+                <controller backgroundImage="bgtopohigh" contentMode="scaleAspectFill" id="nPd-VC-AfR" customClass="NotificationController">
                     <items>
                         <label alignment="left" text="Label" numberOfLines="0" id="9ST-Of-6V6">
                             <fontDescription key="font" type="system" weight="thin" pointSize="12"/>
                         </label>
                     </items>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                    <edgeInsets key="margins" left="2" right="2" top="1" bottom="2"/>
+                    <edgeInsets key="margins" left="2" right="2" top="6" bottom="6"/>
                     <connections>
                         <outlet property="titleLabel" destination="9ST-Of-6V6" id="Enu-D0-TJR"/>
                     </connections>

@@ -43,6 +43,11 @@
     } else {
         url = [NSURL URLWithString:@"http://macnews.tistory.com/m/"];
     }
+    if ([[url host] containsString:@".tistory.com"]) {
+        [[NSUserDefaults standardUserDefaults] registerDefaults:@{ @"UserAgent": @"TistoryApp" }];
+    } else {
+        [[NSUserDefaults standardUserDefaults] registerDefaults:nil];
+    }
     [self.webView loadRequest:[NSURLRequest requestWithURL:url]];
     [_refreshControl beginRefreshing];
     
