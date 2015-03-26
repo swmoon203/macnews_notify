@@ -130,27 +130,14 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     token = [token stringByReplacingOccurrencesOfString:@">" withString:@""];
     token = [token stringByReplacingOccurrencesOfString:@" " withString:@""];
     
-    if ([[DataStore sharedData].userDefaults objectForKey:@"defaultHost"] == nil) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-            NSString *url = [NSString stringWithFormat:@"https://push.smoon.kr/v1/devices/%@/registrations/ios.com.tistory.macnews", token];
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-            request.HTTPMethod = @"POST";
-            request.HTTPBody = [[NSString stringWithFormat:@"version=%@", [[UIDevice currentDevice] systemVersion]] dataUsingEncoding:NSUTF8StringEncoding];
-            NSURLResponse *response = nil;
-            NSError *error = nil;
-            [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-            
-            [[DataStore sharedData].userDefaults setBool:YES forKey:@"defaultHost"];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self afterRegistration:token];
-            });
+    [[DataStore sharedData] asyncHostSettings:token onComplete:^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self afterRegistration:token];
         });
-    } else {
-        [self afterRegistration:token];
-    }
+    }];
 }
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    [[DataStore sharedData] asyncHostSettings:nil onComplete:nil];
     [self afterRegistration:nil];
 }
 

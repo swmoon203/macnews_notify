@@ -49,6 +49,8 @@
 - (void)updateHostSettings;
 - (BOOL)setHost:(NSString *)webId enabled:(BOOL)enabled;
 
+- (void)asyncHostSettings:(NSString *)token onComplete:(void(^)())complelete;
+
 - (void)resetContext;
 
 - (void)updateData:(void (^)(NSManagedObjectContext *context, NSInteger statusCode, NSUInteger count))onComplete;
