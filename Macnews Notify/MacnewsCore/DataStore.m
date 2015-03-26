@@ -116,7 +116,9 @@ static DataStore *__sharedData = nil;
 - (NSString *)token {
     return [self.userDefaults stringForKey:@"deviceToken"];
 }
-
+- (void)_setToken:(NSString *)token {
+    [self.userDefaults setObject:token forKey:@"deviceToken"];
+}
 
 - (void)resetContext {
     NSLog(@"+resetContext");
@@ -235,6 +237,34 @@ static DataStore *__sharedData = nil;
         return YES;
     }
     return NO;
+}
+
+
+- (void)asyncHostSettings:(NSString *)token onComplete:(void(^)())complelete {
+    if (token == nil) {
+        token = self.token;
+    } else {
+        [self _setToken:token];
+    }
+    if (token == nil) return;
+    NSDictionary *hosts = self.hostsMap;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+        NSURL* URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://push.smoon.kr/v1/setting/%@", token]];
+        NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:URL];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        request.HTTPMethod = @"POST";
+        
+        NSDictionary* bodyObject = @{
+                                     @"version": [[UIDevice currentDevice] systemVersion],
+                                     @"hosts": hosts
+                                     };
+        request.HTTPBody = [NSJSONSerialization dataWithJSONObject:bodyObject options:kNilOptions error:NULL];
+        
+        [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        
+        if (complelete != nil) return complelete();
+    });
 }
 
 #pragma mark - Data
