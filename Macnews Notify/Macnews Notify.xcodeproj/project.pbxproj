@@ -764,10 +764,10 @@
 			targets = (
 				A531F6B71AAAA09400F1BAAD /* Macnews Notify */,
 				A54397021ABBB232009290B4 /* MacnewsCore */,
+				A538B13F1ABDE9FD00828F03 /* MRProgress */,
 				A538B0CB1ABD742E00828F03 /* Recent-Widget */,
 				A538B0E31ABD751300828F03 /* Macnews Notify WatchKit Extension */,
 				A538B0F51ABD751300828F03 /* Macnews Notify WatchKit App */,
-				A538B13F1ABDE9FD00828F03 /* MRProgress */,
 			);
 		};
 /* End PBXProject section */
