@@ -7,13 +7,13 @@
     {
       "idiom" : "watch",
       "screenWidth" : "{130,145}",
-      "filename" : "iPhone_38mm.png",
+      "filename" : "iPhone - 70.png",
       "scale" : "2x"
     },
     {
       "idiom" : "watch",
       "screenWidth" : "{146,165}",
-      "filename" : "iPhone_42mm.png",
+      "filename" : "iPhone - 80.png",
       "scale" : "2x"
     }
   ],
