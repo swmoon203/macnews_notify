@@ -8,7 +8,7 @@
         <!--page-->
         <scene sceneID="G8v-Jb-KkN">
             <objects>
-                <controller identifier="page" id="bzT-UL-irP" customClass="RootInterfaceController">
+                <controller identifier="page" id="bzT-UL-irP" customClass="InterfaceController">
                     <items>
                         <group width="1" height="1" alignment="left" contentMode="scaleAspectFill" layout="vertical" id="B85-HJ-zy3">
                             <items>
@@ -38,7 +38,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="235" y="443"/>
+            <point key="canvasLocation" x="235" y="764"/>
         </scene>
         <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">

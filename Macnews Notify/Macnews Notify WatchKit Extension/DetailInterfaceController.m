@@ -74,7 +74,6 @@
     [self addMenuItemWithImageNamed:archived ? @"listIcon" : @"archiveIcon" title:archived ? @"복원" : @"보관" action:@selector(switchArchive)];
     [self addMenuItemWithItemIcon:WKMenuItemIconTrash title:@"삭제" action:@selector(deleteArticle)];
     [self addMenuItemWithItemIcon:WKMenuItemIconAdd title:@"읽기 목록" action:@selector(addToReadingList)];
-    
 }
 
 - (void)switchArchive {

@@ -29,6 +29,7 @@
 }
 
 - (void)awakeWithContext:(id)context {
+    if (context == nil) context = [self loadPages];
     [super awakeWithContext:context];
     
     _context = context;
@@ -43,6 +44,30 @@
 - (void)didDeactivate {
     [super didDeactivate];
 }
+
+- (NSManagedObject *)loadPages {
+    NSManagedObjectContext *context = [DataStore sharedData].managedObjectContext;
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
+    [fetchRequest setFetchBatchSize:5];
+    [fetchRequest setFetchLimit:5];
+    [fetchRequest setSortDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"idx" ascending:NO] ]];
+    
+    NSError *err = nil;
+    NSArray *items = [context executeFetchRequest:fetchRequest error:&err];
+    
+    if ([items count] == 0) {
+        return nil;
+    }
+    
+    if ([items count] > 1) {
+        NSMutableArray *page = [NSMutableArray arrayWithCapacity:[items count]];
+        for (int i = 0; i < [items count]; i++) [page addObject:@"page"];
+        [WKInterfaceController reloadRootControllersWithNames:page contexts:items];
+        return nil;
+    }
+    return items[0];
+}
+
 - (void)updateScreen {
     if (_context == nil) {
         [self.contentLabel setHidden:YES];
