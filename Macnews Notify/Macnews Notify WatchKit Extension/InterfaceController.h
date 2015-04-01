@@ -8,7 +8,8 @@
 
 #import <WatchKit/WatchKit.h>
 #import <Foundation/Foundation.h>
+#import <MacnewsCore/MacnewsCore.h>
 
 @interface InterfaceController : WKInterfaceController
-
+- (void)setContext:(NSManagedObject *)context;
 @end
