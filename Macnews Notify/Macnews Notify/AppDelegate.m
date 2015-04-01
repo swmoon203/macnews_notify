@@ -42,7 +42,9 @@ NSString *const AppNeedReloadHostSettingsNotification = @"AppNeedReloadHostSetti
     [self registerLocationService];
     return YES;
 }
-
+- (void)applicationWillEnterForeground:(UIApplication *)application {
+    [[DataStore sharedData] asyncHostSettings:nil onComplete:nil];
+}
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [self handleReceivedNotification];
     

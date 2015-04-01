@@ -22,6 +22,7 @@
     NSManagedObjectContext *_backgroundObjectContext;
     
     NSInteger _lastStatusCode, _lastUpdatedCount;
+    BOOL _notNeedUpdateHosts;
 }
 static DataStore *__sharedData = nil;
 + (DataStore *)sharedData {
@@ -249,7 +250,8 @@ static DataStore *__sharedData = nil;
     if (token == nil) return;
     NSDictionary *hosts = self.hostsMap;
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(_backgroundUpdateQueue, ^{
+        NSLog(@"Update Host Setting");
         NSURL* URL = [NSURL URLWithString:[NSString stringWithFormat:@"https://push.smoon.kr/v1/setting/%@", token]];
         NSMutableURLRequest* request = [NSMutableURLRequest requestWithURL:URL];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
@@ -261,8 +263,12 @@ static DataStore *__sharedData = nil;
                                      };
         request.HTTPBody = [NSJSONSerialization dataWithJSONObject:bodyObject options:kNilOptions error:NULL];
         
-        [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        NSURLResponse *response = nil;
+        [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
         
+        if ([(NSHTTPURLResponse *)response statusCode] == 200) {
+            _notNeedUpdateHosts = YES;
+        }
         if (complelete != nil) return complelete();
     });
 }
@@ -279,6 +285,7 @@ static DataStore *__sharedData = nil;
         });
     } else {
         _updating = YES;
+        if (_notNeedUpdateHosts == NO) [self asyncHostSettings:nil onComplete:nil];
         dispatch_async(_backgroundUpdateQueue, ^{
             NSLog(@"Update: %@", @([NSThread isMainThread]));
             if (_backgroundObjectContext == nil) {
@@ -296,6 +303,7 @@ static DataStore *__sharedData = nil;
             NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
             
             if ([(NSHTTPURLResponse *)response statusCode] != 200) {
+                _updating = NO;
                 return onComplete(context, _lastStatusCode = [(NSHTTPURLResponse *)response statusCode], _lastUpdatedCount = 0);
             }
             
@@ -328,7 +336,7 @@ static DataStore *__sharedData = nil;
             [context save:&dbError];
             
             _updating = NO;
-            onComplete(context, _lastStatusCode = [(NSHTTPURLResponse *)response statusCode], _lastUpdatedCount = [json count]);
+            if (onComplete != nil) onComplete(context, _lastStatusCode = [(NSHTTPURLResponse *)response statusCode], _lastUpdatedCount = [json count]);
         });
     }
 }
