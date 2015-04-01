@@ -34,11 +34,13 @@
     
     _context = context;
     [self updateScreen];
+    [self updateMenu];
 }
 
 - (void)willActivate {
     [super willActivate];
     [self updateScreen];
+    [self updateMenu];
 }
 
 - (void)didDeactivate {
@@ -50,6 +52,7 @@
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:@"Notification"];
     [fetchRequest setFetchBatchSize:5];
     [fetchRequest setFetchLimit:5];
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"archived = %@", @(NO)]];
     [fetchRequest setSortDescriptors:@[ [NSSortDescriptor sortDescriptorWithKey:@"idx" ascending:NO] ]];
     
     NSError *err = nil;
@@ -89,6 +92,31 @@
     } else {
         [self.group setBackgroundImageNamed:@"bgtopohigh"];
     }
+}
+
+- (void)updateMenu {
+    [self clearAllMenuItems];
+    BOOL archived = [[_context valueForKey:@"archived"] boolValue];
+    [self addMenuItemWithImageNamed:archived ? @"listIcon" : @"archiveIcon" title:archived ? @"복원" : @"보관" action:@selector(switchArchive)];
+    [self addMenuItemWithItemIcon:WKMenuItemIconAdd title:@"읽기 목록" action:@selector(addToReadingList)];
+    [self addMenuItemWithItemIcon:WKMenuItemIconTrash title:@"삭제" action:@selector(deleteArticle)];
+}
+
+
+- (void)switchArchive {
+    [_context setValue:@(![[_context valueForKey:@"archived"] boolValue]) forKey:@"archived"];
+    [self loadPages];
+}
+
+- (void)addToReadingList{
+    [[DataStore sharedData] addToSafariReadingList:_context];
+}
+- (void)deleteArticle {
+    NSManagedObjectContext *context = [DataStore sharedData].managedObjectContext;
+    [context deleteObject:_context];
+    NSError *err = nil;
+    [context save:&err];
+    [self loadPages];
 }
 @end
 
