@@ -97,14 +97,26 @@
 - (void)updateMenu {
     [self clearAllMenuItems];
     BOOL archived = [[_context valueForKey:@"archived"] boolValue];
+    [self addMenuItemWithImageNamed:@"iPhone" title:@"열기" action:@selector(openApp)];
     [self addMenuItemWithImageNamed:archived ? @"listIcon" : @"archiveIcon" title:archived ? @"복원" : @"보관" action:@selector(switchArchive)];
-    [self addMenuItemWithItemIcon:WKMenuItemIconAdd title:@"읽기 목록" action:@selector(addToReadingList)];
+    if ([DataStore sharedData].addReadingListWhenArchived == NO) {
+        [self addMenuItemWithItemIcon:WKMenuItemIconAdd title:@"읽기 목록" action:@selector(addToReadingList)];
+    }
     [self addMenuItemWithItemIcon:WKMenuItemIconTrash title:@"삭제" action:@selector(deleteArticle)];
 }
 
-
+- (void)openApp {
+    [WKInterfaceController openParentApplication:@{ @"webId": [_context valueForKey:@"webId"], @"arg": [_context valueForKey:@"arg"] }
+                                           reply:^(NSDictionary *replyInfo, NSError *error) {
+                                               NSLog(@"%@", replyInfo);
+                                               NSLog(@"%@", error);
+                                           }];
+}
 - (void)switchArchive {
     [_context setValue:@(![[_context valueForKey:@"archived"] boolValue]) forKey:@"archived"];
+    if ([DataStore sharedData].addReadingListWhenArchived) {
+        [self addToReadingList];
+    }
     [self loadPages];
 }
 
