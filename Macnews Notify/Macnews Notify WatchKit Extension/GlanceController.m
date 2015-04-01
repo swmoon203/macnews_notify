@@ -48,18 +48,26 @@
     NSArray *items = [context executeFetchRequest:fetchRequest error:&err];
     
     if ([items count] == 0) {
-        [self.titleLabel setText:@"데이터가 없습니다"];
+        [self.titleLabel setText:@"Back to the Mac"];
+        [self.contentLabel setText:@"데이터가 없습니다. 앱을 실행해서 데이터를 받아주세요."];
+        [self.contentLabel setHidden:NO];
+        [self.priviewImageView setHidden:YES];
         return;
     }
     NSManagedObject *object = items[0];
     
-    [self.titleLabel setText:[object valueForKey:@"title"]];
-//    NSData *imageData = [object valueForKey:@"imageData"];
-//    if (imageData) {
-//        [self.priviewImageView setImageData:imageData];
-//    }
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:[(NSString *)[object valueForKey:@"contents"] dataUsingEncoding:NSUTF8StringEncoding] options:kNilOptions error:nil];
-    [self.contentLabel setText:json[@"apn"][@"message"]];
+    NSData *imageData = [object valueForKey:@"imageData"];
+    if (imageData) {
+        [self.titleLabel setText:[object valueForKey:@"title"]];
+        [self.priviewImageView setImageData:imageData];
+        [self.contentLabel setHidden:YES];
+        [self.priviewImageView setHidden:NO];
+    } else {
+        [self.titleLabel setText:@"Back to the Mac"];
+        [self.contentLabel setHidden:NO];
+        [self.contentLabel setText:[object valueForKey:@"title"]];
+        [self.priviewImageView setHidden:YES];
+    }
 }
 @end
 

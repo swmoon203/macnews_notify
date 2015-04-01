@@ -101,7 +101,7 @@
                                         <imageView alignment="left" image="icon" id="8e5-9T-g4J"/>
                                     </items>
                                 </group>
-                                <label width="74.5" height="1" alignment="left" verticalAlignment="center" text="Label" numberOfLines="2" minimumScaleFactor="0.70000000000000007" id="1NF-hU-TjR">
+                                <label width="74.5" height="1" alignment="left" verticalAlignment="center" text="Label" numberOfLines="3" minimumScaleFactor="0.70000000000000007" id="1NF-hU-TjR">
                                     <fontDescription key="font" type="system" weight="thin" pointSize="12"/>
                                 </label>
                             </items>
@@ -111,22 +111,24 @@
                                 <label alignment="left" text="Label" numberOfLines="0" id="dqm-ou-Pyv">
                                     <fontDescription key="font" type="system" weight="thin" pointSize="12"/>
                                 </label>
+                                <imageView width="1" height="1" alignment="left" id="q7C-QV-EC7"/>
                             </items>
                         </group>
                     </items>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="14"/>
                     <connections>
                         <outlet property="contentLabel" destination="dqm-ou-Pyv" id="xQc-JA-Pet"/>
+                        <outlet property="priviewImageView" destination="q7C-QV-EC7" id="Zfl-rh-jSr"/>
                         <outlet property="titleLabel" destination="1NF-hU-TjR" id="zxX-lQ-ysa"/>
                     </connections>
                 </glanceController>
             </objects>
             <point key="canvasLocation" x="235" y="672"/>
         </scene>
-        <!--bgtopohigh-->
+        <!--Static Notification Interface Controller-->
         <scene sceneID="AEw-b0-oYE">
             <objects>
-                <notificationController backgroundImage="bgtopohigh" contentMode="scaleAspectFill" id="YCC-NB-fut">
+                <notificationController contentMode="scaleAspectFill" id="YCC-NB-fut">
                     <items>
                         <label alignment="left" text="Alert Label" id="XkS-y5-khE"/>
                     </items>
@@ -140,10 +142,10 @@
             </objects>
             <point key="canvasLocation" x="235" y="1001"/>
         </scene>
-        <!--bgtopohigh-->
+        <!--Notification Controller-->
         <scene sceneID="TYh-rP-c1U">
             <objects>
-                <controller backgroundImage="bgtopohigh" contentMode="scaleAspectFill" id="nPd-VC-AfR" customClass="NotificationController">
+                <controller contentMode="scaleAspectFill" id="nPd-VC-AfR" customClass="NotificationController">
                     <items>
                         <label alignment="left" text="Label" numberOfLines="0" id="9ST-Of-6V6">
                             <fontDescription key="font" type="system" weight="thin" pointSize="12"/>
