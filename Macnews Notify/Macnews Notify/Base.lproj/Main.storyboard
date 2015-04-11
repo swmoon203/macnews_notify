@@ -96,7 +96,7 @@
             </objects>
             <point key="canvasLocation" x="-856" y="-330"/>
         </scene>
-        <!--Back to the Mac-->
+        <!--B2M-->
         <scene sceneID="smW-Zh-WAh">
             <objects>
                 <tableViewController clearsSelectionOnViewWillAppear="NO" id="7bK-jq-Zjz" customClass="MasterViewController" sceneMemberID="viewController">
@@ -228,7 +228,7 @@ Line3</string>
                             <outlet property="delegate" destination="7bK-jq-Zjz" id="RA6-mI-bju"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Back to the Mac" id="Zdf-7t-Un8">
+                    <navigationItem key="navigationItem" title="B2M" id="Zdf-7t-Un8">
                         <barButtonItem key="leftBarButtonItem" image="settingIcon" id="DUl-ph-d7j">
                             <connections>
                                 <segue destination="Jnb-Df-qxC" kind="show" id="4zV-yG-2s7"/>
@@ -271,7 +271,7 @@ Line3</string>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ELD-NT-LKb" id="J5y-8b-mcd">
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Back to the Mac" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3jY-vJ-eWt">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="macnews.tistory.com" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="3jY-vJ-eWt">
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -449,7 +449,7 @@ Line3</string>
         <image name="settingIcon" width="22" height="22"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="91F-bu-JiU"/>
+        <segue reference="koN-OJ-ge6"/>
         <segue reference="GKi-kA-LjT"/>
     </inferredMetricsTieBreakers>
 </document>

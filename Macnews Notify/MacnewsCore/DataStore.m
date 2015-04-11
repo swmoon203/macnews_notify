@@ -141,7 +141,7 @@ static DataStore *__sharedData = nil;
         if ([_hosts count] == 0) {
             [_hosts addObject:[NSMutableDictionary dictionaryWithDictionary:@{
                                                                               @"webId": @"web.com.tistory.macnews",
-                                                                              @"title": @"Back to the Mac",
+                                                                              @"title": @"B2M",
                                                                               @"url": @"http://macnews.tistory.com/m/post/%@",
                                                                               @"enabled": @(self.token != nil)
                                                                               }]];
